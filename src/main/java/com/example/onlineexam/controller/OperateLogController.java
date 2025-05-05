@@ -21,8 +21,6 @@ import org.springframework.web.bind.annotation.*;
 public class OperateLogController {
     @Resource
     private OperateLogService operateLogService;
-
-
     @Autowired
     private OperateLogMapper operateLogMapper;
     @GetMapping("/list")
