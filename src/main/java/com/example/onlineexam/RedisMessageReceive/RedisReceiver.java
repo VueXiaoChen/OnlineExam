@@ -58,6 +58,4 @@ public class RedisReceiver{
         LOG.info("消费关注数据:[{}]", m);
     }
 
-
-
 }

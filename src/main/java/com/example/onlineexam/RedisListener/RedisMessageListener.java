@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.PatternTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
@@ -37,11 +36,6 @@ public class RedisMessageListener {
         MessageListenerAdapter messageListenerAdapter = new MessageListenerAdapter(receiver, "send");
         return messageListenerAdapter;
     }
-    @Bean
-    MessageListenerAdapter collectListenerAdapter(RedisReceiver receiver) {
-        MessageListenerAdapter listenerAdapter = new MessageListenerAdapter(receiver,"collect");
-        return listenerAdapter;
-    }
     /**
      * redis消息监听器容器
      *
@@ -54,16 +48,14 @@ public class RedisMessageListener {
     @Bean
     RedisMessageListenerContainer container(RedisConnectionFactory connectionFactory,
                                             MessageListenerAdapter sendallListenerAdapter,
-                                            MessageListenerAdapter sendListenerAdapter,
-                                            MessageListenerAdapter collectListenerAdapter) {
+                                            MessageListenerAdapter sendListenerAdapter
+                                            ) {
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
         //发送所有消息
         container.addMessageListener(sendallListenerAdapter, new PatternTopic(RedisCode.TOPIC_SENDALL));
         //发送单人消息
         container.addMessageListener(sendListenerAdapter, new PatternTopic(RedisCode.TOPIC_SEND));
-
-        container.addMessageListener(collectListenerAdapter, new ChannelTopic(RedisCode.TOPIC_COLLECT));
 
         return container;
     }
@@ -78,8 +70,13 @@ public class RedisMessageListener {
         ObjectMapper om = new ObjectMapper();
         om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
         om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
-        jackson2JsonRedisSerializer.setObjectMapper(om);
+        Jackson2JsonRedisSerializer<Object> serializer = new Jackson2JsonRedisSerializer<>(Object.class);
+        serializer.serialize(om);
+        //jackson2JsonRedisSerializer.setObjectMapper(om);
         RedisTemplate<String, Object> template = new RedisTemplate<String, Object>();
+
+        template.setDefaultSerializer(serializer);
+
         template.setConnectionFactory(connectionFactory);
         template.setKeySerializer(new StringRedisSerializer());
         template.setValueSerializer(jackson2JsonRedisSerializer);
