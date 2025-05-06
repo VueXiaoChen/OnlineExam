@@ -53,7 +53,7 @@ public class DanmuReq extends PageReq{
      * 弹幕所在视频的时间点
      */
 
-    private String timePoint;
+    private Double timePoint;
 
     /**
      * 弹幕状态 1默认过审 2被举报审核中 3删除
@@ -124,11 +124,11 @@ public class DanmuReq extends PageReq{
         this.color = color;
     }
 
-    public String getTimePoint() {
+    public Double getTimePoint() {
         return timePoint;
     }
 
-    public void setTimePoint(String timePoint) {
+    public void setTimePoint(Double timePoint) {
         this.timePoint = timePoint;
     }
 

@@ -365,52 +365,52 @@ public class DanmuExample {
             return (Criteria) this;
         }
 
-        public Criteria andFontsizeEqualTo(Byte value) {
+        public Criteria andFontsizeEqualTo(Integer value) {
             addCriterion("fontsize =", value, "fontsize");
             return (Criteria) this;
         }
 
-        public Criteria andFontsizeNotEqualTo(Byte value) {
+        public Criteria andFontsizeNotEqualTo(Integer value) {
             addCriterion("fontsize <>", value, "fontsize");
             return (Criteria) this;
         }
 
-        public Criteria andFontsizeGreaterThan(Byte value) {
+        public Criteria andFontsizeGreaterThan(Integer value) {
             addCriterion("fontsize >", value, "fontsize");
             return (Criteria) this;
         }
 
-        public Criteria andFontsizeGreaterThanOrEqualTo(Byte value) {
+        public Criteria andFontsizeGreaterThanOrEqualTo(Integer value) {
             addCriterion("fontsize >=", value, "fontsize");
             return (Criteria) this;
         }
 
-        public Criteria andFontsizeLessThan(Byte value) {
+        public Criteria andFontsizeLessThan(Integer value) {
             addCriterion("fontsize <", value, "fontsize");
             return (Criteria) this;
         }
 
-        public Criteria andFontsizeLessThanOrEqualTo(Byte value) {
+        public Criteria andFontsizeLessThanOrEqualTo(Integer value) {
             addCriterion("fontsize <=", value, "fontsize");
             return (Criteria) this;
         }
 
-        public Criteria andFontsizeIn(List<Byte> values) {
+        public Criteria andFontsizeIn(List<Integer> values) {
             addCriterion("fontsize in", values, "fontsize");
             return (Criteria) this;
         }
 
-        public Criteria andFontsizeNotIn(List<Byte> values) {
+        public Criteria andFontsizeNotIn(List<Integer> values) {
             addCriterion("fontsize not in", values, "fontsize");
             return (Criteria) this;
         }
 
-        public Criteria andFontsizeBetween(Byte value1, Byte value2) {
+        public Criteria andFontsizeBetween(Integer value1, Integer value2) {
             addCriterion("fontsize between", value1, value2, "fontsize");
             return (Criteria) this;
         }
 
-        public Criteria andFontsizeNotBetween(Byte value1, Byte value2) {
+        public Criteria andFontsizeNotBetween(Integer value1, Integer value2) {
             addCriterion("fontsize not between", value1, value2, "fontsize");
             return (Criteria) this;
         }
@@ -425,52 +425,52 @@ public class DanmuExample {
             return (Criteria) this;
         }
 
-        public Criteria andModeEqualTo(Byte value) {
+        public Criteria andModeEqualTo(Integer value) {
             addCriterion("`mode` =", value, "mode");
             return (Criteria) this;
         }
 
-        public Criteria andModeNotEqualTo(Byte value) {
+        public Criteria andModeNotEqualTo(Integer value) {
             addCriterion("`mode` <>", value, "mode");
             return (Criteria) this;
         }
 
-        public Criteria andModeGreaterThan(Byte value) {
+        public Criteria andModeGreaterThan(Integer value) {
             addCriterion("`mode` >", value, "mode");
             return (Criteria) this;
         }
 
-        public Criteria andModeGreaterThanOrEqualTo(Byte value) {
+        public Criteria andModeGreaterThanOrEqualTo(Integer value) {
             addCriterion("`mode` >=", value, "mode");
             return (Criteria) this;
         }
 
-        public Criteria andModeLessThan(Byte value) {
+        public Criteria andModeLessThan(Integer value) {
             addCriterion("`mode` <", value, "mode");
             return (Criteria) this;
         }
 
-        public Criteria andModeLessThanOrEqualTo(Byte value) {
+        public Criteria andModeLessThanOrEqualTo(Integer value) {
             addCriterion("`mode` <=", value, "mode");
             return (Criteria) this;
         }
 
-        public Criteria andModeIn(List<Byte> values) {
+        public Criteria andModeIn(List<Integer> values) {
             addCriterion("`mode` in", values, "mode");
             return (Criteria) this;
         }
 
-        public Criteria andModeNotIn(List<Byte> values) {
+        public Criteria andModeNotIn(List<Integer> values) {
             addCriterion("`mode` not in", values, "mode");
             return (Criteria) this;
         }
 
-        public Criteria andModeBetween(Byte value1, Byte value2) {
+        public Criteria andModeBetween(Integer value1, Integer value2) {
             addCriterion("`mode` between", value1, value2, "mode");
             return (Criteria) this;
         }
 
-        public Criteria andModeNotBetween(Byte value1, Byte value2) {
+        public Criteria andModeNotBetween(Integer value1, Integer value2) {
             addCriterion("`mode` not between", value1, value2, "mode");
             return (Criteria) this;
         }
@@ -615,52 +615,52 @@ public class DanmuExample {
             return (Criteria) this;
         }
 
-        public Criteria andStateEqualTo(Byte value) {
+        public Criteria andStateEqualTo(Integer value) {
             addCriterion("`state` =", value, "state");
             return (Criteria) this;
         }
 
-        public Criteria andStateNotEqualTo(Byte value) {
+        public Criteria andStateNotEqualTo(Integer value) {
             addCriterion("`state` <>", value, "state");
             return (Criteria) this;
         }
 
-        public Criteria andStateGreaterThan(Byte value) {
+        public Criteria andStateGreaterThan(Integer value) {
             addCriterion("`state` >", value, "state");
             return (Criteria) this;
         }
 
-        public Criteria andStateGreaterThanOrEqualTo(Byte value) {
+        public Criteria andStateGreaterThanOrEqualTo(Integer value) {
             addCriterion("`state` >=", value, "state");
             return (Criteria) this;
         }
 
-        public Criteria andStateLessThan(Byte value) {
+        public Criteria andStateLessThan(Integer value) {
             addCriterion("`state` <", value, "state");
             return (Criteria) this;
         }
 
-        public Criteria andStateLessThanOrEqualTo(Byte value) {
+        public Criteria andStateLessThanOrEqualTo(Integer value) {
             addCriterion("`state` <=", value, "state");
             return (Criteria) this;
         }
 
-        public Criteria andStateIn(List<Byte> values) {
+        public Criteria andStateIn(List<Integer> values) {
             addCriterion("`state` in", values, "state");
             return (Criteria) this;
         }
 
-        public Criteria andStateNotIn(List<Byte> values) {
+        public Criteria andStateNotIn(List<Integer> values) {
             addCriterion("`state` not in", values, "state");
             return (Criteria) this;
         }
 
-        public Criteria andStateBetween(Byte value1, Byte value2) {
+        public Criteria andStateBetween(Integer value1, Integer value2) {
             addCriterion("`state` between", value1, value2, "state");
             return (Criteria) this;
         }
 
-        public Criteria andStateNotBetween(Byte value1, Byte value2) {
+        public Criteria andStateNotBetween(Integer value1, Integer value2) {
             addCriterion("`state` not between", value1, value2, "state");
             return (Criteria) this;
         }

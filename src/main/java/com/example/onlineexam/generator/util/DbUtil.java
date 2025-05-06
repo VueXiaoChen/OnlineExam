@@ -146,6 +146,8 @@ public class DbUtil {
                 || sqlType.toUpperCase().contains("char".toUpperCase())
                 || sqlType.toUpperCase().contains("text".toUpperCase())) {
             return "String";
+        } else if (sqlType.toUpperCase().contains("double".toUpperCase())) {
+            return "Double";
         } else if (sqlType.toUpperCase().contains("datetime".toUpperCase())) {
             return "Date";
         } else if (sqlType.toUpperCase().contains("time".toUpperCase())) {

@@ -11,15 +11,15 @@ public class Danmu {
 
     private String content;
 
-    private Byte fontsize;
+    private Integer fontsize;
 
-    private Byte mode;
+    private Integer mode;
 
     private String color;
 
     private Double timePoint;
 
-    private Byte state;
+    private Integer state;
 
     private Date createDate;
 
@@ -55,19 +55,19 @@ public class Danmu {
         this.content = content;
     }
 
-    public Byte getFontsize() {
+    public Integer getFontsize() {
         return fontsize;
     }
 
-    public void setFontsize(Byte fontsize) {
+    public void setFontsize(Integer fontsize) {
         this.fontsize = fontsize;
     }
 
-    public Byte getMode() {
+    public Integer getMode() {
         return mode;
     }
 
-    public void setMode(Byte mode) {
+    public void setMode(Integer mode) {
         this.mode = mode;
     }
 
@@ -87,11 +87,11 @@ public class Danmu {
         this.timePoint = timePoint;
     }
 
-    public Byte getState() {
+    public Integer getState() {
         return state;
     }
 
-    public void setState(Byte state) {
+    public void setState(Integer state) {
         this.state = state;
     }
 

@@ -35,7 +35,7 @@ public class VideoResp {
     /**
      * 播放总时长 单位秒
      */
-    private String duration;
+    private Double duration;
 
     /**
      * 主分区ID
@@ -126,11 +126,11 @@ public class VideoResp {
         this.auth = auth;
     }
 
-    public String getDuration() {
+    public Double getDuration() {
         return duration;
     }
 
-    public void setDuration(String duration) {
+    public void setDuration(Double duration) {
         this.duration = duration;
     }
 

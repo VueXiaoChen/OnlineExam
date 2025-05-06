@@ -355,52 +355,52 @@ public class FavoriteVideoExample {
             return (Criteria) this;
         }
 
-        public Criteria andIsRemoveEqualTo(Byte value) {
+        public Criteria andIsRemoveEqualTo(Integer value) {
             addCriterion("is_remove =", value, "isRemove");
             return (Criteria) this;
         }
 
-        public Criteria andIsRemoveNotEqualTo(Byte value) {
+        public Criteria andIsRemoveNotEqualTo(Integer value) {
             addCriterion("is_remove <>", value, "isRemove");
             return (Criteria) this;
         }
 
-        public Criteria andIsRemoveGreaterThan(Byte value) {
+        public Criteria andIsRemoveGreaterThan(Integer value) {
             addCriterion("is_remove >", value, "isRemove");
             return (Criteria) this;
         }
 
-        public Criteria andIsRemoveGreaterThanOrEqualTo(Byte value) {
+        public Criteria andIsRemoveGreaterThanOrEqualTo(Integer value) {
             addCriterion("is_remove >=", value, "isRemove");
             return (Criteria) this;
         }
 
-        public Criteria andIsRemoveLessThan(Byte value) {
+        public Criteria andIsRemoveLessThan(Integer value) {
             addCriterion("is_remove <", value, "isRemove");
             return (Criteria) this;
         }
 
-        public Criteria andIsRemoveLessThanOrEqualTo(Byte value) {
+        public Criteria andIsRemoveLessThanOrEqualTo(Integer value) {
             addCriterion("is_remove <=", value, "isRemove");
             return (Criteria) this;
         }
 
-        public Criteria andIsRemoveIn(List<Byte> values) {
+        public Criteria andIsRemoveIn(List<Integer> values) {
             addCriterion("is_remove in", values, "isRemove");
             return (Criteria) this;
         }
 
-        public Criteria andIsRemoveNotIn(List<Byte> values) {
+        public Criteria andIsRemoveNotIn(List<Integer> values) {
             addCriterion("is_remove not in", values, "isRemove");
             return (Criteria) this;
         }
 
-        public Criteria andIsRemoveBetween(Byte value1, Byte value2) {
+        public Criteria andIsRemoveBetween(Integer value1, Integer value2) {
             addCriterion("is_remove between", value1, value2, "isRemove");
             return (Criteria) this;
         }
 
-        public Criteria andIsRemoveNotBetween(Byte value1, Byte value2) {
+        public Criteria andIsRemoveNotBetween(Integer value1, Integer value2) {
             addCriterion("is_remove not between", value1, value2, "isRemove");
             return (Criteria) this;
         }

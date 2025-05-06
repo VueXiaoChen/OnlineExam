@@ -5,7 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="another_id" jdbcType="INTEGER" property="anotherId" />
-    <result column="is_deleted" jdbcType="TINYINT" property="isDeleted" />
+    <result column="is_deleted" jdbcType="INTEGER" property="isDeleted" />
     <result column="unread" jdbcType="INTEGER" property="unread" />
     <result column="latest_time" jdbcType="TIMESTAMP" property="latestTime" />
   </resultMap>
@@ -105,7 +105,7 @@
       is_deleted, unread, latest_time
       )
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{anotherId,jdbcType=INTEGER}, 
-      #{isDeleted,jdbcType=TINYINT}, #{unread,jdbcType=INTEGER}, #{latestTime,jdbcType=TIMESTAMP}
+      #{isDeleted,jdbcType=INTEGER}, #{unread,jdbcType=INTEGER}, #{latestTime,jdbcType=TIMESTAMP}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.example.onlineexam.domain.Chat">
@@ -141,7 +141,7 @@
         #{anotherId,jdbcType=INTEGER},
       </if>
       <if test="isDeleted != null">
-        #{isDeleted,jdbcType=TINYINT},
+        #{isDeleted,jdbcType=INTEGER},
       </if>
       <if test="unread != null">
         #{unread,jdbcType=INTEGER},
@@ -170,7 +170,7 @@
         another_id = #{row.anotherId,jdbcType=INTEGER},
       </if>
       <if test="row.isDeleted != null">
-        is_deleted = #{row.isDeleted,jdbcType=TINYINT},
+        is_deleted = #{row.isDeleted,jdbcType=INTEGER},
       </if>
       <if test="row.unread != null">
         unread = #{row.unread,jdbcType=INTEGER},
@@ -188,7 +188,7 @@
     set id = #{row.id,jdbcType=INTEGER},
       user_id = #{row.userId,jdbcType=INTEGER},
       another_id = #{row.anotherId,jdbcType=INTEGER},
-      is_deleted = #{row.isDeleted,jdbcType=TINYINT},
+      is_deleted = #{row.isDeleted,jdbcType=INTEGER},
       unread = #{row.unread,jdbcType=INTEGER},
       latest_time = #{row.latestTime,jdbcType=TIMESTAMP}
     <if test="example != null">
@@ -205,7 +205,7 @@
         another_id = #{anotherId,jdbcType=INTEGER},
       </if>
       <if test="isDeleted != null">
-        is_deleted = #{isDeleted,jdbcType=TINYINT},
+        is_deleted = #{isDeleted,jdbcType=INTEGER},
       </if>
       <if test="unread != null">
         unread = #{unread,jdbcType=INTEGER},
@@ -220,7 +220,7 @@
     update chat
     set user_id = #{userId,jdbcType=INTEGER},
       another_id = #{anotherId,jdbcType=INTEGER},
-      is_deleted = #{isDeleted,jdbcType=TINYINT},
+      is_deleted = #{isDeleted,jdbcType=INTEGER},
       unread = #{unread,jdbcType=INTEGER},
       latest_time = #{latestTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}

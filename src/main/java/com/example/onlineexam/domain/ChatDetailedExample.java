@@ -365,52 +365,52 @@ public class ChatDetailedExample {
             return (Criteria) this;
         }
 
-        public Criteria andUserDelEqualTo(Byte value) {
+        public Criteria andUserDelEqualTo(Integer value) {
             addCriterion("user_del =", value, "userDel");
             return (Criteria) this;
         }
 
-        public Criteria andUserDelNotEqualTo(Byte value) {
+        public Criteria andUserDelNotEqualTo(Integer value) {
             addCriterion("user_del <>", value, "userDel");
             return (Criteria) this;
         }
 
-        public Criteria andUserDelGreaterThan(Byte value) {
+        public Criteria andUserDelGreaterThan(Integer value) {
             addCriterion("user_del >", value, "userDel");
             return (Criteria) this;
         }
 
-        public Criteria andUserDelGreaterThanOrEqualTo(Byte value) {
+        public Criteria andUserDelGreaterThanOrEqualTo(Integer value) {
             addCriterion("user_del >=", value, "userDel");
             return (Criteria) this;
         }
 
-        public Criteria andUserDelLessThan(Byte value) {
+        public Criteria andUserDelLessThan(Integer value) {
             addCriterion("user_del <", value, "userDel");
             return (Criteria) this;
         }
 
-        public Criteria andUserDelLessThanOrEqualTo(Byte value) {
+        public Criteria andUserDelLessThanOrEqualTo(Integer value) {
             addCriterion("user_del <=", value, "userDel");
             return (Criteria) this;
         }
 
-        public Criteria andUserDelIn(List<Byte> values) {
+        public Criteria andUserDelIn(List<Integer> values) {
             addCriterion("user_del in", values, "userDel");
             return (Criteria) this;
         }
 
-        public Criteria andUserDelNotIn(List<Byte> values) {
+        public Criteria andUserDelNotIn(List<Integer> values) {
             addCriterion("user_del not in", values, "userDel");
             return (Criteria) this;
         }
 
-        public Criteria andUserDelBetween(Byte value1, Byte value2) {
+        public Criteria andUserDelBetween(Integer value1, Integer value2) {
             addCriterion("user_del between", value1, value2, "userDel");
             return (Criteria) this;
         }
 
-        public Criteria andUserDelNotBetween(Byte value1, Byte value2) {
+        public Criteria andUserDelNotBetween(Integer value1, Integer value2) {
             addCriterion("user_del not between", value1, value2, "userDel");
             return (Criteria) this;
         }
@@ -425,52 +425,52 @@ public class ChatDetailedExample {
             return (Criteria) this;
         }
 
-        public Criteria andAnotherDelEqualTo(Byte value) {
+        public Criteria andAnotherDelEqualTo(Integer value) {
             addCriterion("another_del =", value, "anotherDel");
             return (Criteria) this;
         }
 
-        public Criteria andAnotherDelNotEqualTo(Byte value) {
+        public Criteria andAnotherDelNotEqualTo(Integer value) {
             addCriterion("another_del <>", value, "anotherDel");
             return (Criteria) this;
         }
 
-        public Criteria andAnotherDelGreaterThan(Byte value) {
+        public Criteria andAnotherDelGreaterThan(Integer value) {
             addCriterion("another_del >", value, "anotherDel");
             return (Criteria) this;
         }
 
-        public Criteria andAnotherDelGreaterThanOrEqualTo(Byte value) {
+        public Criteria andAnotherDelGreaterThanOrEqualTo(Integer value) {
             addCriterion("another_del >=", value, "anotherDel");
             return (Criteria) this;
         }
 
-        public Criteria andAnotherDelLessThan(Byte value) {
+        public Criteria andAnotherDelLessThan(Integer value) {
             addCriterion("another_del <", value, "anotherDel");
             return (Criteria) this;
         }
 
-        public Criteria andAnotherDelLessThanOrEqualTo(Byte value) {
+        public Criteria andAnotherDelLessThanOrEqualTo(Integer value) {
             addCriterion("another_del <=", value, "anotherDel");
             return (Criteria) this;
         }
 
-        public Criteria andAnotherDelIn(List<Byte> values) {
+        public Criteria andAnotherDelIn(List<Integer> values) {
             addCriterion("another_del in", values, "anotherDel");
             return (Criteria) this;
         }
 
-        public Criteria andAnotherDelNotIn(List<Byte> values) {
+        public Criteria andAnotherDelNotIn(List<Integer> values) {
             addCriterion("another_del not in", values, "anotherDel");
             return (Criteria) this;
         }
 
-        public Criteria andAnotherDelBetween(Byte value1, Byte value2) {
+        public Criteria andAnotherDelBetween(Integer value1, Integer value2) {
             addCriterion("another_del between", value1, value2, "anotherDel");
             return (Criteria) this;
         }
 
-        public Criteria andAnotherDelNotBetween(Byte value1, Byte value2) {
+        public Criteria andAnotherDelNotBetween(Integer value1, Integer value2) {
             addCriterion("another_del not between", value1, value2, "anotherDel");
             return (Criteria) this;
         }
@@ -485,52 +485,52 @@ public class ChatDetailedExample {
             return (Criteria) this;
         }
 
-        public Criteria andWithdrawEqualTo(Byte value) {
+        public Criteria andWithdrawEqualTo(Integer value) {
             addCriterion("withdraw =", value, "withdraw");
             return (Criteria) this;
         }
 
-        public Criteria andWithdrawNotEqualTo(Byte value) {
+        public Criteria andWithdrawNotEqualTo(Integer value) {
             addCriterion("withdraw <>", value, "withdraw");
             return (Criteria) this;
         }
 
-        public Criteria andWithdrawGreaterThan(Byte value) {
+        public Criteria andWithdrawGreaterThan(Integer value) {
             addCriterion("withdraw >", value, "withdraw");
             return (Criteria) this;
         }
 
-        public Criteria andWithdrawGreaterThanOrEqualTo(Byte value) {
+        public Criteria andWithdrawGreaterThanOrEqualTo(Integer value) {
             addCriterion("withdraw >=", value, "withdraw");
             return (Criteria) this;
         }
 
-        public Criteria andWithdrawLessThan(Byte value) {
+        public Criteria andWithdrawLessThan(Integer value) {
             addCriterion("withdraw <", value, "withdraw");
             return (Criteria) this;
         }
 
-        public Criteria andWithdrawLessThanOrEqualTo(Byte value) {
+        public Criteria andWithdrawLessThanOrEqualTo(Integer value) {
             addCriterion("withdraw <=", value, "withdraw");
             return (Criteria) this;
         }
 
-        public Criteria andWithdrawIn(List<Byte> values) {
+        public Criteria andWithdrawIn(List<Integer> values) {
             addCriterion("withdraw in", values, "withdraw");
             return (Criteria) this;
         }
 
-        public Criteria andWithdrawNotIn(List<Byte> values) {
+        public Criteria andWithdrawNotIn(List<Integer> values) {
             addCriterion("withdraw not in", values, "withdraw");
             return (Criteria) this;
         }
 
-        public Criteria andWithdrawBetween(Byte value1, Byte value2) {
+        public Criteria andWithdrawBetween(Integer value1, Integer value2) {
             addCriterion("withdraw between", value1, value2, "withdraw");
             return (Criteria) this;
         }
 
-        public Criteria andWithdrawNotBetween(Byte value1, Byte value2) {
+        public Criteria andWithdrawNotBetween(Integer value1, Integer value2) {
             addCriterion("withdraw not between", value1, value2, "withdraw");
             return (Criteria) this;
         }

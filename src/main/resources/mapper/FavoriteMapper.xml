@@ -4,13 +4,13 @@
   <resultMap id="BaseResultMap" type="com.example.onlineexam.domain.Favorite">
     <id column="fid" jdbcType="INTEGER" property="fid" />
     <result column="uid" jdbcType="INTEGER" property="uid" />
-    <result column="type" jdbcType="TINYINT" property="type" />
-    <result column="visible" jdbcType="TINYINT" property="visible" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="visible" jdbcType="INTEGER" property="visible" />
     <result column="cover" jdbcType="VARCHAR" property="cover" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="description" jdbcType="VARCHAR" property="description" />
     <result column="count" jdbcType="INTEGER" property="count" />
-    <result column="is_delete" jdbcType="TINYINT" property="isDelete" />
+    <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -108,9 +108,9 @@
       visible, cover, title, 
       description, `count`, is_delete
       )
-    values (#{fid,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
-      #{visible,jdbcType=TINYINT}, #{cover,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
-      #{description,jdbcType=VARCHAR}, #{count,jdbcType=INTEGER}, #{isDelete,jdbcType=TINYINT}
+    values (#{fid,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, 
+      #{visible,jdbcType=INTEGER}, #{cover,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{description,jdbcType=VARCHAR}, #{count,jdbcType=INTEGER}, #{isDelete,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.example.onlineexam.domain.Favorite">
@@ -152,10 +152,10 @@
         #{uid,jdbcType=INTEGER},
       </if>
       <if test="type != null">
-        #{type,jdbcType=TINYINT},
+        #{type,jdbcType=INTEGER},
       </if>
       <if test="visible != null">
-        #{visible,jdbcType=TINYINT},
+        #{visible,jdbcType=INTEGER},
       </if>
       <if test="cover != null">
         #{cover,jdbcType=VARCHAR},
@@ -170,7 +170,7 @@
         #{count,jdbcType=INTEGER},
       </if>
       <if test="isDelete != null">
-        #{isDelete,jdbcType=TINYINT},
+        #{isDelete,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -190,10 +190,10 @@
         `uid` = #{row.uid,jdbcType=INTEGER},
       </if>
       <if test="row.type != null">
-        `type` = #{row.type,jdbcType=TINYINT},
+        `type` = #{row.type,jdbcType=INTEGER},
       </if>
       <if test="row.visible != null">
-        visible = #{row.visible,jdbcType=TINYINT},
+        visible = #{row.visible,jdbcType=INTEGER},
       </if>
       <if test="row.cover != null">
         cover = #{row.cover,jdbcType=VARCHAR},
@@ -208,7 +208,7 @@
         `count` = #{row.count,jdbcType=INTEGER},
       </if>
       <if test="row.isDelete != null">
-        is_delete = #{row.isDelete,jdbcType=TINYINT},
+        is_delete = #{row.isDelete,jdbcType=INTEGER},
       </if>
     </set>
     <if test="example != null">
@@ -219,13 +219,13 @@
     update favorite
     set fid = #{row.fid,jdbcType=INTEGER},
       `uid` = #{row.uid,jdbcType=INTEGER},
-      `type` = #{row.type,jdbcType=TINYINT},
-      visible = #{row.visible,jdbcType=TINYINT},
+      `type` = #{row.type,jdbcType=INTEGER},
+      visible = #{row.visible,jdbcType=INTEGER},
       cover = #{row.cover,jdbcType=VARCHAR},
       title = #{row.title,jdbcType=VARCHAR},
       description = #{row.description,jdbcType=VARCHAR},
       `count` = #{row.count,jdbcType=INTEGER},
-      is_delete = #{row.isDelete,jdbcType=TINYINT}
+      is_delete = #{row.isDelete,jdbcType=INTEGER}
     <if test="example != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -237,10 +237,10 @@
         `uid` = #{uid,jdbcType=INTEGER},
       </if>
       <if test="type != null">
-        `type` = #{type,jdbcType=TINYINT},
+        `type` = #{type,jdbcType=INTEGER},
       </if>
       <if test="visible != null">
-        visible = #{visible,jdbcType=TINYINT},
+        visible = #{visible,jdbcType=INTEGER},
       </if>
       <if test="cover != null">
         cover = #{cover,jdbcType=VARCHAR},
@@ -255,7 +255,7 @@
         `count` = #{count,jdbcType=INTEGER},
       </if>
       <if test="isDelete != null">
-        is_delete = #{isDelete,jdbcType=TINYINT},
+        is_delete = #{isDelete,jdbcType=INTEGER},
       </if>
     </set>
     where fid = #{fid,jdbcType=INTEGER}
@@ -263,13 +263,13 @@
   <update id="updateByPrimaryKey" parameterType="com.example.onlineexam.domain.Favorite">
     update favorite
     set `uid` = #{uid,jdbcType=INTEGER},
-      `type` = #{type,jdbcType=TINYINT},
-      visible = #{visible,jdbcType=TINYINT},
+      `type` = #{type,jdbcType=INTEGER},
+      visible = #{visible,jdbcType=INTEGER},
       cover = #{cover,jdbcType=VARCHAR},
       title = #{title,jdbcType=VARCHAR},
       description = #{description,jdbcType=VARCHAR},
       `count` = #{count,jdbcType=INTEGER},
-      is_delete = #{isDelete,jdbcType=TINYINT}
+      is_delete = #{isDelete,jdbcType=INTEGER}
     where fid = #{fid,jdbcType=INTEGER}
   </update>
 </mapper>

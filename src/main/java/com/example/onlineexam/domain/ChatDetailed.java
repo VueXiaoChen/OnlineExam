@@ -11,11 +11,11 @@ public class ChatDetailed {
 
     private String content;
 
-    private Byte userDel;
+    private Integer userDel;
 
-    private Byte anotherDel;
+    private Integer anotherDel;
 
-    private Byte withdraw;
+    private Integer withdraw;
 
     private Date time;
 
@@ -51,27 +51,27 @@ public class ChatDetailed {
         this.content = content;
     }
 
-    public Byte getUserDel() {
+    public Integer getUserDel() {
         return userDel;
     }
 
-    public void setUserDel(Byte userDel) {
+    public void setUserDel(Integer userDel) {
         this.userDel = userDel;
     }
 
-    public Byte getAnotherDel() {
+    public Integer getAnotherDel() {
         return anotherDel;
     }
 
-    public void setAnotherDel(Byte anotherDel) {
+    public void setAnotherDel(Integer anotherDel) {
         this.anotherDel = anotherDel;
     }
 
-    public Byte getWithdraw() {
+    public Integer getWithdraw() {
         return withdraw;
     }
 
-    public void setWithdraw(Byte withdraw) {
+    public void setWithdraw(Integer withdraw) {
         this.withdraw = withdraw;
     }
 

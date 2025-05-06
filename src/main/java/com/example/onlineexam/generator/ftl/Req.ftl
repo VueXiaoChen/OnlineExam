@@ -31,9 +31,9 @@ public class ${Domain}Req extends PageReq{
     <#if field.name!="id" && field.nameHump!="createdAt" && field.nameHump!="updatedAt">
         <#if !field.nullAble>
             <#if field.javaType=='String'>
-    @NotBlank(message = "【${field.nameCn}】不能为空")
+
             <#else>
-    @NotNull(message = "【${field.nameCn}】不能为空")
+
             </#if>
         </#if>
     </#if>

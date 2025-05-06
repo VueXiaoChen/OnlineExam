@@ -525,52 +525,52 @@ public class UserExample {
             return (Criteria) this;
         }
 
-        public Criteria andGenderEqualTo(Byte value) {
+        public Criteria andGenderEqualTo(Integer value) {
             addCriterion("gender =", value, "gender");
             return (Criteria) this;
         }
 
-        public Criteria andGenderNotEqualTo(Byte value) {
+        public Criteria andGenderNotEqualTo(Integer value) {
             addCriterion("gender <>", value, "gender");
             return (Criteria) this;
         }
 
-        public Criteria andGenderGreaterThan(Byte value) {
+        public Criteria andGenderGreaterThan(Integer value) {
             addCriterion("gender >", value, "gender");
             return (Criteria) this;
         }
 
-        public Criteria andGenderGreaterThanOrEqualTo(Byte value) {
+        public Criteria andGenderGreaterThanOrEqualTo(Integer value) {
             addCriterion("gender >=", value, "gender");
             return (Criteria) this;
         }
 
-        public Criteria andGenderLessThan(Byte value) {
+        public Criteria andGenderLessThan(Integer value) {
             addCriterion("gender <", value, "gender");
             return (Criteria) this;
         }
 
-        public Criteria andGenderLessThanOrEqualTo(Byte value) {
+        public Criteria andGenderLessThanOrEqualTo(Integer value) {
             addCriterion("gender <=", value, "gender");
             return (Criteria) this;
         }
 
-        public Criteria andGenderIn(List<Byte> values) {
+        public Criteria andGenderIn(List<Integer> values) {
             addCriterion("gender in", values, "gender");
             return (Criteria) this;
         }
 
-        public Criteria andGenderNotIn(List<Byte> values) {
+        public Criteria andGenderNotIn(List<Integer> values) {
             addCriterion("gender not in", values, "gender");
             return (Criteria) this;
         }
 
-        public Criteria andGenderBetween(Byte value1, Byte value2) {
+        public Criteria andGenderBetween(Integer value1, Integer value2) {
             addCriterion("gender between", value1, value2, "gender");
             return (Criteria) this;
         }
 
-        public Criteria andGenderNotBetween(Byte value1, Byte value2) {
+        public Criteria andGenderNotBetween(Integer value1, Integer value2) {
             addCriterion("gender not between", value1, value2, "gender");
             return (Criteria) this;
         }
@@ -715,52 +715,52 @@ public class UserExample {
             return (Criteria) this;
         }
 
-        public Criteria andCoinEqualTo(Double value) {
+        public Criteria andCoinEqualTo(Integer value) {
             addCriterion("coin =", value, "coin");
             return (Criteria) this;
         }
 
-        public Criteria andCoinNotEqualTo(Double value) {
+        public Criteria andCoinNotEqualTo(Integer value) {
             addCriterion("coin <>", value, "coin");
             return (Criteria) this;
         }
 
-        public Criteria andCoinGreaterThan(Double value) {
+        public Criteria andCoinGreaterThan(Integer value) {
             addCriterion("coin >", value, "coin");
             return (Criteria) this;
         }
 
-        public Criteria andCoinGreaterThanOrEqualTo(Double value) {
+        public Criteria andCoinGreaterThanOrEqualTo(Integer value) {
             addCriterion("coin >=", value, "coin");
             return (Criteria) this;
         }
 
-        public Criteria andCoinLessThan(Double value) {
+        public Criteria andCoinLessThan(Integer value) {
             addCriterion("coin <", value, "coin");
             return (Criteria) this;
         }
 
-        public Criteria andCoinLessThanOrEqualTo(Double value) {
+        public Criteria andCoinLessThanOrEqualTo(Integer value) {
             addCriterion("coin <=", value, "coin");
             return (Criteria) this;
         }
 
-        public Criteria andCoinIn(List<Double> values) {
+        public Criteria andCoinIn(List<Integer> values) {
             addCriterion("coin in", values, "coin");
             return (Criteria) this;
         }
 
-        public Criteria andCoinNotIn(List<Double> values) {
+        public Criteria andCoinNotIn(List<Integer> values) {
             addCriterion("coin not in", values, "coin");
             return (Criteria) this;
         }
 
-        public Criteria andCoinBetween(Double value1, Double value2) {
+        public Criteria andCoinBetween(Integer value1, Integer value2) {
             addCriterion("coin between", value1, value2, "coin");
             return (Criteria) this;
         }
 
-        public Criteria andCoinNotBetween(Double value1, Double value2) {
+        public Criteria andCoinNotBetween(Integer value1, Integer value2) {
             addCriterion("coin not between", value1, value2, "coin");
             return (Criteria) this;
         }
@@ -775,52 +775,52 @@ public class UserExample {
             return (Criteria) this;
         }
 
-        public Criteria andVipEqualTo(Byte value) {
+        public Criteria andVipEqualTo(Integer value) {
             addCriterion("vip =", value, "vip");
             return (Criteria) this;
         }
 
-        public Criteria andVipNotEqualTo(Byte value) {
+        public Criteria andVipNotEqualTo(Integer value) {
             addCriterion("vip <>", value, "vip");
             return (Criteria) this;
         }
 
-        public Criteria andVipGreaterThan(Byte value) {
+        public Criteria andVipGreaterThan(Integer value) {
             addCriterion("vip >", value, "vip");
             return (Criteria) this;
         }
 
-        public Criteria andVipGreaterThanOrEqualTo(Byte value) {
+        public Criteria andVipGreaterThanOrEqualTo(Integer value) {
             addCriterion("vip >=", value, "vip");
             return (Criteria) this;
         }
 
-        public Criteria andVipLessThan(Byte value) {
+        public Criteria andVipLessThan(Integer value) {
             addCriterion("vip <", value, "vip");
             return (Criteria) this;
         }
 
-        public Criteria andVipLessThanOrEqualTo(Byte value) {
+        public Criteria andVipLessThanOrEqualTo(Integer value) {
             addCriterion("vip <=", value, "vip");
             return (Criteria) this;
         }
 
-        public Criteria andVipIn(List<Byte> values) {
+        public Criteria andVipIn(List<Integer> values) {
             addCriterion("vip in", values, "vip");
             return (Criteria) this;
         }
 
-        public Criteria andVipNotIn(List<Byte> values) {
+        public Criteria andVipNotIn(List<Integer> values) {
             addCriterion("vip not in", values, "vip");
             return (Criteria) this;
         }
 
-        public Criteria andVipBetween(Byte value1, Byte value2) {
+        public Criteria andVipBetween(Integer value1, Integer value2) {
             addCriterion("vip between", value1, value2, "vip");
             return (Criteria) this;
         }
 
-        public Criteria andVipNotBetween(Byte value1, Byte value2) {
+        public Criteria andVipNotBetween(Integer value1, Integer value2) {
             addCriterion("vip not between", value1, value2, "vip");
             return (Criteria) this;
         }
@@ -835,52 +835,52 @@ public class UserExample {
             return (Criteria) this;
         }
 
-        public Criteria andStateEqualTo(Byte value) {
+        public Criteria andStateEqualTo(Integer value) {
             addCriterion("`state` =", value, "state");
             return (Criteria) this;
         }
 
-        public Criteria andStateNotEqualTo(Byte value) {
+        public Criteria andStateNotEqualTo(Integer value) {
             addCriterion("`state` <>", value, "state");
             return (Criteria) this;
         }
 
-        public Criteria andStateGreaterThan(Byte value) {
+        public Criteria andStateGreaterThan(Integer value) {
             addCriterion("`state` >", value, "state");
             return (Criteria) this;
         }
 
-        public Criteria andStateGreaterThanOrEqualTo(Byte value) {
+        public Criteria andStateGreaterThanOrEqualTo(Integer value) {
             addCriterion("`state` >=", value, "state");
             return (Criteria) this;
         }
 
-        public Criteria andStateLessThan(Byte value) {
+        public Criteria andStateLessThan(Integer value) {
             addCriterion("`state` <", value, "state");
             return (Criteria) this;
         }
 
-        public Criteria andStateLessThanOrEqualTo(Byte value) {
+        public Criteria andStateLessThanOrEqualTo(Integer value) {
             addCriterion("`state` <=", value, "state");
             return (Criteria) this;
         }
 
-        public Criteria andStateIn(List<Byte> values) {
+        public Criteria andStateIn(List<Integer> values) {
             addCriterion("`state` in", values, "state");
             return (Criteria) this;
         }
 
-        public Criteria andStateNotIn(List<Byte> values) {
+        public Criteria andStateNotIn(List<Integer> values) {
             addCriterion("`state` not in", values, "state");
             return (Criteria) this;
         }
 
-        public Criteria andStateBetween(Byte value1, Byte value2) {
+        public Criteria andStateBetween(Integer value1, Integer value2) {
             addCriterion("`state` between", value1, value2, "state");
             return (Criteria) this;
         }
 
-        public Criteria andStateNotBetween(Byte value1, Byte value2) {
+        public Criteria andStateNotBetween(Integer value1, Integer value2) {
             addCriterion("`state` not between", value1, value2, "state");
             return (Criteria) this;
         }
@@ -895,52 +895,52 @@ public class UserExample {
             return (Criteria) this;
         }
 
-        public Criteria andRoleEqualTo(Byte value) {
+        public Criteria andRoleEqualTo(Integer value) {
             addCriterion("`role` =", value, "role");
             return (Criteria) this;
         }
 
-        public Criteria andRoleNotEqualTo(Byte value) {
+        public Criteria andRoleNotEqualTo(Integer value) {
             addCriterion("`role` <>", value, "role");
             return (Criteria) this;
         }
 
-        public Criteria andRoleGreaterThan(Byte value) {
+        public Criteria andRoleGreaterThan(Integer value) {
             addCriterion("`role` >", value, "role");
             return (Criteria) this;
         }
 
-        public Criteria andRoleGreaterThanOrEqualTo(Byte value) {
+        public Criteria andRoleGreaterThanOrEqualTo(Integer value) {
             addCriterion("`role` >=", value, "role");
             return (Criteria) this;
         }
 
-        public Criteria andRoleLessThan(Byte value) {
+        public Criteria andRoleLessThan(Integer value) {
             addCriterion("`role` <", value, "role");
             return (Criteria) this;
         }
 
-        public Criteria andRoleLessThanOrEqualTo(Byte value) {
+        public Criteria andRoleLessThanOrEqualTo(Integer value) {
             addCriterion("`role` <=", value, "role");
             return (Criteria) this;
         }
 
-        public Criteria andRoleIn(List<Byte> values) {
+        public Criteria andRoleIn(List<Integer> values) {
             addCriterion("`role` in", values, "role");
             return (Criteria) this;
         }
 
-        public Criteria andRoleNotIn(List<Byte> values) {
+        public Criteria andRoleNotIn(List<Integer> values) {
             addCriterion("`role` not in", values, "role");
             return (Criteria) this;
         }
 
-        public Criteria andRoleBetween(Byte value1, Byte value2) {
+        public Criteria andRoleBetween(Integer value1, Integer value2) {
             addCriterion("`role` between", value1, value2, "role");
             return (Criteria) this;
         }
 
-        public Criteria andRoleNotBetween(Byte value1, Byte value2) {
+        public Criteria andRoleNotBetween(Integer value1, Integer value2) {
             addCriterion("`role` not between", value1, value2, "role");
             return (Criteria) this;
         }
@@ -955,52 +955,52 @@ public class UserExample {
             return (Criteria) this;
         }
 
-        public Criteria andAuthEqualTo(Byte value) {
+        public Criteria andAuthEqualTo(Integer value) {
             addCriterion("auth =", value, "auth");
             return (Criteria) this;
         }
 
-        public Criteria andAuthNotEqualTo(Byte value) {
+        public Criteria andAuthNotEqualTo(Integer value) {
             addCriterion("auth <>", value, "auth");
             return (Criteria) this;
         }
 
-        public Criteria andAuthGreaterThan(Byte value) {
+        public Criteria andAuthGreaterThan(Integer value) {
             addCriterion("auth >", value, "auth");
             return (Criteria) this;
         }
 
-        public Criteria andAuthGreaterThanOrEqualTo(Byte value) {
+        public Criteria andAuthGreaterThanOrEqualTo(Integer value) {
             addCriterion("auth >=", value, "auth");
             return (Criteria) this;
         }
 
-        public Criteria andAuthLessThan(Byte value) {
+        public Criteria andAuthLessThan(Integer value) {
             addCriterion("auth <", value, "auth");
             return (Criteria) this;
         }
 
-        public Criteria andAuthLessThanOrEqualTo(Byte value) {
+        public Criteria andAuthLessThanOrEqualTo(Integer value) {
             addCriterion("auth <=", value, "auth");
             return (Criteria) this;
         }
 
-        public Criteria andAuthIn(List<Byte> values) {
+        public Criteria andAuthIn(List<Integer> values) {
             addCriterion("auth in", values, "auth");
             return (Criteria) this;
         }
 
-        public Criteria andAuthNotIn(List<Byte> values) {
+        public Criteria andAuthNotIn(List<Integer> values) {
             addCriterion("auth not in", values, "auth");
             return (Criteria) this;
         }
 
-        public Criteria andAuthBetween(Byte value1, Byte value2) {
+        public Criteria andAuthBetween(Integer value1, Integer value2) {
             addCriterion("auth between", value1, value2, "auth");
             return (Criteria) this;
         }
 
-        public Criteria andAuthNotBetween(Byte value1, Byte value2) {
+        public Criteria andAuthNotBetween(Integer value1, Integer value2) {
             addCriterion("auth not between", value1, value2, "auth");
             return (Criteria) this;
         }

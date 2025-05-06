@@ -6,9 +6,9 @@
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="another_id" jdbcType="INTEGER" property="anotherId" />
     <result column="content" jdbcType="VARCHAR" property="content" />
-    <result column="user_del" jdbcType="TINYINT" property="userDel" />
-    <result column="another_del" jdbcType="TINYINT" property="anotherDel" />
-    <result column="withdraw" jdbcType="TINYINT" property="withdraw" />
+    <result column="user_del" jdbcType="INTEGER" property="userDel" />
+    <result column="another_del" jdbcType="INTEGER" property="anotherDel" />
+    <result column="withdraw" jdbcType="INTEGER" property="withdraw" />
     <result column="time" jdbcType="TIMESTAMP" property="time" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -107,8 +107,8 @@
       content, user_del, another_del, 
       withdraw, `time`)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{anotherId,jdbcType=INTEGER}, 
-      #{content,jdbcType=VARCHAR}, #{userDel,jdbcType=TINYINT}, #{anotherDel,jdbcType=TINYINT}, 
-      #{withdraw,jdbcType=TINYINT}, #{time,jdbcType=TIMESTAMP})
+      #{content,jdbcType=VARCHAR}, #{userDel,jdbcType=INTEGER}, #{anotherDel,jdbcType=INTEGER}, 
+      #{withdraw,jdbcType=INTEGER}, #{time,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.example.onlineexam.domain.ChatDetailed">
     insert into chat_detailed
@@ -152,13 +152,13 @@
         #{content,jdbcType=VARCHAR},
       </if>
       <if test="userDel != null">
-        #{userDel,jdbcType=TINYINT},
+        #{userDel,jdbcType=INTEGER},
       </if>
       <if test="anotherDel != null">
-        #{anotherDel,jdbcType=TINYINT},
+        #{anotherDel,jdbcType=INTEGER},
       </if>
       <if test="withdraw != null">
-        #{withdraw,jdbcType=TINYINT},
+        #{withdraw,jdbcType=INTEGER},
       </if>
       <if test="time != null">
         #{time,jdbcType=TIMESTAMP},
@@ -187,13 +187,13 @@
         content = #{row.content,jdbcType=VARCHAR},
       </if>
       <if test="row.userDel != null">
-        user_del = #{row.userDel,jdbcType=TINYINT},
+        user_del = #{row.userDel,jdbcType=INTEGER},
       </if>
       <if test="row.anotherDel != null">
-        another_del = #{row.anotherDel,jdbcType=TINYINT},
+        another_del = #{row.anotherDel,jdbcType=INTEGER},
       </if>
       <if test="row.withdraw != null">
-        withdraw = #{row.withdraw,jdbcType=TINYINT},
+        withdraw = #{row.withdraw,jdbcType=INTEGER},
       </if>
       <if test="row.time != null">
         `time` = #{row.time,jdbcType=TIMESTAMP},
@@ -209,9 +209,9 @@
       user_id = #{row.userId,jdbcType=INTEGER},
       another_id = #{row.anotherId,jdbcType=INTEGER},
       content = #{row.content,jdbcType=VARCHAR},
-      user_del = #{row.userDel,jdbcType=TINYINT},
-      another_del = #{row.anotherDel,jdbcType=TINYINT},
-      withdraw = #{row.withdraw,jdbcType=TINYINT},
+      user_del = #{row.userDel,jdbcType=INTEGER},
+      another_del = #{row.anotherDel,jdbcType=INTEGER},
+      withdraw = #{row.withdraw,jdbcType=INTEGER},
       `time` = #{row.time,jdbcType=TIMESTAMP}
     <if test="example != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -230,13 +230,13 @@
         content = #{content,jdbcType=VARCHAR},
       </if>
       <if test="userDel != null">
-        user_del = #{userDel,jdbcType=TINYINT},
+        user_del = #{userDel,jdbcType=INTEGER},
       </if>
       <if test="anotherDel != null">
-        another_del = #{anotherDel,jdbcType=TINYINT},
+        another_del = #{anotherDel,jdbcType=INTEGER},
       </if>
       <if test="withdraw != null">
-        withdraw = #{withdraw,jdbcType=TINYINT},
+        withdraw = #{withdraw,jdbcType=INTEGER},
       </if>
       <if test="time != null">
         `time` = #{time,jdbcType=TIMESTAMP},
@@ -249,9 +249,9 @@
     set user_id = #{userId,jdbcType=INTEGER},
       another_id = #{anotherId,jdbcType=INTEGER},
       content = #{content,jdbcType=VARCHAR},
-      user_del = #{userDel,jdbcType=TINYINT},
-      another_del = #{anotherDel,jdbcType=TINYINT},
-      withdraw = #{withdraw,jdbcType=TINYINT},
+      user_del = #{userDel,jdbcType=INTEGER},
+      another_del = #{anotherDel,jdbcType=INTEGER},
+      withdraw = #{withdraw,jdbcType=INTEGER},
       `time` = #{time,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>

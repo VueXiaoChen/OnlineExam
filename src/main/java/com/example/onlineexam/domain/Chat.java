@@ -9,7 +9,7 @@ public class Chat {
 
     private Integer anotherId;
 
-    private Byte isDeleted;
+    private Integer isDeleted;
 
     private Integer unread;
 
@@ -39,11 +39,11 @@ public class Chat {
         this.anotherId = anotherId;
     }
 
-    public Byte getIsDeleted() {
+    public Integer getIsDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(Byte isDeleted) {
+    public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
     }
 

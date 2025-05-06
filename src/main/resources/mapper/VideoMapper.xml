@@ -5,8 +5,8 @@
     <id column="vid" jdbcType="INTEGER" property="vid" />
     <result column="uid" jdbcType="INTEGER" property="uid" />
     <result column="title" jdbcType="VARCHAR" property="title" />
-    <result column="type" jdbcType="TINYINT" property="type" />
-    <result column="auth" jdbcType="TINYINT" property="auth" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="auth" jdbcType="INTEGER" property="auth" />
     <result column="duration" jdbcType="DOUBLE" property="duration" />
     <result column="mc_id" jdbcType="VARCHAR" property="mcId" />
     <result column="sc_id" jdbcType="VARCHAR" property="scId" />
@@ -14,7 +14,7 @@
     <result column="descr" jdbcType="VARCHAR" property="descr" />
     <result column="cover_url" jdbcType="VARCHAR" property="coverUrl" />
     <result column="video_url" jdbcType="VARCHAR" property="videoUrl" />
-    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="status" jdbcType="INTEGER" property="status" />
     <result column="upload_date" jdbcType="TIMESTAMP" property="uploadDate" />
     <result column="delete_date" jdbcType="TIMESTAMP" property="deleteDate" />
   </resultMap>
@@ -117,9 +117,9 @@
       cover_url, video_url, `status`, 
       upload_date, delete_date)
     values (#{vid,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, 
-      #{type,jdbcType=TINYINT}, #{auth,jdbcType=TINYINT}, #{duration,jdbcType=DOUBLE}, 
+      #{type,jdbcType=INTEGER}, #{auth,jdbcType=INTEGER}, #{duration,jdbcType=DOUBLE}, 
       #{mcId,jdbcType=VARCHAR}, #{scId,jdbcType=VARCHAR}, #{tags,jdbcType=VARCHAR}, #{descr,jdbcType=VARCHAR}, 
-      #{coverUrl,jdbcType=VARCHAR}, #{videoUrl,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
+      #{coverUrl,jdbcType=VARCHAR}, #{videoUrl,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
       #{uploadDate,jdbcType=TIMESTAMP}, #{deleteDate,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.example.onlineexam.domain.Video">
@@ -182,10 +182,10 @@
         #{title,jdbcType=VARCHAR},
       </if>
       <if test="type != null">
-        #{type,jdbcType=TINYINT},
+        #{type,jdbcType=INTEGER},
       </if>
       <if test="auth != null">
-        #{auth,jdbcType=TINYINT},
+        #{auth,jdbcType=INTEGER},
       </if>
       <if test="duration != null">
         #{duration,jdbcType=DOUBLE},
@@ -209,7 +209,7 @@
         #{videoUrl,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
-        #{status,jdbcType=TINYINT},
+        #{status,jdbcType=INTEGER},
       </if>
       <if test="uploadDate != null">
         #{uploadDate,jdbcType=TIMESTAMP},
@@ -238,10 +238,10 @@
         title = #{row.title,jdbcType=VARCHAR},
       </if>
       <if test="row.type != null">
-        `type` = #{row.type,jdbcType=TINYINT},
+        `type` = #{row.type,jdbcType=INTEGER},
       </if>
       <if test="row.auth != null">
-        auth = #{row.auth,jdbcType=TINYINT},
+        auth = #{row.auth,jdbcType=INTEGER},
       </if>
       <if test="row.duration != null">
         duration = #{row.duration,jdbcType=DOUBLE},
@@ -265,7 +265,7 @@
         video_url = #{row.videoUrl,jdbcType=VARCHAR},
       </if>
       <if test="row.status != null">
-        `status` = #{row.status,jdbcType=TINYINT},
+        `status` = #{row.status,jdbcType=INTEGER},
       </if>
       <if test="row.uploadDate != null">
         upload_date = #{row.uploadDate,jdbcType=TIMESTAMP},
@@ -283,8 +283,8 @@
     set vid = #{row.vid,jdbcType=INTEGER},
       `uid` = #{row.uid,jdbcType=INTEGER},
       title = #{row.title,jdbcType=VARCHAR},
-      `type` = #{row.type,jdbcType=TINYINT},
-      auth = #{row.auth,jdbcType=TINYINT},
+      `type` = #{row.type,jdbcType=INTEGER},
+      auth = #{row.auth,jdbcType=INTEGER},
       duration = #{row.duration,jdbcType=DOUBLE},
       mc_id = #{row.mcId,jdbcType=VARCHAR},
       sc_id = #{row.scId,jdbcType=VARCHAR},
@@ -292,7 +292,7 @@
       descr = #{row.descr,jdbcType=VARCHAR},
       cover_url = #{row.coverUrl,jdbcType=VARCHAR},
       video_url = #{row.videoUrl,jdbcType=VARCHAR},
-      `status` = #{row.status,jdbcType=TINYINT},
+      `status` = #{row.status,jdbcType=INTEGER},
       upload_date = #{row.uploadDate,jdbcType=TIMESTAMP},
       delete_date = #{row.deleteDate,jdbcType=TIMESTAMP}
     <if test="example != null">
@@ -309,10 +309,10 @@
         title = #{title,jdbcType=VARCHAR},
       </if>
       <if test="type != null">
-        `type` = #{type,jdbcType=TINYINT},
+        `type` = #{type,jdbcType=INTEGER},
       </if>
       <if test="auth != null">
-        auth = #{auth,jdbcType=TINYINT},
+        auth = #{auth,jdbcType=INTEGER},
       </if>
       <if test="duration != null">
         duration = #{duration,jdbcType=DOUBLE},
@@ -336,7 +336,7 @@
         video_url = #{videoUrl,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
-        `status` = #{status,jdbcType=TINYINT},
+        `status` = #{status,jdbcType=INTEGER},
       </if>
       <if test="uploadDate != null">
         upload_date = #{uploadDate,jdbcType=TIMESTAMP},
@@ -351,8 +351,8 @@
     update video
     set `uid` = #{uid,jdbcType=INTEGER},
       title = #{title,jdbcType=VARCHAR},
-      `type` = #{type,jdbcType=TINYINT},
-      auth = #{auth,jdbcType=TINYINT},
+      `type` = #{type,jdbcType=INTEGER},
+      auth = #{auth,jdbcType=INTEGER},
       duration = #{duration,jdbcType=DOUBLE},
       mc_id = #{mcId,jdbcType=VARCHAR},
       sc_id = #{scId,jdbcType=VARCHAR},
@@ -360,7 +360,7 @@
       descr = #{descr,jdbcType=VARCHAR},
       cover_url = #{coverUrl,jdbcType=VARCHAR},
       video_url = #{videoUrl,jdbcType=VARCHAR},
-      `status` = #{status,jdbcType=TINYINT},
+      `status` = #{status,jdbcType=INTEGER},
       upload_date = #{uploadDate,jdbcType=TIMESTAMP},
       delete_date = #{deleteDate,jdbcType=TIMESTAMP}
     where vid = #{vid,jdbcType=INTEGER}

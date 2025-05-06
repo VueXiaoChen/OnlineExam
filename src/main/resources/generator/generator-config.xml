@@ -66,8 +66,8 @@
         <table tableName="zj_sorts" domainObjectName="Sorts"/>
         <table tableName="zj_user_friends" domainObjectName="UserFriends"/>
         <table tableName="zj_users" domainObjectName="Users"/>
-        <table tableName="t_log" domainObjectName="OperateLog"/>-->
         <table tableName="t_log" domainObjectName="OperateLog"/>
+        <table tableName="t_log" domainObjectName="OperateLog"/>-->
         <table tableName="category" domainObjectName="Category"/>
         <table tableName="chat" domainObjectName="Chat"/>
         <table tableName="chat_detailed" domainObjectName="ChatDetailed"/>

@@ -5,9 +5,9 @@ public class Favorite {
 
     private Integer uid;
 
-    private Byte type;
+    private Integer type;
 
-    private Byte visible;
+    private Integer visible;
 
     private String cover;
 
@@ -17,7 +17,7 @@ public class Favorite {
 
     private Integer count;
 
-    private Byte isDelete;
+    private Integer isDelete;
 
     public Integer getFid() {
         return fid;
@@ -35,19 +35,19 @@ public class Favorite {
         this.uid = uid;
     }
 
-    public Byte getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(Byte type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 
-    public Byte getVisible() {
+    public Integer getVisible() {
         return visible;
     }
 
-    public void setVisible(Byte visible) {
+    public void setVisible(Integer visible) {
         this.visible = visible;
     }
 
@@ -83,11 +83,11 @@ public class Favorite {
         this.count = count;
     }
 
-    public Byte getIsDelete() {
+    public Integer getIsDelete() {
         return isDelete;
     }
 
-    public void setIsDelete(Byte isDelete) {
+    public void setIsDelete(Integer isDelete) {
         this.isDelete = isDelete;
     }
 

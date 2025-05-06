@@ -9,9 +9,9 @@ public class Video {
 
     private String title;
 
-    private Byte type;
+    private Integer type;
 
-    private Byte auth;
+    private Integer auth;
 
     private Double duration;
 
@@ -27,7 +27,7 @@ public class Video {
 
     private String videoUrl;
 
-    private Byte status;
+    private Integer status;
 
     private Date uploadDate;
 
@@ -57,19 +57,19 @@ public class Video {
         this.title = title;
     }
 
-    public Byte getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(Byte type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 
-    public Byte getAuth() {
+    public Integer getAuth() {
         return auth;
     }
 
-    public void setAuth(Byte auth) {
+    public void setAuth(Integer auth) {
         this.auth = auth;
     }
 
@@ -129,11 +129,11 @@ public class Video {
         this.videoUrl = videoUrl;
     }
 
-    public Byte getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(Byte status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 

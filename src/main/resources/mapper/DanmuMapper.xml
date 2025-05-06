@@ -6,11 +6,11 @@
     <result column="vid" jdbcType="INTEGER" property="vid" />
     <result column="uid" jdbcType="INTEGER" property="uid" />
     <result column="content" jdbcType="VARCHAR" property="content" />
-    <result column="fontsize" jdbcType="TINYINT" property="fontsize" />
-    <result column="mode" jdbcType="TINYINT" property="mode" />
+    <result column="fontsize" jdbcType="INTEGER" property="fontsize" />
+    <result column="mode" jdbcType="INTEGER" property="mode" />
     <result column="color" jdbcType="VARCHAR" property="color" />
     <result column="time_point" jdbcType="DOUBLE" property="timePoint" />
-    <result column="state" jdbcType="TINYINT" property="state" />
+    <result column="state" jdbcType="INTEGER" property="state" />
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -110,8 +110,8 @@
       color, time_point, `state`, 
       create_date)
     values (#{id,jdbcType=INTEGER}, #{vid,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, 
-      #{content,jdbcType=VARCHAR}, #{fontsize,jdbcType=TINYINT}, #{mode,jdbcType=TINYINT}, 
-      #{color,jdbcType=VARCHAR}, #{timePoint,jdbcType=DOUBLE}, #{state,jdbcType=TINYINT}, 
+      #{content,jdbcType=VARCHAR}, #{fontsize,jdbcType=INTEGER}, #{mode,jdbcType=INTEGER}, 
+      #{color,jdbcType=VARCHAR}, #{timePoint,jdbcType=DOUBLE}, #{state,jdbcType=INTEGER}, 
       #{createDate,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.example.onlineexam.domain.Danmu">
@@ -162,10 +162,10 @@
         #{content,jdbcType=VARCHAR},
       </if>
       <if test="fontsize != null">
-        #{fontsize,jdbcType=TINYINT},
+        #{fontsize,jdbcType=INTEGER},
       </if>
       <if test="mode != null">
-        #{mode,jdbcType=TINYINT},
+        #{mode,jdbcType=INTEGER},
       </if>
       <if test="color != null">
         #{color,jdbcType=VARCHAR},
@@ -174,7 +174,7 @@
         #{timePoint,jdbcType=DOUBLE},
       </if>
       <if test="state != null">
-        #{state,jdbcType=TINYINT},
+        #{state,jdbcType=INTEGER},
       </if>
       <if test="createDate != null">
         #{createDate,jdbcType=TIMESTAMP},
@@ -203,10 +203,10 @@
         content = #{row.content,jdbcType=VARCHAR},
       </if>
       <if test="row.fontsize != null">
-        fontsize = #{row.fontsize,jdbcType=TINYINT},
+        fontsize = #{row.fontsize,jdbcType=INTEGER},
       </if>
       <if test="row.mode != null">
-        `mode` = #{row.mode,jdbcType=TINYINT},
+        `mode` = #{row.mode,jdbcType=INTEGER},
       </if>
       <if test="row.color != null">
         color = #{row.color,jdbcType=VARCHAR},
@@ -215,7 +215,7 @@
         time_point = #{row.timePoint,jdbcType=DOUBLE},
       </if>
       <if test="row.state != null">
-        `state` = #{row.state,jdbcType=TINYINT},
+        `state` = #{row.state,jdbcType=INTEGER},
       </if>
       <if test="row.createDate != null">
         create_date = #{row.createDate,jdbcType=TIMESTAMP},
@@ -231,11 +231,11 @@
       vid = #{row.vid,jdbcType=INTEGER},
       `uid` = #{row.uid,jdbcType=INTEGER},
       content = #{row.content,jdbcType=VARCHAR},
-      fontsize = #{row.fontsize,jdbcType=TINYINT},
-      `mode` = #{row.mode,jdbcType=TINYINT},
+      fontsize = #{row.fontsize,jdbcType=INTEGER},
+      `mode` = #{row.mode,jdbcType=INTEGER},
       color = #{row.color,jdbcType=VARCHAR},
       time_point = #{row.timePoint,jdbcType=DOUBLE},
-      `state` = #{row.state,jdbcType=TINYINT},
+      `state` = #{row.state,jdbcType=INTEGER},
       create_date = #{row.createDate,jdbcType=TIMESTAMP}
     <if test="example != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -254,10 +254,10 @@
         content = #{content,jdbcType=VARCHAR},
       </if>
       <if test="fontsize != null">
-        fontsize = #{fontsize,jdbcType=TINYINT},
+        fontsize = #{fontsize,jdbcType=INTEGER},
       </if>
       <if test="mode != null">
-        `mode` = #{mode,jdbcType=TINYINT},
+        `mode` = #{mode,jdbcType=INTEGER},
       </if>
       <if test="color != null">
         color = #{color,jdbcType=VARCHAR},
@@ -266,7 +266,7 @@
         time_point = #{timePoint,jdbcType=DOUBLE},
       </if>
       <if test="state != null">
-        `state` = #{state,jdbcType=TINYINT},
+        `state` = #{state,jdbcType=INTEGER},
       </if>
       <if test="createDate != null">
         create_date = #{createDate,jdbcType=TIMESTAMP},
@@ -279,11 +279,11 @@
     set vid = #{vid,jdbcType=INTEGER},
       `uid` = #{uid,jdbcType=INTEGER},
       content = #{content,jdbcType=VARCHAR},
-      fontsize = #{fontsize,jdbcType=TINYINT},
-      `mode` = #{mode,jdbcType=TINYINT},
+      fontsize = #{fontsize,jdbcType=INTEGER},
+      `mode` = #{mode,jdbcType=INTEGER},
       color = #{color,jdbcType=VARCHAR},
       time_point = #{timePoint,jdbcType=DOUBLE},
-      `state` = #{state,jdbcType=TINYINT},
+      `state` = #{state,jdbcType=INTEGER},
       create_date = #{createDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>

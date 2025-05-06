@@ -355,52 +355,52 @@ public class UserVideoExample {
             return (Criteria) this;
         }
 
-        public Criteria andLoveEqualTo(Byte value) {
+        public Criteria andLoveEqualTo(Integer value) {
             addCriterion("love =", value, "love");
             return (Criteria) this;
         }
 
-        public Criteria andLoveNotEqualTo(Byte value) {
+        public Criteria andLoveNotEqualTo(Integer value) {
             addCriterion("love <>", value, "love");
             return (Criteria) this;
         }
 
-        public Criteria andLoveGreaterThan(Byte value) {
+        public Criteria andLoveGreaterThan(Integer value) {
             addCriterion("love >", value, "love");
             return (Criteria) this;
         }
 
-        public Criteria andLoveGreaterThanOrEqualTo(Byte value) {
+        public Criteria andLoveGreaterThanOrEqualTo(Integer value) {
             addCriterion("love >=", value, "love");
             return (Criteria) this;
         }
 
-        public Criteria andLoveLessThan(Byte value) {
+        public Criteria andLoveLessThan(Integer value) {
             addCriterion("love <", value, "love");
             return (Criteria) this;
         }
 
-        public Criteria andLoveLessThanOrEqualTo(Byte value) {
+        public Criteria andLoveLessThanOrEqualTo(Integer value) {
             addCriterion("love <=", value, "love");
             return (Criteria) this;
         }
 
-        public Criteria andLoveIn(List<Byte> values) {
+        public Criteria andLoveIn(List<Integer> values) {
             addCriterion("love in", values, "love");
             return (Criteria) this;
         }
 
-        public Criteria andLoveNotIn(List<Byte> values) {
+        public Criteria andLoveNotIn(List<Integer> values) {
             addCriterion("love not in", values, "love");
             return (Criteria) this;
         }
 
-        public Criteria andLoveBetween(Byte value1, Byte value2) {
+        public Criteria andLoveBetween(Integer value1, Integer value2) {
             addCriterion("love between", value1, value2, "love");
             return (Criteria) this;
         }
 
-        public Criteria andLoveNotBetween(Byte value1, Byte value2) {
+        public Criteria andLoveNotBetween(Integer value1, Integer value2) {
             addCriterion("love not between", value1, value2, "love");
             return (Criteria) this;
         }
@@ -415,52 +415,52 @@ public class UserVideoExample {
             return (Criteria) this;
         }
 
-        public Criteria andUnloveEqualTo(Byte value) {
+        public Criteria andUnloveEqualTo(Integer value) {
             addCriterion("unlove =", value, "unlove");
             return (Criteria) this;
         }
 
-        public Criteria andUnloveNotEqualTo(Byte value) {
+        public Criteria andUnloveNotEqualTo(Integer value) {
             addCriterion("unlove <>", value, "unlove");
             return (Criteria) this;
         }
 
-        public Criteria andUnloveGreaterThan(Byte value) {
+        public Criteria andUnloveGreaterThan(Integer value) {
             addCriterion("unlove >", value, "unlove");
             return (Criteria) this;
         }
 
-        public Criteria andUnloveGreaterThanOrEqualTo(Byte value) {
+        public Criteria andUnloveGreaterThanOrEqualTo(Integer value) {
             addCriterion("unlove >=", value, "unlove");
             return (Criteria) this;
         }
 
-        public Criteria andUnloveLessThan(Byte value) {
+        public Criteria andUnloveLessThan(Integer value) {
             addCriterion("unlove <", value, "unlove");
             return (Criteria) this;
         }
 
-        public Criteria andUnloveLessThanOrEqualTo(Byte value) {
+        public Criteria andUnloveLessThanOrEqualTo(Integer value) {
             addCriterion("unlove <=", value, "unlove");
             return (Criteria) this;
         }
 
-        public Criteria andUnloveIn(List<Byte> values) {
+        public Criteria andUnloveIn(List<Integer> values) {
             addCriterion("unlove in", values, "unlove");
             return (Criteria) this;
         }
 
-        public Criteria andUnloveNotIn(List<Byte> values) {
+        public Criteria andUnloveNotIn(List<Integer> values) {
             addCriterion("unlove not in", values, "unlove");
             return (Criteria) this;
         }
 
-        public Criteria andUnloveBetween(Byte value1, Byte value2) {
+        public Criteria andUnloveBetween(Integer value1, Integer value2) {
             addCriterion("unlove between", value1, value2, "unlove");
             return (Criteria) this;
         }
 
-        public Criteria andUnloveNotBetween(Byte value1, Byte value2) {
+        public Criteria andUnloveNotBetween(Integer value1, Integer value2) {
             addCriterion("unlove not between", value1, value2, "unlove");
             return (Criteria) this;
         }
@@ -475,52 +475,52 @@ public class UserVideoExample {
             return (Criteria) this;
         }
 
-        public Criteria andCoinEqualTo(Byte value) {
+        public Criteria andCoinEqualTo(Integer value) {
             addCriterion("coin =", value, "coin");
             return (Criteria) this;
         }
 
-        public Criteria andCoinNotEqualTo(Byte value) {
+        public Criteria andCoinNotEqualTo(Integer value) {
             addCriterion("coin <>", value, "coin");
             return (Criteria) this;
         }
 
-        public Criteria andCoinGreaterThan(Byte value) {
+        public Criteria andCoinGreaterThan(Integer value) {
             addCriterion("coin >", value, "coin");
             return (Criteria) this;
         }
 
-        public Criteria andCoinGreaterThanOrEqualTo(Byte value) {
+        public Criteria andCoinGreaterThanOrEqualTo(Integer value) {
             addCriterion("coin >=", value, "coin");
             return (Criteria) this;
         }
 
-        public Criteria andCoinLessThan(Byte value) {
+        public Criteria andCoinLessThan(Integer value) {
             addCriterion("coin <", value, "coin");
             return (Criteria) this;
         }
 
-        public Criteria andCoinLessThanOrEqualTo(Byte value) {
+        public Criteria andCoinLessThanOrEqualTo(Integer value) {
             addCriterion("coin <=", value, "coin");
             return (Criteria) this;
         }
 
-        public Criteria andCoinIn(List<Byte> values) {
+        public Criteria andCoinIn(List<Integer> values) {
             addCriterion("coin in", values, "coin");
             return (Criteria) this;
         }
 
-        public Criteria andCoinNotIn(List<Byte> values) {
+        public Criteria andCoinNotIn(List<Integer> values) {
             addCriterion("coin not in", values, "coin");
             return (Criteria) this;
         }
 
-        public Criteria andCoinBetween(Byte value1, Byte value2) {
+        public Criteria andCoinBetween(Integer value1, Integer value2) {
             addCriterion("coin between", value1, value2, "coin");
             return (Criteria) this;
         }
 
-        public Criteria andCoinNotBetween(Byte value1, Byte value2) {
+        public Criteria andCoinNotBetween(Integer value1, Integer value2) {
             addCriterion("coin not between", value1, value2, "coin");
             return (Criteria) this;
         }
@@ -535,52 +535,52 @@ public class UserVideoExample {
             return (Criteria) this;
         }
 
-        public Criteria andCollectEqualTo(Byte value) {
+        public Criteria andCollectEqualTo(Integer value) {
             addCriterion("`collect` =", value, "collect");
             return (Criteria) this;
         }
 
-        public Criteria andCollectNotEqualTo(Byte value) {
+        public Criteria andCollectNotEqualTo(Integer value) {
             addCriterion("`collect` <>", value, "collect");
             return (Criteria) this;
         }
 
-        public Criteria andCollectGreaterThan(Byte value) {
+        public Criteria andCollectGreaterThan(Integer value) {
             addCriterion("`collect` >", value, "collect");
             return (Criteria) this;
         }
 
-        public Criteria andCollectGreaterThanOrEqualTo(Byte value) {
+        public Criteria andCollectGreaterThanOrEqualTo(Integer value) {
             addCriterion("`collect` >=", value, "collect");
             return (Criteria) this;
         }
 
-        public Criteria andCollectLessThan(Byte value) {
+        public Criteria andCollectLessThan(Integer value) {
             addCriterion("`collect` <", value, "collect");
             return (Criteria) this;
         }
 
-        public Criteria andCollectLessThanOrEqualTo(Byte value) {
+        public Criteria andCollectLessThanOrEqualTo(Integer value) {
             addCriterion("`collect` <=", value, "collect");
             return (Criteria) this;
         }
 
-        public Criteria andCollectIn(List<Byte> values) {
+        public Criteria andCollectIn(List<Integer> values) {
             addCriterion("`collect` in", values, "collect");
             return (Criteria) this;
         }
 
-        public Criteria andCollectNotIn(List<Byte> values) {
+        public Criteria andCollectNotIn(List<Integer> values) {
             addCriterion("`collect` not in", values, "collect");
             return (Criteria) this;
         }
 
-        public Criteria andCollectBetween(Byte value1, Byte value2) {
+        public Criteria andCollectBetween(Integer value1, Integer value2) {
             addCriterion("`collect` between", value1, value2, "collect");
             return (Criteria) this;
         }
 
-        public Criteria andCollectNotBetween(Byte value1, Byte value2) {
+        public Criteria andCollectNotBetween(Integer value1, Integer value2) {
             addCriterion("`collect` not between", value1, value2, "collect");
             return (Criteria) this;
         }

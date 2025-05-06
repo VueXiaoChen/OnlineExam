@@ -6,7 +6,7 @@
     <result column="vid" jdbcType="INTEGER" property="vid" />
     <result column="fid" jdbcType="INTEGER" property="fid" />
     <result column="time" jdbcType="TIMESTAMP" property="time" />
-    <result column="is_remove" jdbcType="TINYINT" property="isRemove" />
+    <result column="is_remove" jdbcType="INTEGER" property="isRemove" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -103,7 +103,7 @@
     insert into favorite_video (id, vid, fid, 
       `time`, is_remove)
     values (#{id,jdbcType=INTEGER}, #{vid,jdbcType=INTEGER}, #{fid,jdbcType=INTEGER}, 
-      #{time,jdbcType=TIMESTAMP}, #{isRemove,jdbcType=TINYINT})
+      #{time,jdbcType=TIMESTAMP}, #{isRemove,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.example.onlineexam.domain.FavoriteVideo">
     insert into favorite_video
@@ -138,7 +138,7 @@
         #{time,jdbcType=TIMESTAMP},
       </if>
       <if test="isRemove != null">
-        #{isRemove,jdbcType=TINYINT},
+        #{isRemove,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -164,7 +164,7 @@
         `time` = #{row.time,jdbcType=TIMESTAMP},
       </if>
       <if test="row.isRemove != null">
-        is_remove = #{row.isRemove,jdbcType=TINYINT},
+        is_remove = #{row.isRemove,jdbcType=INTEGER},
       </if>
     </set>
     <if test="example != null">
@@ -177,7 +177,7 @@
       vid = #{row.vid,jdbcType=INTEGER},
       fid = #{row.fid,jdbcType=INTEGER},
       `time` = #{row.time,jdbcType=TIMESTAMP},
-      is_remove = #{row.isRemove,jdbcType=TINYINT}
+      is_remove = #{row.isRemove,jdbcType=INTEGER}
     <if test="example != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -195,7 +195,7 @@
         `time` = #{time,jdbcType=TIMESTAMP},
       </if>
       <if test="isRemove != null">
-        is_remove = #{isRemove,jdbcType=TINYINT},
+        is_remove = #{isRemove,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -205,7 +205,7 @@
     set vid = #{vid,jdbcType=INTEGER},
       fid = #{fid,jdbcType=INTEGER},
       `time` = #{time,jdbcType=TIMESTAMP},
-      is_remove = #{isRemove,jdbcType=TINYINT}
+      is_remove = #{isRemove,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

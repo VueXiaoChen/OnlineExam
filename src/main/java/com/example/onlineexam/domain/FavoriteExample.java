@@ -234,52 +234,52 @@ public class FavoriteExample {
             return (Criteria) this;
         }
 
-        public Criteria andTypeEqualTo(Byte value) {
+        public Criteria andTypeEqualTo(Integer value) {
             addCriterion("`type` =", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andTypeNotEqualTo(Byte value) {
+        public Criteria andTypeNotEqualTo(Integer value) {
             addCriterion("`type` <>", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andTypeGreaterThan(Byte value) {
+        public Criteria andTypeGreaterThan(Integer value) {
             addCriterion("`type` >", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andTypeGreaterThanOrEqualTo(Byte value) {
+        public Criteria andTypeGreaterThanOrEqualTo(Integer value) {
             addCriterion("`type` >=", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andTypeLessThan(Byte value) {
+        public Criteria andTypeLessThan(Integer value) {
             addCriterion("`type` <", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andTypeLessThanOrEqualTo(Byte value) {
+        public Criteria andTypeLessThanOrEqualTo(Integer value) {
             addCriterion("`type` <=", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIn(List<Byte> values) {
+        public Criteria andTypeIn(List<Integer> values) {
             addCriterion("`type` in", values, "type");
             return (Criteria) this;
         }
 
-        public Criteria andTypeNotIn(List<Byte> values) {
+        public Criteria andTypeNotIn(List<Integer> values) {
             addCriterion("`type` not in", values, "type");
             return (Criteria) this;
         }
 
-        public Criteria andTypeBetween(Byte value1, Byte value2) {
+        public Criteria andTypeBetween(Integer value1, Integer value2) {
             addCriterion("`type` between", value1, value2, "type");
             return (Criteria) this;
         }
 
-        public Criteria andTypeNotBetween(Byte value1, Byte value2) {
+        public Criteria andTypeNotBetween(Integer value1, Integer value2) {
             addCriterion("`type` not between", value1, value2, "type");
             return (Criteria) this;
         }
@@ -294,52 +294,52 @@ public class FavoriteExample {
             return (Criteria) this;
         }
 
-        public Criteria andVisibleEqualTo(Byte value) {
+        public Criteria andVisibleEqualTo(Integer value) {
             addCriterion("visible =", value, "visible");
             return (Criteria) this;
         }
 
-        public Criteria andVisibleNotEqualTo(Byte value) {
+        public Criteria andVisibleNotEqualTo(Integer value) {
             addCriterion("visible <>", value, "visible");
             return (Criteria) this;
         }
 
-        public Criteria andVisibleGreaterThan(Byte value) {
+        public Criteria andVisibleGreaterThan(Integer value) {
             addCriterion("visible >", value, "visible");
             return (Criteria) this;
         }
 
-        public Criteria andVisibleGreaterThanOrEqualTo(Byte value) {
+        public Criteria andVisibleGreaterThanOrEqualTo(Integer value) {
             addCriterion("visible >=", value, "visible");
             return (Criteria) this;
         }
 
-        public Criteria andVisibleLessThan(Byte value) {
+        public Criteria andVisibleLessThan(Integer value) {
             addCriterion("visible <", value, "visible");
             return (Criteria) this;
         }
 
-        public Criteria andVisibleLessThanOrEqualTo(Byte value) {
+        public Criteria andVisibleLessThanOrEqualTo(Integer value) {
             addCriterion("visible <=", value, "visible");
             return (Criteria) this;
         }
 
-        public Criteria andVisibleIn(List<Byte> values) {
+        public Criteria andVisibleIn(List<Integer> values) {
             addCriterion("visible in", values, "visible");
             return (Criteria) this;
         }
 
-        public Criteria andVisibleNotIn(List<Byte> values) {
+        public Criteria andVisibleNotIn(List<Integer> values) {
             addCriterion("visible not in", values, "visible");
             return (Criteria) this;
         }
 
-        public Criteria andVisibleBetween(Byte value1, Byte value2) {
+        public Criteria andVisibleBetween(Integer value1, Integer value2) {
             addCriterion("visible between", value1, value2, "visible");
             return (Criteria) this;
         }
 
-        public Criteria andVisibleNotBetween(Byte value1, Byte value2) {
+        public Criteria andVisibleNotBetween(Integer value1, Integer value2) {
             addCriterion("visible not between", value1, value2, "visible");
             return (Criteria) this;
         }
@@ -624,52 +624,52 @@ public class FavoriteExample {
             return (Criteria) this;
         }
 
-        public Criteria andIsDeleteEqualTo(Byte value) {
+        public Criteria andIsDeleteEqualTo(Integer value) {
             addCriterion("is_delete =", value, "isDelete");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeleteNotEqualTo(Byte value) {
+        public Criteria andIsDeleteNotEqualTo(Integer value) {
             addCriterion("is_delete <>", value, "isDelete");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeleteGreaterThan(Byte value) {
+        public Criteria andIsDeleteGreaterThan(Integer value) {
             addCriterion("is_delete >", value, "isDelete");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeleteGreaterThanOrEqualTo(Byte value) {
+        public Criteria andIsDeleteGreaterThanOrEqualTo(Integer value) {
             addCriterion("is_delete >=", value, "isDelete");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeleteLessThan(Byte value) {
+        public Criteria andIsDeleteLessThan(Integer value) {
             addCriterion("is_delete <", value, "isDelete");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeleteLessThanOrEqualTo(Byte value) {
+        public Criteria andIsDeleteLessThanOrEqualTo(Integer value) {
             addCriterion("is_delete <=", value, "isDelete");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeleteIn(List<Byte> values) {
+        public Criteria andIsDeleteIn(List<Integer> values) {
             addCriterion("is_delete in", values, "isDelete");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeleteNotIn(List<Byte> values) {
+        public Criteria andIsDeleteNotIn(List<Integer> values) {
             addCriterion("is_delete not in", values, "isDelete");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeleteBetween(Byte value1, Byte value2) {
+        public Criteria andIsDeleteBetween(Integer value1, Integer value2) {
             addCriterion("is_delete between", value1, value2, "isDelete");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeleteNotBetween(Byte value1, Byte value2) {
+        public Criteria andIsDeleteNotBetween(Integer value1, Integer value2) {
             addCriterion("is_delete not between", value1, value2, "isDelete");
             return (Criteria) this;
         }

@@ -15,21 +15,21 @@ public class User {
 
     private String background;
 
-    private Byte gender;
+    private Integer gender;
 
     private String description;
 
     private Integer exp;
 
-    private Double coin;
+    private Integer coin;
 
-    private Byte vip;
+    private Integer vip;
 
-    private Byte state;
+    private Integer state;
 
-    private Byte role;
+    private Integer role;
 
-    private Byte auth;
+    private Integer auth;
 
     private String authMsg;
 
@@ -85,11 +85,11 @@ public class User {
         this.background = background;
     }
 
-    public Byte getGender() {
+    public Integer getGender() {
         return gender;
     }
 
-    public void setGender(Byte gender) {
+    public void setGender(Integer gender) {
         this.gender = gender;
     }
 
@@ -109,43 +109,43 @@ public class User {
         this.exp = exp;
     }
 
-    public Double getCoin() {
+    public Integer getCoin() {
         return coin;
     }
 
-    public void setCoin(Double coin) {
+    public void setCoin(Integer coin) {
         this.coin = coin;
     }
 
-    public Byte getVip() {
+    public Integer getVip() {
         return vip;
     }
 
-    public void setVip(Byte vip) {
+    public void setVip(Integer vip) {
         this.vip = vip;
     }
 
-    public Byte getState() {
+    public Integer getState() {
         return state;
     }
 
-    public void setState(Byte state) {
+    public void setState(Integer state) {
         this.state = state;
     }
 
-    public Byte getRole() {
+    public Integer getRole() {
         return role;
     }
 
-    public void setRole(Byte role) {
+    public void setRole(Integer role) {
         this.role = role;
     }
 
-    public Byte getAuth() {
+    public Integer getAuth() {
         return auth;
     }
 
-    public void setAuth(Byte auth) {
+    public void setAuth(Integer auth) {
         this.auth = auth;
     }
 

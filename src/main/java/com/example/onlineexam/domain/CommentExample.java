@@ -725,52 +725,52 @@ public class CommentExample {
             return (Criteria) this;
         }
 
-        public Criteria andIsTopEqualTo(Byte value) {
+        public Criteria andIsTopEqualTo(Integer value) {
             addCriterion("is_top =", value, "isTop");
             return (Criteria) this;
         }
 
-        public Criteria andIsTopNotEqualTo(Byte value) {
+        public Criteria andIsTopNotEqualTo(Integer value) {
             addCriterion("is_top <>", value, "isTop");
             return (Criteria) this;
         }
 
-        public Criteria andIsTopGreaterThan(Byte value) {
+        public Criteria andIsTopGreaterThan(Integer value) {
             addCriterion("is_top >", value, "isTop");
             return (Criteria) this;
         }
 
-        public Criteria andIsTopGreaterThanOrEqualTo(Byte value) {
+        public Criteria andIsTopGreaterThanOrEqualTo(Integer value) {
             addCriterion("is_top >=", value, "isTop");
             return (Criteria) this;
         }
 
-        public Criteria andIsTopLessThan(Byte value) {
+        public Criteria andIsTopLessThan(Integer value) {
             addCriterion("is_top <", value, "isTop");
             return (Criteria) this;
         }
 
-        public Criteria andIsTopLessThanOrEqualTo(Byte value) {
+        public Criteria andIsTopLessThanOrEqualTo(Integer value) {
             addCriterion("is_top <=", value, "isTop");
             return (Criteria) this;
         }
 
-        public Criteria andIsTopIn(List<Byte> values) {
+        public Criteria andIsTopIn(List<Integer> values) {
             addCriterion("is_top in", values, "isTop");
             return (Criteria) this;
         }
 
-        public Criteria andIsTopNotIn(List<Byte> values) {
+        public Criteria andIsTopNotIn(List<Integer> values) {
             addCriterion("is_top not in", values, "isTop");
             return (Criteria) this;
         }
 
-        public Criteria andIsTopBetween(Byte value1, Byte value2) {
+        public Criteria andIsTopBetween(Integer value1, Integer value2) {
             addCriterion("is_top between", value1, value2, "isTop");
             return (Criteria) this;
         }
 
-        public Criteria andIsTopNotBetween(Byte value1, Byte value2) {
+        public Criteria andIsTopNotBetween(Integer value1, Integer value2) {
             addCriterion("is_top not between", value1, value2, "isTop");
             return (Criteria) this;
         }
@@ -785,52 +785,52 @@ public class CommentExample {
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedEqualTo(Byte value) {
+        public Criteria andIsDeletedEqualTo(Integer value) {
             addCriterion("is_deleted =", value, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedNotEqualTo(Byte value) {
+        public Criteria andIsDeletedNotEqualTo(Integer value) {
             addCriterion("is_deleted <>", value, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedGreaterThan(Byte value) {
+        public Criteria andIsDeletedGreaterThan(Integer value) {
             addCriterion("is_deleted >", value, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedGreaterThanOrEqualTo(Byte value) {
+        public Criteria andIsDeletedGreaterThanOrEqualTo(Integer value) {
             addCriterion("is_deleted >=", value, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedLessThan(Byte value) {
+        public Criteria andIsDeletedLessThan(Integer value) {
             addCriterion("is_deleted <", value, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedLessThanOrEqualTo(Byte value) {
+        public Criteria andIsDeletedLessThanOrEqualTo(Integer value) {
             addCriterion("is_deleted <=", value, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedIn(List<Byte> values) {
+        public Criteria andIsDeletedIn(List<Integer> values) {
             addCriterion("is_deleted in", values, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedNotIn(List<Byte> values) {
+        public Criteria andIsDeletedNotIn(List<Integer> values) {
             addCriterion("is_deleted not in", values, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedBetween(Byte value1, Byte value2) {
+        public Criteria andIsDeletedBetween(Integer value1, Integer value2) {
             addCriterion("is_deleted between", value1, value2, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedNotBetween(Byte value1, Byte value2) {
+        public Criteria andIsDeletedNotBetween(Integer value1, Integer value2) {
             addCriterion("is_deleted not between", value1, value2, "isDeleted");
             return (Criteria) this;
         }

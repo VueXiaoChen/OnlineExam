@@ -11,13 +11,13 @@ public class UserVideo {
 
     private Integer play;
 
-    private Byte love;
+    private Integer love;
 
-    private Byte unlove;
+    private Integer unlove;
 
-    private Byte coin;
+    private Integer coin;
 
-    private Byte collect;
+    private Integer collect;
 
     private Date playTime;
 
@@ -57,35 +57,35 @@ public class UserVideo {
         this.play = play;
     }
 
-    public Byte getLove() {
+    public Integer getLove() {
         return love;
     }
 
-    public void setLove(Byte love) {
+    public void setLove(Integer love) {
         this.love = love;
     }
 
-    public Byte getUnlove() {
+    public Integer getUnlove() {
         return unlove;
     }
 
-    public void setUnlove(Byte unlove) {
+    public void setUnlove(Integer unlove) {
         this.unlove = unlove;
     }
 
-    public Byte getCoin() {
+    public Integer getCoin() {
         return coin;
     }
 
-    public void setCoin(Byte coin) {
+    public void setCoin(Integer coin) {
         this.coin = coin;
     }
 
-    public Byte getCollect() {
+    public Integer getCollect() {
         return collect;
     }
 
-    public void setCollect(Byte collect) {
+    public void setCollect(Integer collect) {
         this.collect = collect;
     }
 

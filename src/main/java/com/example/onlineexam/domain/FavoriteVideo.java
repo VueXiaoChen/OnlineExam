@@ -11,7 +11,7 @@ public class FavoriteVideo {
 
     private Date time;
 
-    private Byte isRemove;
+    private Integer isRemove;
 
     public Integer getId() {
         return id;
@@ -45,11 +45,11 @@ public class FavoriteVideo {
         this.time = time;
     }
 
-    public Byte getIsRemove() {
+    public Integer getIsRemove() {
         return isRemove;
     }
 
-    public void setIsRemove(Byte isRemove) {
+    public void setIsRemove(Integer isRemove) {
         this.isRemove = isRemove;
     }
 

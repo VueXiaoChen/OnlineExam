@@ -23,9 +23,9 @@ public class Comment {
 
     private Date createTime;
 
-    private Byte isTop;
+    private Integer isTop;
 
-    private Byte isDeleted;
+    private Integer isDeleted;
 
     public Integer getId() {
         return id;
@@ -107,19 +107,19 @@ public class Comment {
         this.createTime = createTime;
     }
 
-    public Byte getIsTop() {
+    public Integer getIsTop() {
         return isTop;
     }
 
-    public void setIsTop(Byte isTop) {
+    public void setIsTop(Integer isTop) {
         this.isTop = isTop;
     }
 
-    public Byte getIsDeleted() {
+    public Integer getIsDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(Byte isDeleted) {
+    public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
     }
 

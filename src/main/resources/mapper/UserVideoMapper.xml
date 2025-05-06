@@ -6,10 +6,10 @@
     <result column="uid" jdbcType="INTEGER" property="uid" />
     <result column="vid" jdbcType="INTEGER" property="vid" />
     <result column="play" jdbcType="INTEGER" property="play" />
-    <result column="love" jdbcType="TINYINT" property="love" />
-    <result column="unlove" jdbcType="TINYINT" property="unlove" />
-    <result column="coin" jdbcType="TINYINT" property="coin" />
-    <result column="collect" jdbcType="TINYINT" property="collect" />
+    <result column="love" jdbcType="INTEGER" property="love" />
+    <result column="unlove" jdbcType="INTEGER" property="unlove" />
+    <result column="coin" jdbcType="INTEGER" property="coin" />
+    <result column="collect" jdbcType="INTEGER" property="collect" />
     <result column="play_time" jdbcType="TIMESTAMP" property="playTime" />
     <result column="love_time" jdbcType="TIMESTAMP" property="loveTime" />
     <result column="coin_time" jdbcType="TIMESTAMP" property="coinTime" />
@@ -111,8 +111,8 @@
       coin, `collect`, play_time, 
       love_time, coin_time)
     values (#{id,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{vid,jdbcType=INTEGER}, 
-      #{play,jdbcType=INTEGER}, #{love,jdbcType=TINYINT}, #{unlove,jdbcType=TINYINT}, 
-      #{coin,jdbcType=TINYINT}, #{collect,jdbcType=TINYINT}, #{playTime,jdbcType=TIMESTAMP}, 
+      #{play,jdbcType=INTEGER}, #{love,jdbcType=INTEGER}, #{unlove,jdbcType=INTEGER}, 
+      #{coin,jdbcType=INTEGER}, #{collect,jdbcType=INTEGER}, #{playTime,jdbcType=TIMESTAMP}, 
       #{loveTime,jdbcType=TIMESTAMP}, #{coinTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.example.onlineexam.domain.UserVideo">
@@ -166,16 +166,16 @@
         #{play,jdbcType=INTEGER},
       </if>
       <if test="love != null">
-        #{love,jdbcType=TINYINT},
+        #{love,jdbcType=INTEGER},
       </if>
       <if test="unlove != null">
-        #{unlove,jdbcType=TINYINT},
+        #{unlove,jdbcType=INTEGER},
       </if>
       <if test="coin != null">
-        #{coin,jdbcType=TINYINT},
+        #{coin,jdbcType=INTEGER},
       </if>
       <if test="collect != null">
-        #{collect,jdbcType=TINYINT},
+        #{collect,jdbcType=INTEGER},
       </if>
       <if test="playTime != null">
         #{playTime,jdbcType=TIMESTAMP},
@@ -210,16 +210,16 @@
         play = #{row.play,jdbcType=INTEGER},
       </if>
       <if test="row.love != null">
-        love = #{row.love,jdbcType=TINYINT},
+        love = #{row.love,jdbcType=INTEGER},
       </if>
       <if test="row.unlove != null">
-        unlove = #{row.unlove,jdbcType=TINYINT},
+        unlove = #{row.unlove,jdbcType=INTEGER},
       </if>
       <if test="row.coin != null">
-        coin = #{row.coin,jdbcType=TINYINT},
+        coin = #{row.coin,jdbcType=INTEGER},
       </if>
       <if test="row.collect != null">
-        `collect` = #{row.collect,jdbcType=TINYINT},
+        `collect` = #{row.collect,jdbcType=INTEGER},
       </if>
       <if test="row.playTime != null">
         play_time = #{row.playTime,jdbcType=TIMESTAMP},
@@ -241,10 +241,10 @@
       `uid` = #{row.uid,jdbcType=INTEGER},
       vid = #{row.vid,jdbcType=INTEGER},
       play = #{row.play,jdbcType=INTEGER},
-      love = #{row.love,jdbcType=TINYINT},
-      unlove = #{row.unlove,jdbcType=TINYINT},
-      coin = #{row.coin,jdbcType=TINYINT},
-      `collect` = #{row.collect,jdbcType=TINYINT},
+      love = #{row.love,jdbcType=INTEGER},
+      unlove = #{row.unlove,jdbcType=INTEGER},
+      coin = #{row.coin,jdbcType=INTEGER},
+      `collect` = #{row.collect,jdbcType=INTEGER},
       play_time = #{row.playTime,jdbcType=TIMESTAMP},
       love_time = #{row.loveTime,jdbcType=TIMESTAMP},
       coin_time = #{row.coinTime,jdbcType=TIMESTAMP}
@@ -265,16 +265,16 @@
         play = #{play,jdbcType=INTEGER},
       </if>
       <if test="love != null">
-        love = #{love,jdbcType=TINYINT},
+        love = #{love,jdbcType=INTEGER},
       </if>
       <if test="unlove != null">
-        unlove = #{unlove,jdbcType=TINYINT},
+        unlove = #{unlove,jdbcType=INTEGER},
       </if>
       <if test="coin != null">
-        coin = #{coin,jdbcType=TINYINT},
+        coin = #{coin,jdbcType=INTEGER},
       </if>
       <if test="collect != null">
-        `collect` = #{collect,jdbcType=TINYINT},
+        `collect` = #{collect,jdbcType=INTEGER},
       </if>
       <if test="playTime != null">
         play_time = #{playTime,jdbcType=TIMESTAMP},
@@ -293,10 +293,10 @@
     set `uid` = #{uid,jdbcType=INTEGER},
       vid = #{vid,jdbcType=INTEGER},
       play = #{play,jdbcType=INTEGER},
-      love = #{love,jdbcType=TINYINT},
-      unlove = #{unlove,jdbcType=TINYINT},
-      coin = #{coin,jdbcType=TINYINT},
-      `collect` = #{collect,jdbcType=TINYINT},
+      love = #{love,jdbcType=INTEGER},
+      unlove = #{unlove,jdbcType=INTEGER},
+      coin = #{coin,jdbcType=INTEGER},
+      `collect` = #{collect,jdbcType=INTEGER},
       play_time = #{playTime,jdbcType=TIMESTAMP},
       love_time = #{loveTime,jdbcType=TIMESTAMP},
       coin_time = #{coinTime,jdbcType=TIMESTAMP}

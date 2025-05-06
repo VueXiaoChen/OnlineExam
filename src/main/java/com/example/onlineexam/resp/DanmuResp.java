@@ -46,7 +46,7 @@ public class DanmuResp {
     /**
      * 弹幕所在视频的时间点
      */
-    private String timePoint;
+    private Double timePoint;
 
     /**
      * 弹幕状态 1默认过审 2被举报审核中 3删除
@@ -115,11 +115,11 @@ public class DanmuResp {
         this.color = color;
     }
 
-    public String getTimePoint() {
+    public Double getTimePoint() {
         return timePoint;
     }
 
-    public void setTimePoint(String timePoint) {
+    public void setTimePoint(Double timePoint) {
         this.timePoint = timePoint;
     }
 

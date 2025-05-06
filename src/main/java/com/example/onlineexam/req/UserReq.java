@@ -63,7 +63,7 @@ public class UserReq extends PageReq{
      * 硬币数
      */
 
-    private String coin;
+    private Integer coin;
 
     /**
      * 会员类型 0普通用户 1月度大会员 2季度大会员 3年度大会员
@@ -179,11 +179,11 @@ public class UserReq extends PageReq{
         this.exp = exp;
     }
 
-    public String getCoin() {
+    public Integer getCoin() {
         return coin;
     }
 
-    public void setCoin(String coin) {
+    public void setCoin(Integer coin) {
         this.coin = coin;
     }
 

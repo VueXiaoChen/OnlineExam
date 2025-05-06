@@ -8,14 +8,14 @@
     <result column="nickname" jdbcType="VARCHAR" property="nickname" />
     <result column="avatar" jdbcType="VARCHAR" property="avatar" />
     <result column="background" jdbcType="VARCHAR" property="background" />
-    <result column="gender" jdbcType="TINYINT" property="gender" />
+    <result column="gender" jdbcType="INTEGER" property="gender" />
     <result column="description" jdbcType="VARCHAR" property="description" />
     <result column="exp" jdbcType="INTEGER" property="exp" />
-    <result column="coin" jdbcType="DOUBLE" property="coin" />
-    <result column="vip" jdbcType="TINYINT" property="vip" />
-    <result column="state" jdbcType="TINYINT" property="state" />
-    <result column="role" jdbcType="TINYINT" property="role" />
-    <result column="auth" jdbcType="TINYINT" property="auth" />
+    <result column="coin" jdbcType="INTEGER" property="coin" />
+    <result column="vip" jdbcType="INTEGER" property="vip" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="role" jdbcType="INTEGER" property="role" />
+    <result column="auth" jdbcType="INTEGER" property="auth" />
     <result column="auth_msg" jdbcType="VARCHAR" property="authMsg" />
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
     <result column="delete_date" jdbcType="TIMESTAMP" property="deleteDate" />
@@ -121,9 +121,9 @@
       delete_date)
     values (#{uid,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{nickname,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, #{background,jdbcType=VARCHAR}, 
-      #{gender,jdbcType=TINYINT}, #{description,jdbcType=VARCHAR}, #{exp,jdbcType=INTEGER}, 
-      #{coin,jdbcType=DOUBLE}, #{vip,jdbcType=TINYINT}, #{state,jdbcType=TINYINT}, #{role,jdbcType=TINYINT}, 
-      #{auth,jdbcType=TINYINT}, #{authMsg,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{gender,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR}, #{exp,jdbcType=INTEGER}, 
+      #{coin,jdbcType=INTEGER}, #{vip,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}, #{role,jdbcType=INTEGER}, 
+      #{auth,jdbcType=INTEGER}, #{authMsg,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
       #{deleteDate,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.example.onlineexam.domain.User">
@@ -201,7 +201,7 @@
         #{background,jdbcType=VARCHAR},
       </if>
       <if test="gender != null">
-        #{gender,jdbcType=TINYINT},
+        #{gender,jdbcType=INTEGER},
       </if>
       <if test="description != null">
         #{description,jdbcType=VARCHAR},
@@ -210,19 +210,19 @@
         #{exp,jdbcType=INTEGER},
       </if>
       <if test="coin != null">
-        #{coin,jdbcType=DOUBLE},
+        #{coin,jdbcType=INTEGER},
       </if>
       <if test="vip != null">
-        #{vip,jdbcType=TINYINT},
+        #{vip,jdbcType=INTEGER},
       </if>
       <if test="state != null">
-        #{state,jdbcType=TINYINT},
+        #{state,jdbcType=INTEGER},
       </if>
       <if test="role != null">
-        #{role,jdbcType=TINYINT},
+        #{role,jdbcType=INTEGER},
       </if>
       <if test="auth != null">
-        #{auth,jdbcType=TINYINT},
+        #{auth,jdbcType=INTEGER},
       </if>
       <if test="authMsg != null">
         #{authMsg,jdbcType=VARCHAR},
@@ -263,7 +263,7 @@
         background = #{row.background,jdbcType=VARCHAR},
       </if>
       <if test="row.gender != null">
-        gender = #{row.gender,jdbcType=TINYINT},
+        gender = #{row.gender,jdbcType=INTEGER},
       </if>
       <if test="row.description != null">
         description = #{row.description,jdbcType=VARCHAR},
@@ -272,19 +272,19 @@
         `exp` = #{row.exp,jdbcType=INTEGER},
       </if>
       <if test="row.coin != null">
-        coin = #{row.coin,jdbcType=DOUBLE},
+        coin = #{row.coin,jdbcType=INTEGER},
       </if>
       <if test="row.vip != null">
-        vip = #{row.vip,jdbcType=TINYINT},
+        vip = #{row.vip,jdbcType=INTEGER},
       </if>
       <if test="row.state != null">
-        `state` = #{row.state,jdbcType=TINYINT},
+        `state` = #{row.state,jdbcType=INTEGER},
       </if>
       <if test="row.role != null">
-        `role` = #{row.role,jdbcType=TINYINT},
+        `role` = #{row.role,jdbcType=INTEGER},
       </if>
       <if test="row.auth != null">
-        auth = #{row.auth,jdbcType=TINYINT},
+        auth = #{row.auth,jdbcType=INTEGER},
       </if>
       <if test="row.authMsg != null">
         auth_msg = #{row.authMsg,jdbcType=VARCHAR},
@@ -308,14 +308,14 @@
       nickname = #{row.nickname,jdbcType=VARCHAR},
       avatar = #{row.avatar,jdbcType=VARCHAR},
       background = #{row.background,jdbcType=VARCHAR},
-      gender = #{row.gender,jdbcType=TINYINT},
+      gender = #{row.gender,jdbcType=INTEGER},
       description = #{row.description,jdbcType=VARCHAR},
       `exp` = #{row.exp,jdbcType=INTEGER},
-      coin = #{row.coin,jdbcType=DOUBLE},
-      vip = #{row.vip,jdbcType=TINYINT},
-      `state` = #{row.state,jdbcType=TINYINT},
-      `role` = #{row.role,jdbcType=TINYINT},
-      auth = #{row.auth,jdbcType=TINYINT},
+      coin = #{row.coin,jdbcType=INTEGER},
+      vip = #{row.vip,jdbcType=INTEGER},
+      `state` = #{row.state,jdbcType=INTEGER},
+      `role` = #{row.role,jdbcType=INTEGER},
+      auth = #{row.auth,jdbcType=INTEGER},
       auth_msg = #{row.authMsg,jdbcType=VARCHAR},
       create_date = #{row.createDate,jdbcType=TIMESTAMP},
       delete_date = #{row.deleteDate,jdbcType=TIMESTAMP}
@@ -342,7 +342,7 @@
         background = #{background,jdbcType=VARCHAR},
       </if>
       <if test="gender != null">
-        gender = #{gender,jdbcType=TINYINT},
+        gender = #{gender,jdbcType=INTEGER},
       </if>
       <if test="description != null">
         description = #{description,jdbcType=VARCHAR},
@@ -351,19 +351,19 @@
         `exp` = #{exp,jdbcType=INTEGER},
       </if>
       <if test="coin != null">
-        coin = #{coin,jdbcType=DOUBLE},
+        coin = #{coin,jdbcType=INTEGER},
       </if>
       <if test="vip != null">
-        vip = #{vip,jdbcType=TINYINT},
+        vip = #{vip,jdbcType=INTEGER},
       </if>
       <if test="state != null">
-        `state` = #{state,jdbcType=TINYINT},
+        `state` = #{state,jdbcType=INTEGER},
       </if>
       <if test="role != null">
-        `role` = #{role,jdbcType=TINYINT},
+        `role` = #{role,jdbcType=INTEGER},
       </if>
       <if test="auth != null">
-        auth = #{auth,jdbcType=TINYINT},
+        auth = #{auth,jdbcType=INTEGER},
       </if>
       <if test="authMsg != null">
         auth_msg = #{authMsg,jdbcType=VARCHAR},
@@ -384,14 +384,14 @@
       nickname = #{nickname,jdbcType=VARCHAR},
       avatar = #{avatar,jdbcType=VARCHAR},
       background = #{background,jdbcType=VARCHAR},
-      gender = #{gender,jdbcType=TINYINT},
+      gender = #{gender,jdbcType=INTEGER},
       description = #{description,jdbcType=VARCHAR},
       `exp` = #{exp,jdbcType=INTEGER},
-      coin = #{coin,jdbcType=DOUBLE},
-      vip = #{vip,jdbcType=TINYINT},
-      `state` = #{state,jdbcType=TINYINT},
-      `role` = #{role,jdbcType=TINYINT},
-      auth = #{auth,jdbcType=TINYINT},
+      coin = #{coin,jdbcType=INTEGER},
+      vip = #{vip,jdbcType=INTEGER},
+      `state` = #{state,jdbcType=INTEGER},
+      `role` = #{role,jdbcType=INTEGER},
+      auth = #{auth,jdbcType=INTEGER},
       auth_msg = #{authMsg,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=TIMESTAMP},
       delete_date = #{deleteDate,jdbcType=TIMESTAMP}
