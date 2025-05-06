@@ -67,8 +67,8 @@
         <table tableName="zj_user_friends" domainObjectName="UserFriends"/>
         <table tableName="zj_users" domainObjectName="Users"/>
         <table tableName="t_log" domainObjectName="OperateLog"/>
-        <table tableName="t_log" domainObjectName="OperateLog"/>-->
-        <table tableName="category" domainObjectName="Category"/>
+        <table tableName="t_log" domainObjectName="OperateLog"/>
+
         <table tableName="chat" domainObjectName="Chat"/>
         <table tableName="chat_detailed" domainObjectName="ChatDetailed"/>
         <table tableName="comment" domainObjectName="Comment"/>
@@ -79,7 +79,9 @@
         <table tableName="users" domainObjectName="User"/>
         <table tableName="user_video" domainObjectName="UserVideo"/>
         <table tableName="video" domainObjectName="Video"/>
-        <table tableName="video_stats" domainObjectName="videoStats"/>
+        <table tableName="video_stats" domainObjectName="videoStats"/>-->
+
+        <table tableName="category" domainObjectName="Category"/>
 
 
 

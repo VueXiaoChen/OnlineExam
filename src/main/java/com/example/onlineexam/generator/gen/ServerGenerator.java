@@ -58,10 +58,10 @@ public class ServerGenerator {
             param.put("tableNameCn", tableNameCn);
             param.put("fieldList", fieldList);
             param.put("typeSet", typeSet);
-            gen(domainObjectNames.get(i), param, "req", "req");
-            gen(domainObjectNames.get(i), param, "resp", "resp");
-//            gen(domainObjectNames.get(i),param, "controller", "controller");
-//            gen(domainObjectNames.get(i),param, "service", "service");
+//            gen(domainObjectNames.get(i), param, "req", "req");
+//            gen(domainObjectNames.get(i), param, "resp", "resp");
+            gen(domainObjectNames.get(i),param, "controller", "controller");
+            gen(domainObjectNames.get(i),param, "service", "service");
         }
 
 
