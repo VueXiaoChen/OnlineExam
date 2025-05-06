@@ -4,12 +4,29 @@ import java.io.Serializable;
 
 //序列化，使用redis之后需要序列化
 public class UsersLoadingResp implements Serializable {
-    private Long userId;
+    private Long uid;
 
-    private String userName;
+    private String username;
 
     private Integer code = 0;
     private String token;
+
+    public Long getUid() {
+        return uid;
+    }
+
+    public void setUid(Long uid) {
+        this.uid = uid;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public Integer getCode() {
         return code;
     }
@@ -26,26 +43,11 @@ public class UsersLoadingResp implements Serializable {
         this.token = token;
     }
 
-    public Long getUserid() {
-        return userId;
-    }
-
-    public void setUserid(Long userid) {
-        this.userId = userid;
-    }
-
-    public String getUsername() {
-        return userName;
-    }
-
-    public void setUsername(String username) {
-        this.userName = username;
-    }
     @Override
     public String toString() {
-        return "UserLoadingResp{" +
-                "userid=" + userId +
-                ", username='" + userName + '\'' +
+        return "UsersLoadingResp{" +
+                "uid=" + uid +
+                ", username='" + username + '\'' +
                 ", code=" + code +
                 ", token='" + token + '\'' +
                 '}';

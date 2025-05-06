@@ -1,23 +1,31 @@
 package com.example.onlineexam.service;
 
 
+import cn.hutool.core.bean.BeanUtil;
 import com.example.onlineexam.domain.User;
 import com.example.onlineexam.domain.UserExample;
+import com.example.onlineexam.exception.BusinessException;
+import com.example.onlineexam.exception.BusinessExceptionCode;
 import com.example.onlineexam.mapper.UserMapper;
 import com.example.onlineexam.req.UserReq;
+import com.example.onlineexam.req.UsersLoadingReq;
 import com.example.onlineexam.resp.UserResp;
 import com.example.onlineexam.resp.PageResp;
+import com.example.onlineexam.resp.UsersLoadingResp;
 import com.example.onlineexam.util.CopyUtil;
+import com.example.onlineexam.util.JwtUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserService {
@@ -67,6 +75,47 @@ public class UserService {
     public void delete(Integer id) {
         //删除数据
         userMapper.deleteByPrimaryKey(id);
+    }
+
+    //判断名称重复的方法
+    public User selectByName(String name){
+        //固定写法
+        UserExample example = new UserExample();
+        //固定写法
+        UserExample.Criteria criteria = example.createCriteria();
+        //查询用户名
+        criteria.andUsernameEqualTo(name);
+        //返回查询的实体类
+        List<User> userList = userMapper.selectByExample(example);
+        //判断是否有数据
+        if(CollectionUtils.isEmpty(userList)){
+            return null;
+        }else{
+            return userList.get(0);
+        }
+    }
+    //登录
+    public UsersLoadingResp loading(UsersLoadingReq usersLoadingReq) {
+        User user = selectByName(usersLoadingReq.getUsername());
+        if(!ObjectUtils.isEmpty(user)){
+            //判断用户名是否一样
+            if(user.getPassword().equals(usersLoadingReq.getPassword())){
+                //登录成功
+                UsersLoadingResp usersLoadingResp = CopyUtil.copy(user,UsersLoadingResp.class);
+                Map<String,Object> map =BeanUtil.beanToMap(usersLoadingResp);
+                usersLoadingResp.setUid(Long.valueOf(user.getUid()));
+                usersLoadingResp.setUsername(user.getUsername());
+                String token = JwtUtil.createToken(usersLoadingResp.getUid(),usersLoadingResp.getUsername());
+                usersLoadingResp.setToken(token);
+                LOG.info("登录成功");
+                return usersLoadingResp;
+            }else{
+                //账号或者密码错误
+                throw new BusinessException(BusinessExceptionCode.LOGIN_USER_ERROR);
+            }
+        }else{
+            throw new BusinessException(BusinessExceptionCode.LOGIN_USER_ERROR);
+        }
     }
 
 }
