@@ -1,12 +1,12 @@
 package com.example.onlineexam.controller;
 
 
-import com.example.onlineexam.mapper.OperateLogMapper;
-import com.example.onlineexam.req.OperateLogReq;
+import com.example.onlineexam.mapper.${Domain}Mapper;
+import com.example.onlineexam.req.${Domain}Req;
 import com.example.onlineexam.resp.CommonResp;
-import com.example.onlineexam.resp.OperateLogResp;
+import com.example.onlineexam.resp.${Domain}Resp;
 import com.example.onlineexam.resp.PageResp;
-import com.example.onlineexam.service.OperateLogService;
+import com.example.onlineexam.service.${Domain}Service;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
@@ -15,19 +15,19 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/operateLog")
-public class OperateLogController {
+@RequestMapping("/${domain}")
+public class ${Domain}Controller {
     @Resource
-    private OperateLogService operateLogService;
+    private ${Domain}Service ${domain}Service;
     @Autowired
-    private OperateLogMapper operateLogMapper;
+    private ${Domain}Mapper ${domain}Mapper;
     @GetMapping("/list")
     //@Valid  开启参数检验
-    public CommonResp list(@Validated OperateLogReq operateLogReq) {
+    public CommonResp list(@Validated ${Domain}Req ${domain}Req) {
         //返回信息里面定义返回的类型
-        CommonResp<PageResp<OperateLogResp>> resp = new CommonResp<>();
+        CommonResp<PageResp<${Domain}Resp>> resp = new CommonResp<>();
         //接收数据库返回的数据
-        PageResp<OperateLogResp> data = operateLogService.list(operateLogReq);
+        PageResp<${Domain}Resp> data = ${domain}Service.list(${domain}Req);
         //将信息添加到返回信息里
         resp.setMessage("获取成功");
         //将信息添加到返回信息里
@@ -37,13 +37,13 @@ public class OperateLogController {
 
     @PostMapping("/save")
     //@RequestBody  定义传过来的参数是实体类
-    public CommonResp save(@Validated @RequestBody OperateLogReq operateLogReq) {
+    public CommonResp save(@Validated @RequestBody ${Domain}Req ${domain}Req) {
         //返回信息里面定义返回的类型
         CommonResp resp = new CommonResp<>();
         //保存数据
-        operateLogService.save(operateLogReq);
+        ${domain}Service.save(${domain}Req);
         //将信息添加到返回信息里
-        if (ObjectUtils.isEmpty(operateLogReq.getLogId())) {
+        if (ObjectUtils.isEmpty(${domain}Req.getLogId())) {
 
             resp.setMessage("保存成功");
         } else {
@@ -61,7 +61,7 @@ public class OperateLogController {
         //返回信息里面定义返回的类型
         CommonResp resp = new CommonResp<>();
         //删除数据
-        operateLogService.delete(id);
+        ${domain}Service.delete(id);
         //将信息添加到返回信息里
         resp.setMessage("删除成功");
         resp.setData("");
