@@ -34,7 +34,7 @@ public class OperateLogService {
         //分页(获取从页面传来的数据)
         PageHelper.startPage(operateLogReq.getPage(), operateLogReq.getSize());
         //类接收返回的数据
-        List<OperateLog> sortsList = operateLogMapper.selectByExampleWithBLOBs(example);
+        List<OperateLog> sortsList = operateLogMapper.selectByExample(example);
         //将返回的数据进行封装,某些信息是不需要返回的
         List<OperateLogResp> data = CopyUtil.copyList(sortsList, OperateLogResp.class);
         //定义分页获取总数
@@ -64,10 +64,9 @@ public class OperateLogService {
     }
 
     //删除数据
-    public void delete(long id) {
+    public void delete(Long id) {
         //删除数据
         operateLogMapper.deleteByPrimaryKey(id);
     }
-
 
 }

@@ -34,7 +34,7 @@ public class ${Domain}Service {
         //分页(获取从页面传来的数据)
         PageHelper.startPage(${domain}Req.getPage(), ${domain}Req.getSize());
         //类接收返回的数据
-        List<${Domain}> sortsList = ${domain}Mapper.selectByExampleWithBLOBs(example);
+        List<${Domain}> sortsList = ${domain}Mapper.selectByExample(example);
         //将返回的数据进行封装,某些信息是不需要返回的
         List<${Domain}Resp> data = CopyUtil.copyList(sortsList, ${Domain}Resp.class);
         //定义分页获取总数
@@ -49,22 +49,22 @@ public class ${Domain}Service {
     }
     //增加修改数据
     public void save(${Domain}Req ${domain}Req) {
-        ${Domain} $${domain} = CopyUtil.copy(${domain}Req, ${Domain}.class);
+        ${Domain} ${domain} = CopyUtil.copy(${domain}Req, ${Domain}.class);
         //固定写法
         ${Domain}Example example = new ${Domain}Example();
         //固定写法
         ${Domain}Example.Criteria criteria = example.createCriteria();
         //增加数据
-        if (ObjectUtils.isEmpty(${domain}Req.getLogId())) {
-            ${domain}Mapper.insertSelective($${domain});
+        if (ObjectUtils.isEmpty(${domain}Req.)) {
+            ${domain}Mapper.insertSelective(${domain});
         } else {
             //更新数据
-            ${domain}Mapper.updateByPrimaryKeySelective($${domain});
+            ${domain}Mapper.updateByPrimaryKeySelective(${domain});
         }
     }
 
     //删除数据
-    public void delete(long id) {
+    public void delete(Integer id) {
         //删除数据
         ${domain}Mapper.deleteByPrimaryKey(id);
     }

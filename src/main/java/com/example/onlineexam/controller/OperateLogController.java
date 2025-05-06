@@ -57,7 +57,7 @@ public class OperateLogController {
     //单个删除
     @GetMapping("/delete/{id}")
     //@PathVariable与{blogId}是绑定的
-    public CommonResp delete(@PathVariable long id) {
+    public CommonResp delete(@PathVariable Long id) {
         //返回信息里面定义返回的类型
         CommonResp resp = new CommonResp<>();
         //删除数据

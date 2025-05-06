@@ -43,7 +43,7 @@ public class ${Domain}Controller {
         //保存数据
         ${domain}Service.save(${domain}Req);
         //将信息添加到返回信息里
-        if (ObjectUtils.isEmpty(${domain}Req.getLogId())) {
+        if (ObjectUtils.isEmpty(${domain}Req.)) {
 
             resp.setMessage("保存成功");
         } else {
@@ -57,7 +57,7 @@ public class ${Domain}Controller {
     //单个删除
     @GetMapping("/delete/{id}")
     //@PathVariable与{blogId}是绑定的
-    public CommonResp delete(@PathVariable long id) {
+    public CommonResp delete(@PathVariable Integer id) {
         //返回信息里面定义返回的类型
         CommonResp resp = new CommonResp<>();
         //删除数据
