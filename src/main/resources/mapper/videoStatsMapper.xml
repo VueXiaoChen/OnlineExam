@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.onlineexam.mapper.videoStatsMapper">
+  <resultMap id="BaseResultMap" type="com.example.onlineexam.domain.videoStats">
+    <id column="vid" jdbcType="INTEGER" property="vid" />
+    <result column="play" jdbcType="INTEGER" property="play" />
+    <result column="danmu" jdbcType="INTEGER" property="danmu" />
+    <result column="good" jdbcType="INTEGER" property="good" />
+    <result column="bad" jdbcType="INTEGER" property="bad" />
+    <result column="coin" jdbcType="INTEGER" property="coin" />
+    <result column="collect" jdbcType="INTEGER" property="collect" />
+    <result column="share" jdbcType="INTEGER" property="share" />
+    <result column="comment" jdbcType="INTEGER" property="comment" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    vid, play, danmu, good, bad, coin, `collect`, `share`, `comment`
+  </sql>
+  <select id="selectByExample" parameterType="com.example.onlineexam.domain.videoStatsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from video_stats
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from video_stats
+    where vid = #{vid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from video_stats
+    where vid = #{vid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.example.onlineexam.domain.videoStatsExample">
+    delete from video_stats
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.example.onlineexam.domain.videoStats">
+    insert into video_stats (vid, play, danmu, 
+      good, bad, coin, `collect`, 
+      `share`, `comment`)
+    values (#{vid,jdbcType=INTEGER}, #{play,jdbcType=INTEGER}, #{danmu,jdbcType=INTEGER}, 
+      #{good,jdbcType=INTEGER}, #{bad,jdbcType=INTEGER}, #{coin,jdbcType=INTEGER}, #{collect,jdbcType=INTEGER}, 
+      #{share,jdbcType=INTEGER}, #{comment,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.onlineexam.domain.videoStats">
+    insert into video_stats
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="vid != null">
+        vid,
+      </if>
+      <if test="play != null">
+        play,
+      </if>
+      <if test="danmu != null">
+        danmu,
+      </if>
+      <if test="good != null">
+        good,
+      </if>
+      <if test="bad != null">
+        bad,
+      </if>
+      <if test="coin != null">
+        coin,
+      </if>
+      <if test="collect != null">
+        `collect`,
+      </if>
+      <if test="share != null">
+        `share`,
+      </if>
+      <if test="comment != null">
+        `comment`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="vid != null">
+        #{vid,jdbcType=INTEGER},
+      </if>
+      <if test="play != null">
+        #{play,jdbcType=INTEGER},
+      </if>
+      <if test="danmu != null">
+        #{danmu,jdbcType=INTEGER},
+      </if>
+      <if test="good != null">
+        #{good,jdbcType=INTEGER},
+      </if>
+      <if test="bad != null">
+        #{bad,jdbcType=INTEGER},
+      </if>
+      <if test="coin != null">
+        #{coin,jdbcType=INTEGER},
+      </if>
+      <if test="collect != null">
+        #{collect,jdbcType=INTEGER},
+      </if>
+      <if test="share != null">
+        #{share,jdbcType=INTEGER},
+      </if>
+      <if test="comment != null">
+        #{comment,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.example.onlineexam.domain.videoStatsExample" resultType="java.lang.Long">
+    select count(*) from video_stats
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update video_stats
+    <set>
+      <if test="row.vid != null">
+        vid = #{row.vid,jdbcType=INTEGER},
+      </if>
+      <if test="row.play != null">
+        play = #{row.play,jdbcType=INTEGER},
+      </if>
+      <if test="row.danmu != null">
+        danmu = #{row.danmu,jdbcType=INTEGER},
+      </if>
+      <if test="row.good != null">
+        good = #{row.good,jdbcType=INTEGER},
+      </if>
+      <if test="row.bad != null">
+        bad = #{row.bad,jdbcType=INTEGER},
+      </if>
+      <if test="row.coin != null">
+        coin = #{row.coin,jdbcType=INTEGER},
+      </if>
+      <if test="row.collect != null">
+        `collect` = #{row.collect,jdbcType=INTEGER},
+      </if>
+      <if test="row.share != null">
+        `share` = #{row.share,jdbcType=INTEGER},
+      </if>
+      <if test="row.comment != null">
+        `comment` = #{row.comment,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="example != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update video_stats
+    set vid = #{row.vid,jdbcType=INTEGER},
+      play = #{row.play,jdbcType=INTEGER},
+      danmu = #{row.danmu,jdbcType=INTEGER},
+      good = #{row.good,jdbcType=INTEGER},
+      bad = #{row.bad,jdbcType=INTEGER},
+      coin = #{row.coin,jdbcType=INTEGER},
+      `collect` = #{row.collect,jdbcType=INTEGER},
+      `share` = #{row.share,jdbcType=INTEGER},
+      `comment` = #{row.comment,jdbcType=INTEGER}
+    <if test="example != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.onlineexam.domain.videoStats">
+    update video_stats
+    <set>
+      <if test="play != null">
+        play = #{play,jdbcType=INTEGER},
+      </if>
+      <if test="danmu != null">
+        danmu = #{danmu,jdbcType=INTEGER},
+      </if>
+      <if test="good != null">
+        good = #{good,jdbcType=INTEGER},
+      </if>
+      <if test="bad != null">
+        bad = #{bad,jdbcType=INTEGER},
+      </if>
+      <if test="coin != null">
+        coin = #{coin,jdbcType=INTEGER},
+      </if>
+      <if test="collect != null">
+        `collect` = #{collect,jdbcType=INTEGER},
+      </if>
+      <if test="share != null">
+        `share` = #{share,jdbcType=INTEGER},
+      </if>
+      <if test="comment != null">
+        `comment` = #{comment,jdbcType=INTEGER},
+      </if>
+    </set>
+    where vid = #{vid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.onlineexam.domain.videoStats">
+    update video_stats
+    set play = #{play,jdbcType=INTEGER},
+      danmu = #{danmu,jdbcType=INTEGER},
+      good = #{good,jdbcType=INTEGER},
+      bad = #{bad,jdbcType=INTEGER},
+      coin = #{coin,jdbcType=INTEGER},
+      `collect` = #{collect,jdbcType=INTEGER},
+      `share` = #{share,jdbcType=INTEGER},
+      `comment` = #{comment,jdbcType=INTEGER}
+    where vid = #{vid,jdbcType=INTEGER}
+  </update>
+</mapper>

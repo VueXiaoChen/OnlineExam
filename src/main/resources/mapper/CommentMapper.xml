@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.onlineexam.mapper.CommentMapper">
+  <resultMap id="BaseResultMap" type="com.example.onlineexam.domain.Comment">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="vid" jdbcType="INTEGER" property="vid" />
+    <result column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="root_id" jdbcType="INTEGER" property="rootId" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="to_user_id" jdbcType="INTEGER" property="toUserId" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="love" jdbcType="INTEGER" property="love" />
+    <result column="bad" jdbcType="INTEGER" property="bad" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="is_top" jdbcType="TINYINT" property="isTop" />
+    <result column="is_deleted" jdbcType="TINYINT" property="isDeleted" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, vid, `uid`, root_id, parent_id, to_user_id, content, love, bad, create_time, 
+    is_top, is_deleted
+  </sql>
+  <select id="selectByExample" parameterType="com.example.onlineexam.domain.CommentExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from comment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from comment
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from comment
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.example.onlineexam.domain.CommentExample">
+    delete from comment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.example.onlineexam.domain.Comment">
+    insert into comment (id, vid, `uid`, 
+      root_id, parent_id, to_user_id, 
+      content, love, bad, 
+      create_time, is_top, is_deleted
+      )
+    values (#{id,jdbcType=INTEGER}, #{vid,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, 
+      #{rootId,jdbcType=INTEGER}, #{parentId,jdbcType=INTEGER}, #{toUserId,jdbcType=INTEGER}, 
+      #{content,jdbcType=VARCHAR}, #{love,jdbcType=INTEGER}, #{bad,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{isTop,jdbcType=TINYINT}, #{isDeleted,jdbcType=TINYINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.onlineexam.domain.Comment">
+    insert into comment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="vid != null">
+        vid,
+      </if>
+      <if test="uid != null">
+        `uid`,
+      </if>
+      <if test="rootId != null">
+        root_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="toUserId != null">
+        to_user_id,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="love != null">
+        love,
+      </if>
+      <if test="bad != null">
+        bad,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="isTop != null">
+        is_top,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="vid != null">
+        #{vid,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null">
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="rootId != null">
+        #{rootId,jdbcType=INTEGER},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="toUserId != null">
+        #{toUserId,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="love != null">
+        #{love,jdbcType=INTEGER},
+      </if>
+      <if test="bad != null">
+        #{bad,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isTop != null">
+        #{isTop,jdbcType=TINYINT},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.example.onlineexam.domain.CommentExample" resultType="java.lang.Long">
+    select count(*) from comment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update comment
+    <set>
+      <if test="row.id != null">
+        id = #{row.id,jdbcType=INTEGER},
+      </if>
+      <if test="row.vid != null">
+        vid = #{row.vid,jdbcType=INTEGER},
+      </if>
+      <if test="row.uid != null">
+        `uid` = #{row.uid,jdbcType=INTEGER},
+      </if>
+      <if test="row.rootId != null">
+        root_id = #{row.rootId,jdbcType=INTEGER},
+      </if>
+      <if test="row.parentId != null">
+        parent_id = #{row.parentId,jdbcType=INTEGER},
+      </if>
+      <if test="row.toUserId != null">
+        to_user_id = #{row.toUserId,jdbcType=INTEGER},
+      </if>
+      <if test="row.content != null">
+        content = #{row.content,jdbcType=VARCHAR},
+      </if>
+      <if test="row.love != null">
+        love = #{row.love,jdbcType=INTEGER},
+      </if>
+      <if test="row.bad != null">
+        bad = #{row.bad,jdbcType=INTEGER},
+      </if>
+      <if test="row.createTime != null">
+        create_time = #{row.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="row.isTop != null">
+        is_top = #{row.isTop,jdbcType=TINYINT},
+      </if>
+      <if test="row.isDeleted != null">
+        is_deleted = #{row.isDeleted,jdbcType=TINYINT},
+      </if>
+    </set>
+    <if test="example != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update comment
+    set id = #{row.id,jdbcType=INTEGER},
+      vid = #{row.vid,jdbcType=INTEGER},
+      `uid` = #{row.uid,jdbcType=INTEGER},
+      root_id = #{row.rootId,jdbcType=INTEGER},
+      parent_id = #{row.parentId,jdbcType=INTEGER},
+      to_user_id = #{row.toUserId,jdbcType=INTEGER},
+      content = #{row.content,jdbcType=VARCHAR},
+      love = #{row.love,jdbcType=INTEGER},
+      bad = #{row.bad,jdbcType=INTEGER},
+      create_time = #{row.createTime,jdbcType=TIMESTAMP},
+      is_top = #{row.isTop,jdbcType=TINYINT},
+      is_deleted = #{row.isDeleted,jdbcType=TINYINT}
+    <if test="example != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.onlineexam.domain.Comment">
+    update comment
+    <set>
+      <if test="vid != null">
+        vid = #{vid,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null">
+        `uid` = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="rootId != null">
+        root_id = #{rootId,jdbcType=INTEGER},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="toUserId != null">
+        to_user_id = #{toUserId,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="love != null">
+        love = #{love,jdbcType=INTEGER},
+      </if>
+      <if test="bad != null">
+        bad = #{bad,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isTop != null">
+        is_top = #{isTop,jdbcType=TINYINT},
+      </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.onlineexam.domain.Comment">
+    update comment
+    set vid = #{vid,jdbcType=INTEGER},
+      `uid` = #{uid,jdbcType=INTEGER},
+      root_id = #{rootId,jdbcType=INTEGER},
+      parent_id = #{parentId,jdbcType=INTEGER},
+      to_user_id = #{toUserId,jdbcType=INTEGER},
+      content = #{content,jdbcType=VARCHAR},
+      love = #{love,jdbcType=INTEGER},
+      bad = #{bad,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      is_top = #{isTop,jdbcType=TINYINT},
+      is_deleted = #{isDeleted,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
