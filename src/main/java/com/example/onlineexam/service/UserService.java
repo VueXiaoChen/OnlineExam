@@ -14,6 +14,7 @@ import com.example.onlineexam.resp.PageResp;
 import com.example.onlineexam.resp.UsersLoadingResp;
 import com.example.onlineexam.util.CopyUtil;
 import com.example.onlineexam.util.JwtUtil;
+import com.example.onlineexam.util.SnowFlake;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
@@ -34,6 +35,8 @@ public class UserService {
 
     @Resource
     public UserMapper userMapper;
+    @Resource
+    private SnowFlake snowFlake;
 
     public PageResp<UserResp> list(UserReq userReq) {
         //固定写法
@@ -63,19 +66,22 @@ public class UserService {
         UserExample example = new UserExample();
         //固定写法
         UserExample.Criteria criteria = example.createCriteria();
-        //增加数据
-        if (ObjectUtils.isEmpty(userReq.getUid())) {
-            userMapper.insertSelective(user);
-        } else {
-            //更新数据
-            //判断修改的用户名是否重复
-            User usernickdto = selectByName(userReq.getNickname());
-            if(ObjectUtils.isEmpty(usernickdto)){
-                userMapper.updateByPrimaryKeySelective(user);
+        //判断修改的用户名是否重复
+        User usernickdto = selectByName(userReq.getUsername());
+        //增加数据需要判断传过来的用户名是否被用过
+        if(ObjectUtils.isEmpty(usernickdto)){
+            if(ObjectUtils.isEmpty(userReq.getUid())){
+                user.setCreateDate(new Date());
+                user.setVip(0);
+                user.setState(0);
+                user.setRole(0);
+                user.setAuth(0);
+                userMapper.insertSelective(user);
             }else{
-                throw new BusinessException(BusinessExceptionCode.USER_USERNAME_ERROR);
+                userMapper.updateByPrimaryKeySelective(user);
             }
-
+        }else{
+            throw new BusinessException(BusinessExceptionCode.USER_USERNAME_ERROR);
         }
     }
 
@@ -86,13 +92,13 @@ public class UserService {
     }
 
     //判断名称重复的方法
-    public User selectByName(String name){
+    public User selectByName(String username){
         //固定写法
         UserExample example = new UserExample();
         //固定写法
         UserExample.Criteria criteria = example.createCriteria();
         //查询用户名
-        criteria.andUsernameEqualTo(name);
+        criteria.andUsernameEqualTo(username);
         //返回查询的实体类
         List<User> userList = userMapper.selectByExample(example);
         //判断是否有数据
