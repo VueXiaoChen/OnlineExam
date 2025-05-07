@@ -18,24 +18,9 @@ public class UserResp {
     private String username;
 
     /**
-     * 用户密码
-     */
-    private String password;
-
-    /**
      * 用户昵称
      */
     private String nickname;
-
-    /**
-     * 用户头像url
-     */
-    private String avatar;
-
-    /**
-     * 主页背景图url
-     */
-    private String background;
 
     /**
      * 性别 0女 1男 2未知
@@ -88,11 +73,6 @@ public class UserResp {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date createDate;
 
-    /**
-     * 注销时间
-     */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
-    private Date deleteDate;
 
     public Integer getUid() {
         return uid;
@@ -110,13 +90,6 @@ public class UserResp {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public String getNickname() {
         return nickname;
@@ -126,21 +99,6 @@ public class UserResp {
         this.nickname = nickname;
     }
 
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-    public String getBackground() {
-        return background;
-    }
-
-    public void setBackground(String background) {
-        this.background = background;
-    }
 
     public Integer getGender() {
         return gender;
@@ -222,13 +180,6 @@ public class UserResp {
         this.createDate = createDate;
     }
 
-    public Date getDeleteDate() {
-        return deleteDate;
-    }
-
-    public void setDeleteDate(Date deleteDate) {
-        this.deleteDate = deleteDate;
-    }
 
     @Override
     public String toString() {
@@ -238,10 +189,7 @@ public class UserResp {
         sb.append("Hash = ").append(hashCode());
         sb.append(", uid=").append(uid);
         sb.append(", username=").append(username);
-        sb.append(", password=").append(password);
         sb.append(", nickname=").append(nickname);
-        sb.append(", avatar=").append(avatar);
-        sb.append(", background=").append(background);
         sb.append(", gender=").append(gender);
         sb.append(", description=").append(description);
         sb.append(", exp=").append(exp);
@@ -252,7 +200,6 @@ public class UserResp {
         sb.append(", auth=").append(auth);
         sb.append(", authMsg=").append(authMsg);
         sb.append(", createDate=").append(createDate);
-        sb.append(", deleteDate=").append(deleteDate);
         sb.append("]");
         return sb.toString();
     }

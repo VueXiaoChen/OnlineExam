@@ -53,6 +53,14 @@
             </exclusions>
         </dependency>
 
+
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-common</artifactId>
+            <version>4.1.108.Final</version> <!-- 替换为最新版本 -->
+        </dependency>
+
+
         <!-- 模板引擎freemarker -->
         <dependency>
             <groupId>org.freemarker</groupId>
@@ -142,6 +150,18 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.70</version>
         </dependency>
+        <!--JSON解析器-->
+        <dependency>
+            <groupId>com.alibaba.fastjson2</groupId>
+            <artifactId>fastjson2</artifactId>
+            <version>2.0.40</version>
+        </dependency>
+        <!--一些常用工具类的包装-->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.13.0</version>
+        </dependency>
         <!-- pagehelper 插件-->
         <dependency>
             <groupId>com.github.pagehelper</groupId>
@@ -179,11 +199,6 @@
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-
             <!-- mybatis generator 自动生成代码插件 -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>

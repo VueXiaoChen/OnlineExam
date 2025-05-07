@@ -46,10 +46,8 @@ public class UserController {
         userService.save(userReq);
         //将信息添加到返回信息里
         if (ObjectUtils.isEmpty(userReq.getUid())) {
-
             resp.setMessage("保存成功");
         } else {
-
             resp.setMessage("修改成功");
         }
         //将信息添加到返回信息里
@@ -80,6 +78,18 @@ public class UserController {
         resp.setData(userService.loading(usersLoadingReq));
         //将信息添加到返回信息里
         resp.setMessage("登录成功");
+        return resp;
+    }
+
+
+    @GetMapping("/info/{uid}")
+    //@PathVariable与{blogId}是绑定的
+    public CommonResp getUserById(@PathVariable Integer uid) {
+        //返回信息里面定义返回的类型
+        CommonResp<UserResp> resp = new CommonResp<>();
+        resp.setData(userService.getUserById(uid));
+        //将信息添加到返回信息里
+        resp.setMessage("查询成功");
         return resp;
     }
 }

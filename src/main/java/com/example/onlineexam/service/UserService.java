@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.List;
@@ -67,7 +68,14 @@ public class UserService {
             userMapper.insertSelective(user);
         } else {
             //更新数据
-            userMapper.updateByPrimaryKeySelective(user);
+            //判断修改的用户名是否重复
+            User usernickdto = selectByName(userReq.getNickname());
+            if(ObjectUtils.isEmpty(usernickdto)){
+                userMapper.updateByPrimaryKeySelective(user);
+            }else{
+                throw new BusinessException(BusinessExceptionCode.USER_USERNAME_ERROR);
+            }
+
         }
     }
 
@@ -117,5 +125,33 @@ public class UserService {
             throw new BusinessException(BusinessExceptionCode.LOGIN_USER_ERROR);
         }
     }
+
+    /**
+     * 根据uid查询用户信息
+     * @param uid 用户ID
+     * @return 用户可见信息实体类 UserDTO
+     */
+    public UserResp getUserById(Integer uid){
+      User user = userMapper.selectByPrimaryKey(uid);
+      //判断数据是否为孔或者null
+      if(ObjectUtils.isEmpty(user)){
+          throw new BusinessException(BusinessExceptionCode.USER_INFO_ERROR);
+      }else{
+          UserResp userResp = CopyUtil.copy(user,UserResp.class);
+          return userResp;
+      }
+    }
+
+    /**
+     * 更新用户头像
+     * @param uid
+     * @param file
+     * @return
+     */
+    public void updateUserAvatar(Integer uid, MultipartFile file){
+        //TODO 没有oss暂时不做该功能
+    }
+
+
 
 }

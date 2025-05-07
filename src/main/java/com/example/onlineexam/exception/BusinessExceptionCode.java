@@ -3,9 +3,6 @@ package com.example.onlineexam.exception;
 public enum BusinessExceptionCode {
 
     USER_LOGIN_NAME_EXIST("登录名已存在"),
-    USER_EMPLOY_NAME_EXIST("企业名已存在"),
-    USER_POSITION_NAME_EXIST("职位已存在"),
-    USER_COLLECT_EXIST("你已经收藏过该职业"),
     USER__NAME_EXIST("账号已存在"),
 
     LOGIN_USER_ERROR("用户名不存在或密码错误"),
@@ -20,7 +17,11 @@ public enum BusinessExceptionCode {
     STARTJOBERROE("启动定时任务失败"),
     EXECUTEJOBERROE("执行定时任务失败"),
     DELETEJOBERROE("删除定时任务失败"),
-    ;
+
+
+
+    USER_INFO_ERROR("没有此用户信息"),
+    USER_USERNAME_ERROR("已有该用户名");
 
     private String desc;
 
