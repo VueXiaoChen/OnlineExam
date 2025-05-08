@@ -54,12 +54,6 @@
         </dependency>
 
 
-        <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-common</artifactId>
-            <version>4.1.108.Final</version> <!-- 替换为最新版本 -->
-        </dependency>
-
 
         <!-- 模板引擎freemarker -->
         <dependency>
@@ -176,10 +170,24 @@
             <version>3.5.0</version>
         </dependency>
         <!--整合redis-->
+        <!--redis-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.lettuce</groupId>
+                    <artifactId>lettuce-core</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
+        <!--lettuce-->
+        <dependency>
+            <groupId>io.lettuce</groupId>
+            <artifactId>lettuce-core</artifactId>
+            <version>6.5.0.RC1</version>
+        </dependency>
+
 
         <dependency>
             <groupId>org.projectlombok</groupId>

@@ -1,6 +1,7 @@
 package com.example.onlineexam.controller;
 
 
+import com.example.onlineexam.domain.CommentTree;
 import com.example.onlineexam.mapper.CommentMapper;
 import com.example.onlineexam.req.CommentReq;
 import com.example.onlineexam.resp.CommonResp;
@@ -12,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -44,7 +47,6 @@ public class CommentController {
         commentService.save(commentReq);
         //将信息添加到返回信息里
         if (ObjectUtils.isEmpty(commentReq.getId())) {
-
             resp.setMessage("保存成功");
         } else {
 
@@ -65,6 +67,19 @@ public class CommentController {
         //将信息添加到返回信息里
         resp.setMessage("删除成功");
         resp.setData("");
+        return resp;
+    }
+    @GetMapping("/getcomment/{vid}/{offset}/{type}")
+    //@PathVariable与{blogId}是绑定的
+    public CommonResp getCommentTreeByVid(@PathVariable Integer vid, @PathVariable Long offset, @PathVariable Integer type) {
+        //返回信息里面定义返回的类型
+        CommonResp resp = new CommonResp<>();
+        //删除数据
+        List<CommentTree> data =  commentService.getCommentTreeByVid(vid,offset,type);
+        resp.setData(data);
+        //将信息添加到返回信息里
+        resp.setMessage("获取评论成功");
+
         return resp;
     }
 }

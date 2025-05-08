@@ -26,6 +26,7 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -67,7 +68,7 @@ public class UserService {
         //固定写法
         UserExample.Criteria criteria = example.createCriteria();
         //判断修改的用户名是否重复
-        User usernickdto = selectByName(userReq.getUsername());
+        User usernickdto = selectByName(userReq.getUsername(),userReq.getNickname());
         //增加数据需要判断传过来的用户名是否被用过
         if(ObjectUtils.isEmpty(usernickdto)){
             if(ObjectUtils.isEmpty(userReq.getUid())){
@@ -92,13 +93,17 @@ public class UserService {
     }
 
     //判断名称重复的方法
-    public User selectByName(String username){
+    public User selectByName(String username,String nickname){
         //固定写法
         UserExample example = new UserExample();
         //固定写法
         UserExample.Criteria criteria = example.createCriteria();
+        //固定写法
+        UserExample.Criteria criteria2 = example.createCriteria();
         //查询用户名
         criteria.andUsernameEqualTo(username);
+        criteria2.andNicknameEqualTo(nickname);
+        example.or(criteria2);
         //返回查询的实体类
         List<User> userList = userMapper.selectByExample(example);
         //判断是否有数据
@@ -110,7 +115,7 @@ public class UserService {
     }
     //登录
     public UsersLoadingResp loading(UsersLoadingReq usersLoadingReq) {
-        User user = selectByName(usersLoadingReq.getUsername());
+        User user = selectByName(usersLoadingReq.getUsername(),"");
         if(!ObjectUtils.isEmpty(user)){
             //判断用户名是否一样
             if(user.getPassword().equals(usersLoadingReq.getPassword())){
