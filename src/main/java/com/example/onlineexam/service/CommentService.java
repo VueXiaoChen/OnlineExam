@@ -1,5 +1,7 @@
 package com.example.onlineexam.service;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.onlineexam.domain.Comment;
 import com.example.onlineexam.domain.CommentExample;
@@ -11,29 +13,41 @@ import com.example.onlineexam.resp.PageResp;
 import com.example.onlineexam.util.CopyUtil;
 import com.example.onlineexam.util.RedisUtil;
 import com.example.onlineexam.util.RedisUtils;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import io.netty.channel.Channel;
 import jakarta.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 
 @Service
 public class CommentService {
     private static final Logger LOG = (Logger) LoggerFactory.getLogger(CommentService.class);
 
+    private final ObjectMapper objectMapper = new ObjectMapper();
     @Resource
     public CommentMapper commentMapper;
     @Autowired
     private RedisUtils redisUtils;
+
+    @Autowired
+    @Qualifier("taskExecutor")
+    private Executor taskExecutor;
 
 
     public PageResp<CommentResp> list(CommentReq commentReq) {
@@ -41,6 +55,9 @@ public class CommentService {
         CommentExample example = new CommentExample();
         //固定写法
         CommentExample.Criteria criteria = example.createCriteria();
+        if (!ObjectUtils.isEmpty(commentReq.getVid())) {
+            criteria.andVidEqualTo(commentReq.getVid());
+        }
         //分页(获取从页面传来的数据)
         PageHelper.startPage(commentReq.getPage(), commentReq.getSize());
         //类接收返回的数据
@@ -179,22 +196,42 @@ public class CommentService {
             // 按时间排序查询分页数据
             rootIdsSet = redisUtils.zReverange("comment_video:" + vid, offset, offset + 9L);
         }
-
         if (rootIdsSet == null || rootIdsSet.isEmpty()) {
             return Collections.emptyList();
         }
 
         // 转换为List<Integer>便于后续查询
         List<Integer> rootIds = rootIdsSet.stream()
-                .map(obj -> Integer.valueOf(obj.toString()))
-                .collect(Collectors.toList());
+                .filter(Objects::nonNull)  // 过滤null
+                .flatMap(obj -> {
+                    try {
+                        // 1. 将对象转为JSON字符串
+                        String objJson = JSON.toJSONString(obj);
+                        // 2. 解析JSON为Comment列表（兼容单个对象和数组）
+                        List<Comment> comments;
+                        if (objJson.trim().startsWith("[")) {
+                            comments = JSON.parseArray(objJson, Comment.class);
+                        } else {
+                            Comment comment = JSON.parseObject(objJson, Comment.class);
+                            comments = Collections.singletonList(comment);
+                        }
+                        // 3. 提取所有有效id
+                        return comments.stream()
+                                .filter(c -> c != null && c.getId() != null)
+                                .map(Comment::getId);
 
+                    } catch (Exception e) {
+                        return Stream.empty();  // 解析失败时返回空流
+                    }
+                })
+                .collect(Collectors.toList());
+        LOG.info("rootIds:{}",rootIds);
         // 使用CommentExample构建查询条件
         CommentExample example = new CommentExample();
         CommentExample.Criteria criteria = example.createCriteria();
 
         // 基础条件：ID在rootIds中且未删除
-        criteria.andIdIn(rootIds).andIsDeletedNotEqualTo(1);
+        criteria.andIdIn(rootIds).andIsDeletedNotEqualTo(0);
 
         // 根据类型设置排序
         if (type == 1) {
@@ -207,6 +244,30 @@ public class CommentService {
 
         return commentMapper.selectByExample(example);
     }
-
-
+    @Transactional
+    public CommentTree sendComment(CommentReq commentReq) {
+        if (commentReq.getContent() == null || commentReq.getContent().length() == 0 || commentReq.getContent().length() > 2000) return null;
+        Comment comment = CopyUtil.copy(commentReq, Comment.class);
+        commentMapper.insert(comment);
+        CommentTree commentTree = buildCommentTree(comment, 0L, -1L);
+        try {
+            CompletableFuture.runAsync(() -> {
+                // 如果不是根级评论，则加入 redis 对应的 zset 中
+                if (!commentReq.getRootId().equals(0)) {
+                    redisUtils.zset("comment_reply:" + commentReq.getRootId(), comment.getId());
+                } else {
+                    redisUtils.zset("comment_video:"+ commentReq.getVid(), comment.getId());
+                }
+                // 表示被回复的用户收到的回复评论的 id 有序集合
+                // 如果不是回复自己
+                if(!Objects.equals(comment.getToUserId(), comment.getUid())) {
+                    redisUtils.zset("reply_zset:" + comment.getToUserId(), comment.getId());
+                }
+            }, taskExecutor);
+        } catch (Exception e) {
+            LOG.info("发送评论过程中出现一点差错");
+            e.printStackTrace();
+        }
+        return commentTree;
+    }
 }
