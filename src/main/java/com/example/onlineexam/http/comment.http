@@ -2,24 +2,6 @@
 GET http://localhost:8080/comment/list?page=1&size=20&vid=3
 
 ###
-POST http://localhost:8080/comment/save
-Content-Type: application/json
-
-{
-  "vid": 101,
-  "uid": 1009,
-  "rootId": 0,
-  "parentId": 0,
-  "toUserId": 0,
-  "content": "广告内容",
-  "love": 0,
-  "bad": 10,
-  "createTime": "2024-05-20 14:55:00",
-  "isTop": 0,
-  "isDeleted": 1
-}
-
-###
 ###
 GET http://localhost:8080/comment/getcomment/3/0/0
 
@@ -30,14 +12,14 @@ POST http://localhost:8080/comment/add
 Content-Type: application/json
 
 {
-  "vid": 3,
-  "uid": 20,
+  "vid": 4,
+  "uid": 19,
   "rootId": 0,
   "parentId": 0,
   "toUserId": 0,
-  "content": "我是谁啊啊啊啊啊11111",
-  "love": 0,
-  "bad": 0,
+  "content": "豆腐干大概111111111111",
+  "love": 10,
+  "bad": 5,
   "createTime": "2024-05-20 14:55:00",
   "isTop": 0,
   "isDeleted": 0

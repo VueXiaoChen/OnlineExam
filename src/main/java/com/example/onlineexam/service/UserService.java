@@ -3,6 +3,7 @@ package com.example.onlineexam.service;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.example.onlineexam.domain.User;
+import com.example.onlineexam.domain.UserDTO;
 import com.example.onlineexam.domain.UserExample;
 import com.example.onlineexam.exception.BusinessException;
 import com.example.onlineexam.exception.BusinessExceptionCode;
@@ -14,21 +15,25 @@ import com.example.onlineexam.resp.PageResp;
 import com.example.onlineexam.resp.UsersLoadingResp;
 import com.example.onlineexam.util.CopyUtil;
 import com.example.onlineexam.util.JwtUtil;
+import com.example.onlineexam.util.RedisUtils;
 import com.example.onlineexam.util.SnowFlake;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -38,6 +43,11 @@ public class UserService {
     public UserMapper userMapper;
     @Resource
     private SnowFlake snowFlake;
+    @Autowired
+    private RedisUtils redisUtils;
+    @Autowired
+    @Qualifier("taskExecutor")
+    private Executor taskExecutor;
 
     public PageResp<UserResp> list(UserReq userReq) {
         //固定写法
@@ -136,22 +146,97 @@ public class UserService {
             throw new BusinessException(BusinessExceptionCode.LOGIN_USER_ERROR);
         }
     }
-
     /**
      * 根据uid查询用户信息
-     * @param uid 用户ID
+     * @param id 用户ID
      * @return 用户可见信息实体类 UserDTO
      */
-    public UserResp getUserById(Integer uid){
-      User user = userMapper.selectByPrimaryKey(uid);
-      //判断数据是否为孔或者null
-      if(ObjectUtils.isEmpty(user)){
-          throw new BusinessException(BusinessExceptionCode.USER_INFO_ERROR);
-      }else{
-          UserResp userResp = CopyUtil.copy(user,UserResp.class);
-          return userResp;
-      }
+    public UserDTO getUserById(Integer id) {
+        // 从redis中获取最新数据
+        User user = redisUtils.getObject("user:" + id, User.class);
+        // 如果redis中没有user数据，就从mysql中获取并更新到redis
+        if (user == null) {
+            user = userMapper.selectByPrimaryKey(id);
+            if (user == null) {
+                return null;    // 如果uid不存在则返回空
+            }
+            User finalUser = user;
+            CompletableFuture.runAsync(() -> {
+                redisUtils.setExObjectValue("user:" + finalUser.getUid(), finalUser);  // 默认存活1小时
+            }, taskExecutor);
+        }
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUid(user.getUid());
+        userDTO.setState(user.getState());
+        if (user.getState() == 2) {
+            userDTO.setNickname("账号已注销");
+            userDTO.setAvatar_url("https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png");
+            userDTO.setBg_url("https://tinypic.host/images/2023/11/15/69PB2Q5W9D2U7L.png");
+            userDTO.setGender(2);
+            userDTO.setDescription("-");
+            userDTO.setExp(0);
+            userDTO.setCoin((double) 0);
+            userDTO.setVip(0);
+            userDTO.setAuth(0);
+            userDTO.setVideoCount(0);
+            userDTO.setFollowsCount(0);
+            userDTO.setFansCount(0);
+            userDTO.setLoveCount(0);
+            userDTO.setPlayCount(0);
+            return userDTO;
+        }
+        userDTO.setNickname(user.getNickname());
+        userDTO.setAvatar_url(user.getAvatar());
+        userDTO.setBg_url(user.getBackground());
+        userDTO.setGender(user.getGender());
+        userDTO.setDescription(user.getDescription());
+        userDTO.setExp(user.getExp());
+        userDTO.setCoin(Double.valueOf(user.getCoin()));
+        userDTO.setVip(user.getVip());
+        userDTO.setAuth(user.getAuth());
+        userDTO.setAuthMsg(user.getAuthMsg());
+        userDTO.setFollowsCount(0);
+        userDTO.setFansCount(0);
+        Set<Object> set = redisUtils.zReverange("user_video_upload:" + user.getUid(), 0L, -1L);
+        if (set == null || set.size() == 0) {
+            userDTO.setVideoCount(0);
+            userDTO.setLoveCount(0);
+            userDTO.setPlayCount(0);
+            return userDTO;
+        }
+
+//        // 并发执行每个视频数据统计的查询任务
+//        List<VideoStats> list = set.stream().parallel()
+//                .map(vid -> videoStatsService.getVideoStatsById((Integer) vid))
+//                .collect(Collectors.toList());
+//
+//        int video = list.size(), love = 0, play = 0;
+//        for (VideoStats videoStats : list) {
+//            love = love + videoStats.getGood();
+//            play = play + videoStats.getPlay();
+//        }
+//        userDTO.setVideoCount(video);
+//        userDTO.setLoveCount(love);
+//        userDTO.setPlayCount(play);
+
+        return userDTO;
     }
+
+//    /**
+//     * 根据uid查询用户信息
+//     * @param uid 用户ID
+//     * @return 用户可见信息实体类 UserDTO
+//     */
+//    public UserResp getUserById(Integer uid){
+//      User user = userMapper.selectByPrimaryKey(uid);
+//      //判断数据是否为孔或者null
+//      if(ObjectUtils.isEmpty(user)){
+//          throw new BusinessException(BusinessExceptionCode.USER_INFO_ERROR);
+//      }else{
+//          UserResp userResp = CopyUtil.copy(user,UserResp.class);
+//          return userResp;
+//      }
+//    }
 
     /**
      * 更新用户头像

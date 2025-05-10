@@ -119,7 +119,8 @@
       #{createTime,jdbcType=TIMESTAMP}, #{isTop,jdbcType=INTEGER}, #{isDeleted,jdbcType=INTEGER}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.example.onlineexam.domain.Comment">
+  <insert id="insertSelective" parameterType="com.example.onlineexam.domain.Comment"  useGeneratedKeys="true"
+          keyColumn="id" keyProperty="id">
     insert into comment
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

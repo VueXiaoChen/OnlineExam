@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
+import java.sql.*;
 import java.util.*;
 
 @Component
@@ -36,5 +37,6 @@ public class Test {
         webSocsService.sendInfo("我是测试webSocket的","55555555555");
         LOG.info("每隔5秒执行一次:{}",dateString);
     }*/
+
 
 }

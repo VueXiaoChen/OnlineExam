@@ -1,6 +1,7 @@
 package com.example.onlineexam.controller;
 
 
+import com.example.onlineexam.domain.UserDTO;
 import com.example.onlineexam.mapper.UserMapper;
 import com.example.onlineexam.req.UserReq;
 import com.example.onlineexam.req.UsersLoadingReq;
@@ -86,7 +87,7 @@ public class UserController {
     //@PathVariable与{blogId}是绑定的
     public CommonResp getUserById(@PathVariable Integer uid) {
         //返回信息里面定义返回的类型
-        CommonResp<UserResp> resp = new CommonResp<>();
+        CommonResp<UserDTO> resp = new CommonResp<>();
         resp.setData(userService.getUserById(uid));
         //将信息添加到返回信息里
         resp.setMessage("查询成功");

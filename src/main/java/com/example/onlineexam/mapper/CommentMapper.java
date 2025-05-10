@@ -1,11 +1,12 @@
 package com.example.onlineexam.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.onlineexam.domain.Comment;
 import com.example.onlineexam.domain.CommentExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
-public interface CommentMapper {
+public interface CommentMapper extends BaseMapper<Comment>{
     long countByExample(CommentExample example);
 
     int deleteByExample(CommentExample example);
