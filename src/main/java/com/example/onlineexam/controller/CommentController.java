@@ -120,4 +120,28 @@ public class CommentController {
 
         return resp;
     }
+    /**
+     * 删除评论
+     * @param id 评论id
+     * @return  响应对象
+     */
+    @GetMapping("/deletes/{id}")
+    public CommonResp delComment(@PathVariable("id") Integer id) {
+        Integer loginUid = 25;
+        return commentService.deleteComment(id, loginUid, false);
+    }
+
+    /**
+     * 展开更多回复评论
+     * @param id 根评论id
+     * @return 完整的一棵包含全部评论的评论树
+     */
+    @GetMapping("/reply/getmore/{id}")
+    public CommonResp getMoreCommentById(@PathVariable("id") Integer id) {
+        CommonResp<CommentTree> commonResp = new CommonResp<>();
+        commonResp.setMessage("获取成功");
+        commonResp.setData(commentService.getMoreCommentsById(id));
+        return commonResp;
+    }
+
 }

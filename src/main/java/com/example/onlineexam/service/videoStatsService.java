@@ -1,6 +1,7 @@
 package com.example.onlineexam.service;
 
 
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.example.onlineexam.domain.videoStats;
 import com.example.onlineexam.domain.videoStatsExample;
 import com.example.onlineexam.mapper.videoStatsMapper;
@@ -8,11 +9,13 @@ import com.example.onlineexam.req.videoStatsReq;
 import com.example.onlineexam.resp.videoStatsResp;
 import com.example.onlineexam.resp.PageResp;
 import com.example.onlineexam.util.CopyUtil;
+import com.example.onlineexam.util.RedisUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -25,6 +28,8 @@ public class videoStatsService {
 
     @Resource
     public videoStatsMapper videoStatsMapper;
+    @Autowired
+    private RedisUtils redisUtils;
 
     public PageResp<videoStatsResp> list(videoStatsReq videoStatsReq) {
         //固定写法
@@ -67,6 +72,19 @@ public class videoStatsService {
     public void delete(Integer id) {
         //删除数据
         videoStatsMapper.deleteByPrimaryKey(id);
+    }
+
+    /**
+     * 更新指定字段
+     * @param vid   视频ID
+     * @param column    对应数据库的列名
+     * @param increase  是否增加，true则增加 false则减少
+     * @param count 增减数量 一般是1，只有投币可以加2
+     */
+
+    public void updateStats(Integer vid, String column, boolean increase, Integer count) {
+        videoStatsMapper.updateStatsDynamic(vid, column, count, increase);
+        redisUtils.delValue("videoStats:" + vid);
     }
 
 }

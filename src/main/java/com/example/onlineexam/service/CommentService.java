@@ -3,12 +3,16 @@ package com.example.onlineexam.service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.example.onlineexam.domain.Comment;
 import com.example.onlineexam.domain.CommentExample;
 import com.example.onlineexam.domain.CommentTree;
+import com.example.onlineexam.domain.Video;
 import com.example.onlineexam.mapper.CommentMapper;
+import com.example.onlineexam.mapper.VideoMapper;
 import com.example.onlineexam.req.CommentReq;
 import com.example.onlineexam.resp.CommentResp;
+import com.example.onlineexam.resp.CommonResp;
 import com.example.onlineexam.resp.PageResp;
 import com.example.onlineexam.util.CopyUtil;
 import com.example.onlineexam.util.RedisUtil;
@@ -44,6 +48,15 @@ public class CommentService {
     public CommentMapper commentMapper;
     @Autowired
     private RedisUtils redisUtils;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private VideoMapper videoMapper;
+
+    @Autowired
+    private videoStatsService videoStatsService;
 
     @Autowired
     @Qualifier("taskExecutor")
@@ -132,8 +145,8 @@ public class CommentService {
         tree.setLove(comment.getLove());
         tree.setBad(comment.getBad());
 
-        //tree.setUser(userService.getUserById(comment.getUid()));
-        //tree.setToUser(userService.getUserById(comment.getToUserId()));
+        tree.setUser(userService.getUserById(comment.getUid()));
+        tree.setToUser(userService.getUserById(comment.getToUserId()));
 
         // 递归查询构建子评论树
         // 这里如果是根节点的评论，则查出他的子评论； 如果不是根节点评论，则不查，只填写 User 信息。
@@ -201,29 +214,41 @@ public class CommentService {
         }
 
         // 转换为List<Integer>便于后续查询
-        List<Integer> rootIds = rootIdsSet.stream()
-                .filter(Objects::nonNull)  // 过滤null
-                .flatMap(obj -> {
-                    try {
-                        // 1. 将对象转为JSON字符串
-                        String objJson = JSON.toJSONString(obj);
-                        // 2. 解析JSON为Comment列表（兼容单个对象和数组）
-                        List<Comment> comments;
-                        if (objJson.trim().startsWith("[")) {
-                            comments = JSON.parseArray(objJson, Comment.class);
-                        } else {
-                            Comment comment = JSON.parseObject(objJson, Comment.class);
-                            comments = Collections.singletonList(comment);
-                        }
-                        // 3. 提取所有有效id
-                        return comments.stream()
-                                .filter(c -> c != null && c.getId() != null)
-                                .map(Comment::getId);
+//        List<Integer> rootIds = rootIdsSet.stream()
+//                .filter(Objects::nonNull)  // 过滤null
+//                .flatMap(obj -> {
+//                    try {
+//                        // 1. 将对象转为JSON字符串
+//                        String objJson = JSON.toJSONString(obj);
+//                        // 2. 解析JSON为Comment列表（兼容单个对象和数组）
+//                        List<Comment> comments;
+//                        if (objJson.trim().startsWith("[")) {
+//                            comments = JSON.parseArray(objJson, Comment.class);
+//                        } else {
+//                            Comment comment = JSON.parseObject(objJson, Comment.class);
+//                            comments = Collections.singletonList(comment);
+//                        }
+//                        // 3. 提取所有有效id
+//                        return comments.stream()
+//                                .filter(c -> c != null && c.getId() != null)
+//                                .map(Comment::getId);
+//
+//                    } catch (Exception e) {
+//                        return Stream.empty();  // 解析失败时返回空流
+//                    }
+//                })
+//                .collect(Collectors.toList());
 
-                    } catch (Exception e) {
-                        return Stream.empty();  // 解析失败时返回空流
+        List<Integer> rootIds = rootIdsSet.stream()
+                .filter(Objects::nonNull)
+                .map(obj -> {
+                    try {
+                        return Integer.parseInt(obj.toString());
+                    } catch (NumberFormatException e) {
+                        return null;
                     }
                 })
+                .filter(Objects::nonNull)
                 .collect(Collectors.toList());
         LOG.info("rootIds:{}",rootIds);
         // 使用CommentExample构建查询条件
@@ -231,7 +256,7 @@ public class CommentService {
         CommentExample.Criteria criteria = example.createCriteria();
 
         // 基础条件：ID在rootIds中且未删除
-        criteria.andIdIn(rootIds).andIsDeletedNotEqualTo(0);
+        criteria.andIdIn(rootIds).andIsDeletedNotEqualTo(1);
 
         // 根据类型设置排序
         if (type == 1) {
@@ -244,7 +269,16 @@ public class CommentService {
 
         return commentMapper.selectByExample(example);
     }
-    @Transactional
+    /**
+     * 获取更多回复评论
+     * @param id 根评论id
+     * @return  包含全部回复评论的评论树
+     */
+    public CommentTree getMoreCommentsById(Integer id) {
+        Comment comment = commentMapper.selectById(id);
+        return buildCommentTree(comment, 0L, -1L);
+    }
+
     public CommentTree sendComment(CommentReq commentReq) {
         if (commentReq.getContent() == null || commentReq.getContent().length() == 0 || commentReq.getContent().length() > 2000) return null;
         Comment comment = CopyUtil.copy(commentReq, Comment.class);
@@ -269,5 +303,51 @@ public class CommentService {
             e.printStackTrace();
         }
         return commentTree;
+    }
+    public CommonResp deleteComment(Integer id, Integer uid, boolean isAdmin) {
+        CommonResp customResponse = new CommonResp();
+        // 使用Example查询评论是否存在
+        CommentExample example = new CommentExample();
+        CommentExample.Criteria criteria = example.createCriteria();
+        criteria.andIdEqualTo(id).andIsDeletedNotEqualTo(1); // is_deleted != 1
+        List<Comment> comments = commentMapper.selectByExample(example);
+        if (comments == null || comments.isEmpty()) {
+            customResponse.setSuccess(false);
+            customResponse.setMessage("评论不存在");
+            return customResponse;
+        }
+        Comment comment = comments.get(0);
+        // 权限校验
+        Video video = videoMapper.selectByPrimaryKey(comment.getVid());
+        if (Objects.equals(comment.getUid(), uid) || isAdmin || Objects.equals(video.getUid(), uid)) {
+            // 更新is_deleted状态
+            Comment updateComment = new Comment();
+            updateComment.setIsDeleted(1); // 标记为删除
+            CommentExample updateExample = new CommentExample();
+            updateExample.createCriteria()
+                    .andIdEqualTo(comment.getId());
+
+            commentMapper.updateByExampleSelective(updateComment, updateExample);
+            /* 处理关联数据 */
+            if (Objects.equals(comment.getRootId(), 0)) {
+                // 根评论处理
+                int count = Math.toIntExact(redisUtils.zCard("comment_reply:" + comment.getId()));
+                videoStatsService.updateStats(comment.getVid(), "comment", false, count + 1);
+                redisUtils.zsetDelMember("comment_video:" + comment.getVid(), comment.getId());
+                redisUtils.delValue("comment_reply:" + comment.getId());
+            } else {
+                // 子评论处理
+                videoStatsService.updateStats(comment.getVid(), "comment", false, 1);
+                redisUtils.zsetDelMember("comment_reply:" + comment.getRootId(), comment.getId());
+            }
+
+            customResponse.setSuccess(true);
+            customResponse.setMessage("删除成功!");
+        } else {
+            customResponse.setSuccess(false);
+            customResponse.setMessage("你无权删除该条评论");
+        }
+
+        return customResponse;
     }
 }

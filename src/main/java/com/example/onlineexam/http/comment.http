@@ -3,21 +3,32 @@ GET http://localhost:8080/comment/list?page=1&size=20&vid=3
 
 ###
 ###
-GET http://localhost:8080/comment/getcomment/3/0/0
+GET http://localhost:8080/comment/getcomment/3/0/1
 
 ###
+
+###
+GET http://localhost:8080/comment/reply/getmore/346206221
+
+###
+
+###
+GET http://localhost:8080/comment/deletes/1294098454
+
+###
+
 
 ###
 POST http://localhost:8080/comment/add
 Content-Type: application/json
 
 {
-  "vid": 4,
-  "uid": 19,
+  "vid": 3,
+  "uid": 33,
   "rootId": 0,
   "parentId": 0,
   "toUserId": 0,
-  "content": "豆腐干大概111111111111",
+  "content": "33",
   "love": 10,
   "bad": 5,
   "createTime": "2024-05-20 14:55:00",

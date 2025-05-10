@@ -27,4 +27,11 @@ public interface videoStatsMapper {
     int updateByPrimaryKeySelective(videoStats row);
 
     int updateByPrimaryKey(videoStats row);
+
+    int updateStatsDynamic(
+            @Param("vid") int vid,
+            @Param("column") String column,
+            @Param("count") int count,
+            @Param("increase") boolean increase
+    );
 }

@@ -270,4 +270,17 @@
       `comment` = #{comment,jdbcType=INTEGER}
     where vid = #{vid,jdbcType=INTEGER}
   </update>
+  <update id="updateStatsDynamic">
+    UPDATE video_stats
+    SET ${column} =
+    <choose>
+      <when test="increase">
+        ${column} + #{count}
+      </when>
+      <otherwise>
+        CASE WHEN ${column} - #{count} &lt; 0 THEN 0 ELSE ${column} - #{count} END
+      </otherwise>
+    </choose>
+    WHERE vid = #{vid}
+  </update>
 </mapper>
