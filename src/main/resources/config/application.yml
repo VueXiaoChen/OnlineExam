@@ -46,8 +46,8 @@ oss:
     # 地域节点
     endpoint: http://oss-cn-beijing.aliyuncs.com
     # 有访问权限的用户的 access-key-id
-    keyId: LTAI5tPD1Yb5b14rJgg86xh3
+    keyId: "1"
     # 有访问权限的用户的 access-key-Secret
-    keySecret: zV5e43qOlZUZ2m2mKMwTIhcwCihni4
+    keySecret: "2"
     # ossClient实例维持的空闲时间，单位毫秒，超过会自动关闭释放资源
     idleTimeout: 10000
