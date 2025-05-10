@@ -79,7 +79,7 @@
         <table tableName="users" domainObjectName="User"/>
         <table tableName="user_video" domainObjectName="UserVideo"/>
         <table tableName="video" domainObjectName="Video"/>
-        <table tableName="video_stats" domainObjectName="videoStats"/>-->
+        <table tableName="video_stats" domainObjectName="VideoStats"/>-->
 
         <table tableName="category" domainObjectName="Category"/>
 

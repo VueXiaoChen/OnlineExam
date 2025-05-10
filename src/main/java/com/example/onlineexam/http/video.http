@@ -1,0 +1,20 @@
+###
+GET http://localhost:8080/video/getone/3
+
+###
+POST http://localhost:8080/video/save
+Content-Type: application/json
+
+{
+  "username": "22221",
+  "password": "1234",
+  "nickname": "1231",
+  "gender": 1
+
+}
+
+###
+###
+GET http://localhost:8080/video/info/2
+
+###

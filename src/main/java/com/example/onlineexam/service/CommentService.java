@@ -1,9 +1,5 @@
 package com.example.onlineexam.service;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson2.JSONObject;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.example.onlineexam.domain.Comment;
 import com.example.onlineexam.domain.CommentExample;
 import com.example.onlineexam.domain.CommentTree;
@@ -15,28 +11,22 @@ import com.example.onlineexam.resp.CommentResp;
 import com.example.onlineexam.resp.CommonResp;
 import com.example.onlineexam.resp.PageResp;
 import com.example.onlineexam.util.CopyUtil;
-import com.example.onlineexam.util.RedisUtil;
 import com.example.onlineexam.util.RedisUtils;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import io.netty.channel.Channel;
 import jakarta.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 
 @Service
@@ -56,7 +46,7 @@ public class CommentService {
     private VideoMapper videoMapper;
 
     @Autowired
-    private videoStatsService videoStatsService;
+    private VideoStatsService videoStatsService;
 
     @Autowired
     @Qualifier("taskExecutor")

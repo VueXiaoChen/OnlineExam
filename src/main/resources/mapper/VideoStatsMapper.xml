@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.onlineexam.mapper.videoStatsMapper">
-  <resultMap id="BaseResultMap" type="com.example.onlineexam.domain.videoStats">
+<mapper namespace="com.example.onlineexam.mapper.VideoStatsMapper">
+  <resultMap id="BaseResultMap" type="com.example.onlineexam.domain.VideoStats">
     <id column="vid" jdbcType="INTEGER" property="vid" />
     <result column="play" jdbcType="INTEGER" property="play" />
     <result column="danmu" jdbcType="INTEGER" property="danmu" />
@@ -73,7 +73,7 @@
   <sql id="Base_Column_List">
     vid, play, danmu, good, bad, coin, `collect`, `share`, `comment`
   </sql>
-  <select id="selectByExample" parameterType="com.example.onlineexam.domain.videoStatsExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.example.onlineexam.domain.VideoStatsExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -97,13 +97,13 @@
     delete from video_stats
     where vid = #{vid,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.example.onlineexam.domain.videoStatsExample">
+  <delete id="deleteByExample" parameterType="com.example.onlineexam.domain.VideoStatsExample">
     delete from video_stats
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.example.onlineexam.domain.videoStats">
+  <insert id="insert" parameterType="com.example.onlineexam.domain.VideoStats">
     insert into video_stats (vid, play, danmu, 
       good, bad, coin, `collect`, 
       `share`, `comment`)
@@ -111,7 +111,7 @@
       #{good,jdbcType=INTEGER}, #{bad,jdbcType=INTEGER}, #{coin,jdbcType=INTEGER}, #{collect,jdbcType=INTEGER}, 
       #{share,jdbcType=INTEGER}, #{comment,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.example.onlineexam.domain.videoStats">
+  <insert id="insertSelective" parameterType="com.example.onlineexam.domain.VideoStats">
     insert into video_stats
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="vid != null">
@@ -172,7 +172,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.example.onlineexam.domain.videoStatsExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.example.onlineexam.domain.VideoStatsExample" resultType="java.lang.Long">
     select count(*) from video_stats
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -228,7 +228,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.example.onlineexam.domain.videoStats">
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.onlineexam.domain.VideoStats">
     update video_stats
     <set>
       <if test="play != null">
@@ -258,7 +258,7 @@
     </set>
     where vid = #{vid,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.example.onlineexam.domain.videoStats">
+  <update id="updateByPrimaryKey" parameterType="com.example.onlineexam.domain.VideoStats">
     update video_stats
     set play = #{play,jdbcType=INTEGER},
       danmu = #{danmu,jdbcType=INTEGER},

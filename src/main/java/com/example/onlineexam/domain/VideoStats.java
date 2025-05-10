@@ -1,6 +1,6 @@
 package com.example.onlineexam.domain;
 
-public class videoStats {
+public class VideoStats {
     private Integer vid;
 
     private Integer play;

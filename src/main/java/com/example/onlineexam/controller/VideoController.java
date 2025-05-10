@@ -1,6 +1,7 @@
 package com.example.onlineexam.controller;
 
 
+import com.example.onlineexam.domain.Video;
 import com.example.onlineexam.mapper.VideoMapper;
 import com.example.onlineexam.req.VideoReq;
 import com.example.onlineexam.resp.CommonResp;
@@ -12,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 
 @RestController
@@ -66,5 +69,28 @@ public class VideoController {
         resp.setMessage("删除成功");
         resp.setData("");
         return resp;
+    }
+    /**
+     * 获取单条视频的信息
+     * @param vid   视频vid
+     * @return  视频信息
+     */
+    @GetMapping("/getone/{vid}")
+    public CommonResp getOneVideo(@PathVariable("vid") Integer vid) {
+        CommonResp commonResp = new CommonResp();
+        Map<String, Object> map = videoService.getVideoWithDataById(vid);
+        if (map == null) {
+            commonResp.setCode(404);
+            commonResp.setMessage("没找到个视频QAQ");
+            return commonResp;
+        }
+        Video video = (Video) map.get("video");
+        if (video.getStatus() != 1) {
+            commonResp.setCode(404);
+            commonResp.setMessage("没找到个视频QAQ");
+            return commonResp;
+        }
+        commonResp.setData(map);
+        return commonResp;
     }
 }

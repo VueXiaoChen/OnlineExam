@@ -1,12 +1,12 @@
 package com.example.onlineexam.controller;
 
 
-import com.example.onlineexam.mapper.videoStatsMapper;
+import com.example.onlineexam.mapper.VideoStatsMapper;
 import com.example.onlineexam.req.videoStatsReq;
 import com.example.onlineexam.resp.CommonResp;
 import com.example.onlineexam.resp.videoStatsResp;
 import com.example.onlineexam.resp.PageResp;
-import com.example.onlineexam.service.videoStatsService;
+import com.example.onlineexam.service.VideoStatsService;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/videoStats")
-public class videoStatsController {
+public class VideoStatsController {
     @Resource
-    private videoStatsService videoStatsService;
+    private VideoStatsService videoStatsService;
     @Autowired
-    private videoStatsMapper videoStatsMapper;
+    private VideoStatsMapper videoStatsMapper;
     @GetMapping("/list")
     //@Valid  开启参数检验
     public CommonResp list(@Validated videoStatsReq videoStatsReq) {

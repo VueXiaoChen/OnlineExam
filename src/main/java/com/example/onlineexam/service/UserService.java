@@ -5,6 +5,7 @@ import cn.hutool.core.bean.BeanUtil;
 import com.example.onlineexam.domain.User;
 import com.example.onlineexam.domain.UserDTO;
 import com.example.onlineexam.domain.UserExample;
+import com.example.onlineexam.domain.VideoStats;
 import com.example.onlineexam.exception.BusinessException;
 import com.example.onlineexam.exception.BusinessExceptionCode;
 import com.example.onlineexam.mapper.UserMapper;
@@ -13,10 +14,7 @@ import com.example.onlineexam.req.UsersLoadingReq;
 import com.example.onlineexam.resp.UserResp;
 import com.example.onlineexam.resp.PageResp;
 import com.example.onlineexam.resp.UsersLoadingResp;
-import com.example.onlineexam.util.CopyUtil;
-import com.example.onlineexam.util.JwtUtil;
-import com.example.onlineexam.util.RedisUtils;
-import com.example.onlineexam.util.SnowFlake;
+import com.example.onlineexam.util.*;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
@@ -45,6 +43,9 @@ public class UserService {
     private SnowFlake snowFlake;
     @Autowired
     private RedisUtils redisUtils;
+
+    @Autowired
+    private VideoStatsService videoStatsService;
     @Autowired
     @Qualifier("taskExecutor")
     private Executor taskExecutor;
@@ -136,7 +137,10 @@ public class UserService {
                 usersLoadingResp.setUsername(user.getUsername());
                 String token = JwtUtil.createToken(usersLoadingResp.getUid(),usersLoadingResp.getUsername());
                 usersLoadingResp.setToken(token);
+                //TODO 此处的redis存取userid还需要改进 先用着
                 LOG.info("登录成功");
+                //CurrentUser currentUser = new CurrentUser();
+                redisUtils.setValue("usersid",user.getUid());
                 return usersLoadingResp;
             }else{
                 //账号或者密码错误
@@ -205,19 +209,19 @@ public class UserService {
             return userDTO;
         }
 
-//        // 并发执行每个视频数据统计的查询任务
-//        List<VideoStats> list = set.stream().parallel()
-//                .map(vid -> videoStatsService.getVideoStatsById((Integer) vid))
-//                .collect(Collectors.toList());
-//
-//        int video = list.size(), love = 0, play = 0;
-//        for (VideoStats videoStats : list) {
-//            love = love + videoStats.getGood();
-//            play = play + videoStats.getPlay();
-//        }
-//        userDTO.setVideoCount(video);
-//        userDTO.setLoveCount(love);
-//        userDTO.setPlayCount(play);
+        // 并发执行每个视频数据统计的查询任务
+        List<VideoStats> list = set.stream().parallel()
+                .map(vid -> videoStatsService.getVideoStatsById((Integer) vid))
+                .collect(Collectors.toList());
+
+        int video = list.size(), love = 0, play = 0;
+        for (VideoStats VideoStats : list) {
+            love = love + VideoStats.getGood();
+            play = play + VideoStats.getPlay();
+        }
+        userDTO.setVideoCount(video);
+        userDTO.setLoveCount(love);
+        userDTO.setPlayCount(play);
 
         return userDTO;
     }

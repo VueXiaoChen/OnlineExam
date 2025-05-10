@@ -13,6 +13,18 @@ public class CommonResp<T> implements Serializable {
      * 返回信息
      */
     private String message;
+    /**
+     * 错误代码
+     */
+    private Integer code;
+
+    public Integer getCode() {
+        return code;
+    }
+
+    public void setCode(Integer code) {
+        this.code = code;
+    }
 
     public T getData() {
         return data;
@@ -49,6 +61,7 @@ public class CommonResp<T> implements Serializable {
         final StringBuffer sb = new StringBuffer("ResponseDto{");
         sb.append("success=").append(success);
         sb.append(", message='").append(message).append('\'');
+        sb.append(", code=").append(code);
         sb.append(", data=").append(data);
         sb.append('}');
         return sb.toString();

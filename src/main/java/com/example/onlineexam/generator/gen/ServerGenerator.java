@@ -91,8 +91,8 @@ public class ServerGenerator {
 //        gen("UserVideo",param, "service", "service");
 //        gen("Video",param, "controller", "controller");
 //        gen("Video",param, "service", "service");
-//        gen("videoStats",param, "controller", "controller");
-//        gen("videoStats",param, "service", "service");
+//        gen("VideoStats",param, "controller", "controller");
+//        gen("VideoStats",param, "service", "service");
 
 //        gen("Category", param, "req", "req");
 //        gen("Category", param, "resp", "resp");
@@ -116,8 +116,8 @@ public class ServerGenerator {
 //        gen("UserVideo", param, "resp", "resp");
 //        gen("Video", param, "req", "req");
 //        gen("Video", param, "resp", "resp");
-//        gen("videoStats", param, "req", "req");
-//        gen("videoStats", param, "resp", "resp");
+//        gen("VideoStats", param, "req", "req");
+//        gen("VideoStats", param, "resp", "resp");
     }
 
     private static void gen(String Domain,Map<String, Object> param,String packageName, String target) throws IOException, TemplateException {

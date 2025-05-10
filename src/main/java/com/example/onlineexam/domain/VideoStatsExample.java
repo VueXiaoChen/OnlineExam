@@ -3,14 +3,14 @@ package com.example.onlineexam.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-public class videoStatsExample {
+public class VideoStatsExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public videoStatsExample() {
+    public VideoStatsExample() {
         oredCriteria = new ArrayList<>();
     }
 
