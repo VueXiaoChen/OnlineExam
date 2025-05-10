@@ -1,0 +1,53 @@
+spring:
+    application:
+        name: OnlineExam
+    datasource:
+        url: jdbc:mysql://localhost:3306/xc_onlineexam?tinyInt1isBit=false&characterEncoding=UTF8&autoReconnect=true&serverTimezone=Asia/Shanghai&allowMultiQueries=true&returnGeneratedKeys=true
+        username: root
+        password: 123456
+        driver-class-name: com.mysql.cj.jdbc.Driver
+    data:
+        redis:
+            host: 127.0.0.1
+            port: 6379
+    main:
+        allow-circular-references: true
+    mvc:
+        servlet:
+            load-on-startup: 1
+server:
+    port: 8080
+mybatis-plus:
+    mapper-locations: classpath:/mapper/**/*.xml
+logging:
+    level:
+        com:
+            example:
+                onlineexam:
+                    mapper: trace
+            baomidou:
+                mybatisplus: trace
+        org:
+            apache:
+                ibatis: trace
+directory:
+    # 投稿视频存储目录
+    video: public/video/
+    # 分片存储目录
+    chunk: public/chunk/
+    # 投稿封面存储目录
+    cover: public/img/cover/
+
+oss:
+    # 对象存储桶的名字
+    bucket: xiaochen007
+    # 外网访问的域名，记得最后面的"/"
+    bucketUrl: xiaochen007.oss-cn-beijing.aliyuncs.com/
+    # 地域节点
+    endpoint: http://oss-cn-beijing.aliyuncs.com
+    # 有访问权限的用户的 access-key-id
+    keyId: LTAI5tPD1Yb5b14rJgg86xh3
+    # 有访问权限的用户的 access-key-Secret
+    keySecret: zV5e43qOlZUZ2m2mKMwTIhcwCihni4
+    # ossClient实例维持的空闲时间，单位毫秒，超过会自动关闭释放资源
+    idleTimeout: 10000
