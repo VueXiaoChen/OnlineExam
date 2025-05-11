@@ -105,7 +105,8 @@
     values (#{id,jdbcType=INTEGER}, #{vid,jdbcType=INTEGER}, #{fid,jdbcType=INTEGER}, 
       #{time,jdbcType=TIMESTAMP}, #{isRemove,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.example.onlineexam.domain.FavoriteVideo">
+  <insert id="insertSelective" parameterType="com.example.onlineexam.domain.FavoriteVideo" useGeneratedKeys="true"
+          keyColumn="id" keyProperty="id">
     insert into favorite_video
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

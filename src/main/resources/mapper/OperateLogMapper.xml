@@ -142,7 +142,8 @@
       #{logOptionuser,jdbcType=VARCHAR}, #{logParams,jdbcType=LONGVARCHAR}, #{logResult,jdbcType=LONGVARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.example.onlineexam.domain.OperateLog">
+  <insert id="insertSelective" parameterType="com.example.onlineexam.domain.OperateLog" useGeneratedKeys="true"
+          keyColumn="logId" keyProperty="logId">
     insert into t_log
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="logId != null">

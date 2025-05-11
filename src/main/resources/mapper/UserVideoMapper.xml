@@ -115,7 +115,8 @@
       #{coin,jdbcType=INTEGER}, #{collect,jdbcType=INTEGER}, #{playTime,jdbcType=TIMESTAMP}, 
       #{loveTime,jdbcType=TIMESTAMP}, #{coinTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.example.onlineexam.domain.UserVideo">
+  <insert id="insertSelective" parameterType="com.example.onlineexam.domain.UserVideo" useGeneratedKeys="true"
+          keyColumn="id" keyProperty="id">
     insert into user_video
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

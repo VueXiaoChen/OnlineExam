@@ -19,7 +19,18 @@ public class VideoStats {
 
     private Integer comment;
 
-    public VideoStats(Integer vid, int i, int i1, int i2, int i3, int i4, int i5, int i6, int i7) {
+
+
+    public VideoStats(Integer vid, Integer play, Integer danmu, Integer good, Integer bad, Integer coin, Integer collect, Integer share, Integer comment) {
+        this.vid = vid;
+        this.play = play;
+        this.danmu = danmu;
+        this.good = good;
+        this.bad = bad;
+        this.coin = coin;
+        this.collect = collect;
+        this.share = share;
+        this.comment = comment;
     }
 
     public Integer getVid() {

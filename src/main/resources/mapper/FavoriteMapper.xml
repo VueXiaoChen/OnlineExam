@@ -113,7 +113,8 @@
       #{description,jdbcType=VARCHAR}, #{count,jdbcType=INTEGER}, #{isDelete,jdbcType=INTEGER}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.example.onlineexam.domain.Favorite">
+  <insert id="insertSelective" parameterType="com.example.onlineexam.domain.Favorite" useGeneratedKeys="true"
+          keyColumn="fid" keyProperty="fid">
     insert into favorite
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="fid != null">

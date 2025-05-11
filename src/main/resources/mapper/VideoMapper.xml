@@ -122,7 +122,8 @@
       #{coverUrl,jdbcType=VARCHAR}, #{videoUrl,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
       #{uploadDate,jdbcType=TIMESTAMP}, #{deleteDate,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.example.onlineexam.domain.Video">
+  <insert id="insertSelective" parameterType="com.example.onlineexam.domain.Video" useGeneratedKeys="true"
+          keyColumn="vid" keyProperty="vid">
     insert into video
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="vid != null">

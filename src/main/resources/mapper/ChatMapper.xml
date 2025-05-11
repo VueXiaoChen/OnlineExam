@@ -108,7 +108,8 @@
       #{isDeleted,jdbcType=INTEGER}, #{unread,jdbcType=INTEGER}, #{latestTime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.example.onlineexam.domain.Chat">
+  <insert id="insertSelective" parameterType="com.example.onlineexam.domain.Chat" useGeneratedKeys="true"
+          keyColumn="id" keyProperty="id">
     insert into chat
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

@@ -18,6 +18,7 @@ import com.example.onlineexam.util.RedisUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
+import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -288,15 +289,19 @@ public class VideoService {
 //        rabbitTemplate.convertAndSend("direct_upload_exchange", "videoUpload", jsonPayload);
 
         // 使用异步线程最佳，因为监听rabbitmq的始终是单线程，高峰期会堆积阻塞
+        CommonResp commonResp = new CommonResp();
         CompletableFuture.runAsync(() -> {
             try {
                 mergeChunks(videoUploadInfoDTO);
+                commonResp.setMessage("上传成功");
+                commonResp.setCode(200);
+                commonResp.setData("");
             } catch (IOException e) {
                 LOG.info("合并视频写库时出错了");
                 e.printStackTrace();
             }
         }, taskExecutor);
-        return new CommonResp();
+        return commonResp;
     }
     public void mergeChunks(VideoUploadInfoDTO vui) throws IOException {
         String url; // 视频最终的URL
@@ -340,12 +345,25 @@ public class VideoService {
 //            log.error("未找到分片文件 " + vui.getHash());
 //            return;
 //        }
-
-        // 合并到OSS，并返回URL地址
-        url = ossUtil.appendUploadVideo(vui.getHash());
-        if (url == null) {
-            return;
+        //获取文件的后缀
+        String filename = vui.getCoverUrl();
+        String extension = FilenameUtils.getExtension(filename);
+        if(extension.equals("txt")){
+            url = filename;
+            LOG.info("传过来的是txt文件");
+        }else if(extension.equals("jpg")){
+            url = filename;
+            LOG.info("传过来的是是jpg文件");
+        }else if(extension.equals("png")){
+            url = filename;
+            LOG.info("传过来的是是png文件");
+        }else{
+            url = ossUtil.appendUploadVideo(vui.getHash());
+            if (url == null) {
+                return;
+            }
         }
+        // 合并到OSS，并返回URL地址
 
         // 存入数据库
         Date now = new Date();
@@ -364,9 +382,10 @@ public class VideoService {
         video.setStatus(0);
         video.setUploadDate(now);
         video.setDeleteDate(null);
-        videoMapper.insert(video);
+        videoMapper.insertSelective(video);
         VideoStats videoStats = new VideoStats(video.getVid(),0,0,0,0,0,0,0,0);
         videoStatsMapper.insertSelective(videoStats);
+        LOG.info("用来测试的:{}",videoStats);
         //esUtil.addVideo(video);
         CompletableFuture.runAsync(() -> redisUtils.setExObjectValue("video:" + video.getVid(), video), taskExecutor);
         CompletableFuture.runAsync(() -> redisUtils.addMember("video_status:0", video.getVid()), taskExecutor);

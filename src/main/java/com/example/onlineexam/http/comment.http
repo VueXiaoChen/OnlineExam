@@ -24,11 +24,11 @@ Content-Type: application/json
 
 {
   "vid": 3,
-  "uid": 33,
+  "uid": 36,
   "rootId": 0,
   "parentId": 0,
   "toUserId": 0,
-  "content": "33",
+  "content": "36",
   "love": 10,
   "bad": 5,
   "createTime": "2024-05-20 14:55:00",

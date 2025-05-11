@@ -19,7 +19,6 @@ public class CommonResp<T> implements Serializable {
     private Integer code;
 
 
-
     public Integer getCode() {
         return code;
     }

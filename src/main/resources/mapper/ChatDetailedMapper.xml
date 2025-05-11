@@ -110,7 +110,8 @@
       #{content,jdbcType=VARCHAR}, #{userDel,jdbcType=INTEGER}, #{anotherDel,jdbcType=INTEGER}, 
       #{withdraw,jdbcType=INTEGER}, #{time,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.example.onlineexam.domain.ChatDetailed">
+  <insert id="insertSelective" parameterType="com.example.onlineexam.domain.ChatDetailed" useGeneratedKeys="true"
+          keyColumn="id" keyProperty="id">
     insert into chat_detailed
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

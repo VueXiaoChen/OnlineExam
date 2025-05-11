@@ -1,11 +1,13 @@
 package com.example.onlineexam.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.example.onlineexam.domain.Comment;
 import com.example.onlineexam.domain.UserVideo;
 import com.example.onlineexam.domain.UserVideoExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
-public interface UserVideoMapper {
+public interface UserVideoMapper extends BaseMapper<UserVideo> {
     long countByExample(UserVideoExample example);
 
     int deleteByExample(UserVideoExample example);

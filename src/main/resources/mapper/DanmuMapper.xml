@@ -114,7 +114,8 @@
       #{color,jdbcType=VARCHAR}, #{timePoint,jdbcType=DOUBLE}, #{state,jdbcType=INTEGER}, 
       #{createDate,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.example.onlineexam.domain.Danmu">
+  <insert id="insertSelective" parameterType="com.example.onlineexam.domain.Danmu" useGeneratedKeys="true"
+          keyColumn="id" keyProperty="id">
     insert into danmu
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

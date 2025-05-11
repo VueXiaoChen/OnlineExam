@@ -109,7 +109,8 @@
       #{love,jdbcType=INTEGER}, #{system,jdbcType=INTEGER}, #{whisper,jdbcType=INTEGER}, 
       #{dynamic,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.example.onlineexam.domain.MsgUnread">
+  <insert id="insertSelective" parameterType="com.example.onlineexam.domain.MsgUnread" useGeneratedKeys="true"
+          keyColumn="uid" keyProperty="uid">
     insert into msg_unread
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="uid != null">

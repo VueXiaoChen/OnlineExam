@@ -126,7 +126,8 @@
       #{auth,jdbcType=INTEGER}, #{authMsg,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
       #{deleteDate,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.example.onlineexam.domain.User">
+  <insert id="insertSelective" parameterType="com.example.onlineexam.domain.User" useGeneratedKeys="true"
+          keyColumn="uid" keyProperty="uid">
     insert into users
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="uid != null">
