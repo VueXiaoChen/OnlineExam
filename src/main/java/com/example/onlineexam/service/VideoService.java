@@ -2,6 +2,7 @@ package com.example.onlineexam.service;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.example.onlineexam.domain.Video;
 import com.example.onlineexam.domain.VideoExample;
 import com.example.onlineexam.domain.VideoStats;
@@ -13,6 +14,7 @@ import com.example.onlineexam.resp.CommonResp;
 import com.example.onlineexam.resp.VideoResp;
 import com.example.onlineexam.resp.PageResp;
 import com.example.onlineexam.util.CopyUtil;
+import com.example.onlineexam.util.CurrentUser;
 import com.example.onlineexam.util.OssUtil;
 import com.example.onlineexam.util.RedisUtils;
 import com.github.pagehelper.PageHelper;
@@ -23,11 +25,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
@@ -36,6 +44,16 @@ import java.util.stream.Stream;
 @Service
 public class VideoService {
     private static final Logger LOG = (Logger) LoggerFactory.getLogger(VideoService.class);
+
+    @Value("${directory.cover}")
+    private String COVER_DIRECTORY;   // 投稿封面存储目录
+    @Value("${directory.video}")
+    private String VIDEO_DIRECTORY;   // 投稿视频存储目录
+    @Value("${directory.chunk}")
+    private String CHUNK_DIRECTORY;   // 分片存储目录
+
+    @Autowired
+    private CurrentUser currentUser;
 
     @Resource
     public VideoMapper videoMapper;
@@ -233,6 +251,103 @@ public class VideoService {
             return null;
         }
     }
+
+    /**
+     * 获取视频下一个还没上传的分片序号
+     * @param hash 视频的hash值
+     * @return CustomResponse对象
+     */
+    public CommonResp askCurrentChunk(String hash) {
+        CommonResp customResponse = new CommonResp();
+        // 查询本地
+        // 获取分片文件的存储目录
+        File chunkDir = new File(CHUNK_DIRECTORY);
+        // 获取存储在目录中的所有分片文件
+        File[] chunkFiles = chunkDir.listFiles((dir, name) -> name.startsWith(hash + "-"));
+        // 返回还没上传的分片序号
+        if (chunkFiles == null) {
+            customResponse.setData(0);
+        } else {
+            customResponse.setData(chunkFiles.length);
+        }
+        // 查询OSS当前存在的分片数量，即前端要上传的分片序号，建议分布式系统才使用OSS存储分片，单体系统本地存储分片效率更高
+//        int counts = ossUploadUtil.countFiles("chunk/", hash + "-");
+//        customResponse.setData(counts);
+        return customResponse;
+    }
+    /**
+     * 上传单个视频分片，当前上传到阿里云对象存储
+     * @param chunk 分片文件
+     * @param hash  视频的hash值
+     * @param index 当前分片的序号
+     * @return  CustomResponse对象
+     * @throws IOException
+     */
+    public CommonResp uploadChunk(MultipartFile chunk, String hash, Integer index) throws IOException {
+        CommonResp customResponse = new CommonResp();
+        // 构建分片文件名
+        String chunkFileName = hash + "-" + index;
+
+        // 存储到本地
+        // 构建分片文件的完整路径
+        String chunkFilePath = Paths.get(CHUNK_DIRECTORY, chunkFileName).toString();
+        // 检查是否已经存在相同的分片文件
+        File chunkFile = new File(chunkFilePath);
+        if (chunkFile.exists()) {
+            LOG.info("分片{}已存在",chunkFilePath);
+            customResponse.setCode(500);
+            customResponse.setMessage("已存在分片文件");
+            return customResponse;
+        }
+        // 保存分片文件到指定目录
+        chunk.transferTo(chunkFile);
+
+        // 存储到OSS，建议分布式系统才使用OSS存储分片，单体系统本地存储分片效率更高
+//        try {
+//            boolean flag = ossUploadUtil.uploadChunk(chunk, chunkFileName);
+//            if (!flag) {
+//                log.warn("分片 " + chunkFileName + " 已存在");
+//                customResponse.setCode(500);
+//                customResponse.setMessage("已存在分片文件");
+//            }
+//        } catch (IOException ioe) {
+//            log.error("读取分片文件数据流时出错了");
+//        }
+
+        // 返回成功响应
+        return customResponse;
+    }
+
+
+
+    /**
+     * 取消上传并且删除该视频的分片文件
+     * @param hash 视频的hash值
+     * @return CustomResponse对象
+     */
+    public CommonResp cancelUpload(String hash) {
+
+        // 删除本地分片文件
+        // 获取分片文件的存储目录
+        File chunkDir = new File(CHUNK_DIRECTORY);
+        // 获取存储在目录中的所有分片文件
+        File[] chunkFiles = chunkDir.listFiles((dir, name) -> name.startsWith(hash + "-"));
+//        System.out.println("检索到要删除的文件数: " + chunkFiles.length);
+        // 删除全部分片文件
+        if (chunkFiles != null && chunkFiles.length > 0) {
+            for (File chunkFile : chunkFiles) {
+                chunkFile.delete(); // 删除分片文件
+            }
+        }
+//        System.out.println("删除分片完成");
+
+        // 删除OSS上的分片文件，建议分布式系统才使用OSS存储分片，单体系统本地存储分片效率更高
+//        ossUploadUtil.deleteFiles("chunk/", hash + "-");
+
+        // 不管删没删成功 返回成功响应
+        return new CommonResp();
+    }
+
     /**
      * 接收前端提供的视频信息，包括封面文件和稿件的其他信息，保存完封面后将信息发送到消息队列，并返回投稿成功响应
      * @param cover 封面图片文件
@@ -392,5 +507,176 @@ public class VideoService {
         CompletableFuture.runAsync(() -> redisUtils.setExObjectValue("videoStats:" + video.getVid(), videoStats), taskExecutor);
 
         // 其他逻辑 （发送消息通知写库成功）
+    }
+
+
+    /**
+     * 查询对应状态的视频数量
+     * @param status 状态 0审核中 1通过审核 2打回整改（指投稿信息不符） 3视频违规删除（视频内容违规）
+     * @return 包含视频数量的CustomResponse对象
+     */
+
+    public CommonResp getTotalByStatus(Integer status) {
+        CommonResp customResponse = new CommonResp();
+        if (!currentUser.isAdmin()) {
+            customResponse.setCode(403);
+            customResponse.setMessage("您不是管理员，无权访问");
+            return customResponse;
+        }
+        Long total = redisUtils.scard("video_status:" + status);
+        customResponse.setData(total);
+        return customResponse;
+    }
+
+    /**
+     * 获取分页对应状态的视频
+     * @return CustomResponse对象，包含符合条件的视频列表
+     */
+
+    public CommonResp getVideosByPage(Integer status, Integer page, Integer quantity) {
+        CommonResp customResponse = new CommonResp();
+        if (!currentUser.isAdmin()) {
+            customResponse.setCode(403);
+            customResponse.setMessage("您不是管理员，无权访问");
+            return customResponse;
+        }
+        // 从 redis 获取待审核的视频id集合，为了提升效率就不遍历数据库了，前提得保证 Redis 没崩，数据一致性采用定时同步或者中间件来保证
+        Set<Object> set = redisUtils.getMembers("video_status:" + status);
+        if (set != null && set.size() != 0) {
+            // 如果集合不为空，则在数据库主键查询，并且返回没有被删除的视频
+            List<Map<String, Object>> mapList = getVideosWithDataByIds(set, page, quantity);
+            customResponse.setData(mapList);
+        }
+        return customResponse;
+    }
+    /**
+     * 更新视频状态，包括过审、不通过、删除，其中审核相关需要管理员权限，删除可以是管理员或者投稿用户
+     * @param vid   视频ID
+     * @param status 要修改的状态，1通过 2不通过 3删除
+     * @return 无data返回，仅返回响应信息
+     */
+
+    @Transactional
+    public CommonResp updateVideoStatus(Integer vid, Integer status) throws IOException {
+        CommonResp customResponse = new CommonResp();
+        Object userId = currentUser.getUserId();
+        if (status == 1 || status == 2) {
+            // Admin check for status 1/2
+            if (!currentUser.isAdmin()) {
+                customResponse.setCode(403);
+                customResponse.setMessage("您不是管理员，无权访问");
+                return customResponse;
+            }
+
+            // Query video (exclude status=3)
+            VideoExample example = new VideoExample();
+            example.createCriteria()
+                    .andVidEqualTo(vid)
+                    .andStatusNotEqualTo(3); // Exclude deleted videos
+            List<Video> videolist = videoMapper.selectByExample(example);
+            Video video =videolist.get(0);
+            if (video == null) {
+                customResponse.setCode(404);
+                customResponse.setMessage("视频不见了QAQ");
+                return customResponse;
+            }
+
+            Integer lastStatus = video.getStatus();
+            video.setStatus(status); // Set new status (1 or 2)
+
+            // Update video status
+            VideoExample updateExample = new VideoExample();
+            updateExample.createCriteria().andVidEqualTo(vid);
+
+            Video updatedVideo = new Video();
+            updatedVideo.setStatus(status);
+            if (status == 1) {
+                updatedVideo.setUploadDate(new Date()); // Set upload date for approved videos
+            }
+
+            int flag = videoMapper.updateByExampleSelective(updatedVideo, updateExample);
+
+            if (flag > 0) {
+                // Sync Redis
+                redisUtils.delMember("video_status:" + lastStatus, vid);
+                redisUtils.addMember("video_status:" + status, vid);
+                redisUtils.delValue("video:" + vid);
+
+                if (status == 1) {
+                    redisUtils.zset("user_video_upload:" + video.getUid(), video.getVid());
+                } else {
+                    redisUtils.zsetDelMember("user_video_upload:" + video.getUid(), video.getVid());
+                }
+                return customResponse;
+            } else {
+                customResponse.setCode(500);
+                customResponse.setMessage("更新状态失败");
+                return customResponse;
+            }
+        } else if (status == 3) {
+            // Query video (exclude status=3)
+            VideoExample example = new VideoExample();
+            example.createCriteria()
+                    .andVidEqualTo(vid)
+                    .andStatusNotEqualTo(3);
+
+            List<Video> videolist = videoMapper.selectByExample(example);
+            Video video =videolist.get(0);
+
+            if (video == null) {
+                customResponse.setCode(404);
+                customResponse.setMessage("视频不见了QAQ");
+                return customResponse;
+            }
+
+            // Permission check: owner or admin
+            if (!Objects.equals(userId, video.getUid()) && !currentUser.isAdmin()) {
+                customResponse.setCode(403);
+                customResponse.setMessage("您没有权限删除视频");
+                return customResponse;
+            }
+
+            // Update video status to 3 (deleted)
+            VideoExample updateExample = new VideoExample();
+            updateExample.createCriteria().andVidEqualTo(vid);
+
+            Video updatedVideo = new Video();
+            updatedVideo.setStatus(3);
+            updatedVideo.setDeleteDate(new Date());
+
+            int flag = videoMapper.updateByExampleSelective(updatedVideo, updateExample);
+
+            if (flag > 0) {
+                // Cleanup Redis
+                redisUtils.delMember("video_status:" + video.getStatus(), vid);
+                redisUtils.delValue("video:" + vid);
+                redisUtils.delValue("danmu_idset:" + vid);
+                redisUtils.zsetDelMember("user_video_upload:" + video.getUid(), video.getVid());
+
+                // Async OSS cleanup
+                String videoPrefix = video.getVideoUrl().split("aliyuncs.com/")[1];
+                String coverPrefix = video.getCoverUrl().split("aliyuncs.com/")[1];
+                CompletableFuture.runAsync(() -> ossUtil.deleteFiles(videoPrefix), taskExecutor);
+                CompletableFuture.runAsync(() -> ossUtil.deleteFiles(coverPrefix), taskExecutor);
+
+                // Async comment cache cleanup
+                CompletableFuture.runAsync(() -> {
+                    Set<Object> commentIds = redisUtils.zReverange("comment_video:" + vid, 0, -1);
+                    List<String> keysToDelete = new ArrayList<>();
+                    commentIds.forEach(id -> keysToDelete.add("comment_reply:" + id));
+                    keysToDelete.add("comment_video:" + vid);
+                    redisUtils.delValues(keysToDelete);
+                }, taskExecutor);
+                return customResponse;
+            } else {
+                customResponse.setCode(500);
+                customResponse.setMessage("更新状态失败");
+                return customResponse;
+            }
+        }
+        // Fallback for invalid status
+        customResponse.setCode(500);
+        customResponse.setMessage("更新状态失败");
+        return customResponse;
     }
 }

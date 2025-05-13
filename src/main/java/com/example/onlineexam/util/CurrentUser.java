@@ -22,23 +22,22 @@ public class CurrentUser {
      * 获取当前登录用户的uid，也是JWT认证的一环
      * @return 当前登录用户的uid
      */
-    public Set<Object> getUserId() {
+    public Object getUserId() {
           // 这里的user是登录时存的security:user，因为是静态数据，可能会跟实际的有区别，所以只能用作获取uid用
-        Set<Object> set = redisUtils.zRange("usersid",0,-1L);
-        return set;
+        Object usersid = redisUtils.getValue("usersid");
+        return usersid;
     }
-
     /**
      * 判断当前用户是否管理员
      * @return  是否管理员 true/false
      */
-//    public Boolean isAdmin() {
-//        Long uid = getUserId();
-//        User user = redisUtils.getObject("user:" + uid, User.class);
-//        if (user == null) {
-//            user = userMapper.selectByPrimaryKey(Math.toIntExact(uid));
-//            redisUtils.setExObjectValue("user:" + user.getUid(), user);
-//        }
-//        return (user.getRole() == 1 || user.getRole() == 2);
-//    }
+    public Boolean isAdmin() {
+        Object uid = getUserId();
+        User user = redisUtils.getObject("user:" + uid, User.class);
+        if (user == null) {
+            user = userMapper.selectByPrimaryKey((Integer) uid);
+            redisUtils.setExObjectValue("user:" + user.getUid(), user);
+        }
+        return (user.getRole() == 1 || user.getRole() == 2);
+    }
 }

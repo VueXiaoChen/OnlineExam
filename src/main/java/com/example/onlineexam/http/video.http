@@ -18,3 +18,24 @@ Content-Type: application/json
 GET http://localhost:8080/video/info/2
 
 ###
+
+###
+GET http://localhost:8080/video/review/total?vstatus=1
+
+###
+
+###
+GET http://localhost:8080/video/review/getone?vid=1014
+
+###
+
+###
+GET http://localhost:8080/video/review/getpage?vstatus=1&page=1&quantity=20
+
+###
+
+###
+POST http://localhost:8080/video/change/status?vid=1014&status=1
+
+###
+

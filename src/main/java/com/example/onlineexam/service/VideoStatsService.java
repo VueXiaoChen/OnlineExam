@@ -1,6 +1,7 @@
 package com.example.onlineexam.service;
 
 
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.example.onlineexam.domain.VideoStats;
 import com.example.onlineexam.domain.VideoStatsExample;
 import com.example.onlineexam.mapper.VideoStatsMapper;
@@ -111,6 +112,17 @@ public class VideoStatsService {
         // 3. 同步更新缓存（不再异步）
         redisUtils.setExObjectValue("videoStats:" + vid, videoStats, 3600, TimeUnit.SECONDS);  // 建议添加过期时间
         return videoStats;
+    }
+
+
+    /**
+     * 同时更新点赞和点踩
+     * @param vid   视频ID
+     * @param addGood   是否点赞，true则good+1&bad-1，false则good-1&bad+1
+     */
+    public void updateGoodAndBad(Integer vid, boolean addGood) {
+        videoStatsMapper.updateStats(vid, addGood);
+        redisUtils.delValue("videoStats:" + vid);
     }
 
 }

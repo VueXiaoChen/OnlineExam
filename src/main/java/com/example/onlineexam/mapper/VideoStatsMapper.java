@@ -36,4 +36,8 @@ public interface VideoStatsMapper extends BaseMapper<VideoStats> {
             @Param("count") int count,
             @Param("increase") boolean increase
     );
+    int updateStats(
+            @Param("vid") int vid,
+            @Param("addGood") boolean addGood
+    );
 }

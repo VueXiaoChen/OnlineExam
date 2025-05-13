@@ -284,4 +284,19 @@
     </choose>
     WHERE vid = #{vid}
   </update>
+  <!-- VideoStatsMapper.xml -->
+  <update id="updateStats">
+    UPDATE video_stats
+    <set>
+      <if test="addGood">
+        good = good + 1,
+        bad = CASE WHEN bad - 1 &lt; 0 THEN 0 ELSE bad - 1 END
+      </if>
+      <if test="!addGood">
+        bad = bad + 1,
+        good = CASE WHEN good - 1 &lt; 0 THEN 0 ELSE good - 1 END
+      </if>
+    </set>
+    WHERE vid = #{vid}
+  </update>
 </mapper>
