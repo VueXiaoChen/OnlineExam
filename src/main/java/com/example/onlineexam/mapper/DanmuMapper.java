@@ -3,8 +3,10 @@ package com.example.onlineexam.mapper;
 import com.example.onlineexam.domain.Danmu;
 import com.example.onlineexam.domain.DanmuExample;
 import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+@Mapper
 public interface DanmuMapper {
     long countByExample(DanmuExample example);
 

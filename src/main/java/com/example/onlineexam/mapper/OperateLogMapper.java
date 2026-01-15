@@ -3,8 +3,10 @@ package com.example.onlineexam.mapper;
 import com.example.onlineexam.domain.OperateLog;
 import com.example.onlineexam.domain.OperateLogExample;
 import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+@Mapper
 public interface OperateLogMapper {
     long countByExample(OperateLogExample example);
 

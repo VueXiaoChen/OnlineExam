@@ -3,8 +3,10 @@ package com.example.onlineexam.mapper;
 import com.example.onlineexam.domain.User;
 import com.example.onlineexam.domain.UserExample;
 import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+@Mapper
 public interface UserMapper {
     long countByExample(UserExample example);
 

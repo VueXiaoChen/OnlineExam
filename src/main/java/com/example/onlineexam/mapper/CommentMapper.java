@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.onlineexam.domain.Comment;
 import com.example.onlineexam.domain.CommentExample;
 import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+@Mapper
 public interface CommentMapper extends BaseMapper<Comment>{
     long countByExample(CommentExample example);
 

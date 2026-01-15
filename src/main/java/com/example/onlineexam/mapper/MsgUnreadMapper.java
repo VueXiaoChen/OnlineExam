@@ -3,8 +3,10 @@ package com.example.onlineexam.mapper;
 import com.example.onlineexam.domain.MsgUnread;
 import com.example.onlineexam.domain.MsgUnreadExample;
 import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+@Mapper
 public interface MsgUnreadMapper {
     long countByExample(MsgUnreadExample example);
 

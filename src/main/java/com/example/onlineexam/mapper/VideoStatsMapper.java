@@ -5,8 +5,10 @@ import com.example.onlineexam.domain.Comment;
 import com.example.onlineexam.domain.VideoStats;
 import com.example.onlineexam.domain.VideoStatsExample;
 import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+@Mapper
 public interface VideoStatsMapper extends BaseMapper<VideoStats> {
     long countByExample(VideoStatsExample example);
 
