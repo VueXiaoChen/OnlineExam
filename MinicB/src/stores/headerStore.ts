@@ -112,6 +112,12 @@ export const useHeaderStore = defineStore('header', () => {
     setOpenLogin,
     logout
   };
+},{
+  persist:{
+    key: 'head_stores',
+    storage: localStorage,
+    paths: ['isLogin','user'] // 只持久化这些状态
+  }
 });
 
 // 导出类型

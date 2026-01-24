@@ -415,7 +415,7 @@ const getRandomVideos = async () => {
     
     try {
         const res = await get("/video/random/visitor")
-        if (res.data.data) {
+        if (res.data.data) {      
             randomVideos.value = res.data.data
             loadingRandom.value = false
         }

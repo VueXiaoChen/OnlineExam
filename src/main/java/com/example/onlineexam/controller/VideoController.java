@@ -25,10 +25,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
-import java.util.Date;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -41,6 +41,9 @@ public class VideoController {
 
     @Autowired
     private CurrentUser currentUser;
+
+    @Autowired
+    private RedisUtils redisUtils;
 
 
     @Autowired
@@ -278,5 +281,73 @@ public class VideoController {
             commonResp.setData(null);
             return commonResp;
         }
+    }
+
+    /**
+     * 游客访问时的feed流随机推荐
+     * @return  返回11条随机推荐视频
+     */
+    @GetMapping("/random/visitor")
+    public CommonResp randomVideosForVisitor() {
+        CommonResp commonResp = new CommonResp();
+        int count = 11;
+        Set<Object> idSet = redisUtils.srandmember("video_status:1", count);
+        List<Map<String, Object>> videoList = new ArrayList<>();
+        if (idSet != null && !idSet.isEmpty()) {
+            videoList = videoService.getVideosWithDataByIds(idSet, 1, count);
+            // 随机打乱列表顺序
+            Collections.shuffle(videoList);
+        }
+        commonResp.setData(videoList);
+        return commonResp;
+    }
+
+    /**
+     * 累加获取更多视频
+     * @param vids  曾经查询过的视频id列表，用于去重
+     * @return  每次返回新的10条视频，以及其id列表，并标注是否还有更多视频可以获取
+     */
+    @GetMapping("/cumulative/visitor")
+    public CommonResp cumulativeVideosForVisitor(@RequestParam("vids") String vids) {
+        CommonResp commonResp = new CommonResp();
+        Map<String, Object> map = new HashMap<>();
+        List<Integer> vidsList = new ArrayList<>();
+        if (vids.trim().length() > 0) {
+            vidsList = Arrays.stream(vids.split(","))
+                    .map(Integer::parseInt)
+                    .collect(Collectors.toList());  // 从字符串切分出id列表
+        }
+        Set<Object> set = redisUtils.getMembers("video_status:1");
+        if (set == null) {
+            map.put("videos", new ArrayList<>());
+            map.put("vids", new ArrayList<>());
+            map.put("more", false);
+            commonResp.setData(map);
+            return commonResp;
+        }
+        vidsList.forEach(set::remove);  // 去除已获取的元素
+        Set<Object> idSet = new HashSet<>();    // 存放将要返回的id集合
+        Random random = new Random();
+        // 随机获取10个vid
+        for (int i = 0; i < 10 && !set.isEmpty(); i++) {
+            Object[] arr = set.toArray();
+            int randomIndex = random.nextInt(set.size());
+            idSet.add(arr[randomIndex]);
+            set.remove(arr[randomIndex]);   // 查过的元素移除
+        }
+        List<Map<String, Object>> videoList = new ArrayList<>();
+        if (!idSet.isEmpty()) {
+            videoList = videoService.getVideosWithDataByIds(idSet, 1, 10);
+            Collections.shuffle(videoList);     // 随机打乱列表顺序
+        }
+        map.put("videos", videoList);
+        map.put("vids", idSet);
+        if (!set.isEmpty()) {
+            map.put("more", true);
+        } else {
+            map.put("more", false);
+        }
+        commonResp.setData(map);
+        return commonResp;
     }
 }

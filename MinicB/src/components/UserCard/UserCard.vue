@@ -66,7 +66,7 @@ import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/useUserStore';
 import { handleNum, handleLevel } from '@/utils/utils.js';
-//import VAvatar from '@/components/avatar/VAvatar.vue';
+import VAvatar from '@/components/avatar/VAvatar.vue';
 import VLevel from '@/components/UserCard/VLevel.vue';
 import { Female, Male } from '@element-plus/icons-vue';
 

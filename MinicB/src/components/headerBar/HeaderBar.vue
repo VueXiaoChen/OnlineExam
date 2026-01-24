@@ -553,7 +553,7 @@ const openNewPage = (route) => {
 // 登录成功处理
 const handleLoginSuccess = () => {
   dialogVisible.value = false;
-  headerStore.isLogin=true
+  
   // 这里可以添加登录成功后的其他逻辑
 };
 

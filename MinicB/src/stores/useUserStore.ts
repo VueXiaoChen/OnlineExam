@@ -6,13 +6,14 @@ import { ElMessage } from 'element-plus'
 import { useChannelStore } from '@/stores/useChannelStore'
 import { useVideoStore } from '@/stores/useVideoStore'
 import { useMessageStore } from '@/stores/useMessageStore'
+import { useHeaderStore } from '@/stores/headerStore'
 export const useUserStore = defineStore('user', () => {
 
   // 其他 store
   const channelStore = useChannelStore()
   const videoStore = useVideoStore()
   const messageStore = useMessageStore()
-  
+  const headerStore = useHeaderStore()
   // actions
   const initData = () => {
     isLogin.value = false
@@ -41,13 +42,23 @@ const login = async (username: string, password: string) => {
       password,
     });
     if (response.data.code === 200) {
-      const { token: userToken, user: userData } = response.data.data;
+      const { token: userToken, userDTO: userData } = response.data.data;
       token.value = userToken;
       user.value = userData;
-      isLogin.value = true;
+      headerStore.user.avatar_url=user.value.avatar_url
+      headerStore.user.coin=user.value.coin
+      headerStore.user.fansCount=user.value.fansCount
+      headerStore.user.followsCount=user.value.followsCount
+      headerStore.user.vip=user.value.vip
+      headerStore.user.exp=user.value.exp
+      headerStore.user.gender = user.value.gender
+      headerStore.isLogin=true
+      headerStore.user=userData
       
       // 存储 token 到 localStorage
-      localStorage.setItem('teri_token', userToken);
+      // localStorage.setItem('token', userToken);
+      // localStorage.setItem('user', JSON.stringify(userData));
+      // localStorage.setItem('isLogin', headerStore.isLogin);
       
       return { success: true, message: response.data.message };
     } else {
@@ -204,4 +215,10 @@ return {
   getMsgUnread,
   logout,
 };
-})
+},{
+  persist:{
+    key: 'user_stores',
+    storage: localStorage,
+    paths: ['user','token'] // 只持久化这些状态
+  }
+});
