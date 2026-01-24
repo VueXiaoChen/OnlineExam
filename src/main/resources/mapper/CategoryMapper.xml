@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.onlineexam.mapper.CategoryMapper">
+  <resultMap id="BaseResultMap" type="com.example.onlineexam.domain.Category">
+    <id column="mc_id" jdbcType="VARCHAR" property="mcId" />
+    <id column="sc_id" jdbcType="VARCHAR" property="scId" />
+    <result column="mc_name" jdbcType="VARCHAR" property="mcName" />
+    <result column="sc_name" jdbcType="VARCHAR" property="scName" />
+    <result column="descr" jdbcType="VARCHAR" property="descr" />
+    <result column="rcm_tag" jdbcType="VARCHAR" property="rcmTag" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    mc_id, sc_id, mc_name, sc_name, descr, rcm_tag
+  </sql>
+  <select id="selectByExample" parameterType="com.example.onlineexam.domain.CategoryExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from category
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from category
+    where mc_id = #{mcId,jdbcType=VARCHAR}
+      and sc_id = #{scId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="map">
+    delete from category
+    where mc_id = #{mcId,jdbcType=VARCHAR}
+      and sc_id = #{scId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.example.onlineexam.domain.CategoryExample">
+    delete from category
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.example.onlineexam.domain.Category">
+    insert into category (mc_id, sc_id, mc_name, 
+      sc_name, descr, rcm_tag
+      )
+    values (#{mcId,jdbcType=VARCHAR}, #{scId,jdbcType=VARCHAR}, #{mcName,jdbcType=VARCHAR}, 
+      #{scName,jdbcType=VARCHAR}, #{descr,jdbcType=VARCHAR}, #{rcmTag,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.onlineexam.domain.Category">
+    insert into category
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="mcId != null">
+        mc_id,
+      </if>
+      <if test="scId != null">
+        sc_id,
+      </if>
+      <if test="mcName != null">
+        mc_name,
+      </if>
+      <if test="scName != null">
+        sc_name,
+      </if>
+      <if test="descr != null">
+        descr,
+      </if>
+      <if test="rcmTag != null">
+        rcm_tag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="mcId != null">
+        #{mcId,jdbcType=VARCHAR},
+      </if>
+      <if test="scId != null">
+        #{scId,jdbcType=VARCHAR},
+      </if>
+      <if test="mcName != null">
+        #{mcName,jdbcType=VARCHAR},
+      </if>
+      <if test="scName != null">
+        #{scName,jdbcType=VARCHAR},
+      </if>
+      <if test="descr != null">
+        #{descr,jdbcType=VARCHAR},
+      </if>
+      <if test="rcmTag != null">
+        #{rcmTag,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.example.onlineexam.domain.CategoryExample" resultType="java.lang.Long">
+    select count(*) from category
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update category
+    <set>
+      <if test="row.mcId != null">
+        mc_id = #{row.mcId,jdbcType=VARCHAR},
+      </if>
+      <if test="row.scId != null">
+        sc_id = #{row.scId,jdbcType=VARCHAR},
+      </if>
+      <if test="row.mcName != null">
+        mc_name = #{row.mcName,jdbcType=VARCHAR},
+      </if>
+      <if test="row.scName != null">
+        sc_name = #{row.scName,jdbcType=VARCHAR},
+      </if>
+      <if test="row.descr != null">
+        descr = #{row.descr,jdbcType=VARCHAR},
+      </if>
+      <if test="row.rcmTag != null">
+        rcm_tag = #{row.rcmTag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="example != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update category
+    set mc_id = #{row.mcId,jdbcType=VARCHAR},
+      sc_id = #{row.scId,jdbcType=VARCHAR},
+      mc_name = #{row.mcName,jdbcType=VARCHAR},
+      sc_name = #{row.scName,jdbcType=VARCHAR},
+      descr = #{row.descr,jdbcType=VARCHAR},
+      rcm_tag = #{row.rcmTag,jdbcType=VARCHAR}
+    <if test="example != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.onlineexam.domain.Category">
+    update category
+    <set>
+      <if test="mcName != null">
+        mc_name = #{mcName,jdbcType=VARCHAR},
+      </if>
+      <if test="scName != null">
+        sc_name = #{scName,jdbcType=VARCHAR},
+      </if>
+      <if test="descr != null">
+        descr = #{descr,jdbcType=VARCHAR},
+      </if>
+      <if test="rcmTag != null">
+        rcm_tag = #{rcmTag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where mc_id = #{mcId,jdbcType=VARCHAR}
+      and sc_id = #{scId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.onlineexam.domain.Category">
+    update category
+    set mc_name = #{mcName,jdbcType=VARCHAR},
+      sc_name = #{scName,jdbcType=VARCHAR},
+      descr = #{descr,jdbcType=VARCHAR},
+      rcm_tag = #{rcmTag,jdbcType=VARCHAR}
+    where mc_id = #{mcId,jdbcType=VARCHAR}
+      and sc_id = #{scId,jdbcType=VARCHAR}
+  </update>
+</mapper>
