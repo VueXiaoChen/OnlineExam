@@ -203,7 +203,7 @@ const resetForm = (formEl: FormInstance | undefined) => {
                         </div>
                     </div>
                     <!-- 随机推荐 -->
-                    <div class="feed-card" v-for="index in loadingRandom ? 11 : randomVideos.length" :key="index">
+                    <div class="feed-card" v-for="index in loadingRandom ? 11 : randomVideos.list.length" :key="index">
                         <div class="video-card">
                             <!-- 骨架屏 -->
                             <div class="video-card__skeleton" :class="loadingRandom ? 'loading_animation' : 'hide'">
@@ -218,12 +218,12 @@ const resetForm = (formEl: FormInstance | undefined) => {
                             </div>
                             <!-- 实体内容 -->
                             <div class="video-card__wrap" v-if="!loadingRandom">
-                                <a :href="`/video/${randomVideos[index - 1].video.vid}`" target="_blank">
+                                <a :href="`/video/${randomVideos.list[index - 1].vid}`" target="_blank">
                                     <div class="video-card__image">
                                         <div class="video-card__image--wrap">
                                             <picture class="video-card__cover">
-                                                <img :src="randomVideos[index - 1].video.coverUrl"
-                                                    :alt="randomVideos[index - 1].video.title">
+                                                <img :src="randomVideos.list[index - 1].video.coverUrl"
+                                                    :alt="randomVideos.list[index - 1].title">
                                             </picture>
                                         </div>
                                         <div class="video-card__mask">
@@ -232,18 +232,18 @@ const resetForm = (formEl: FormInstance | undefined) => {
                                                     <span class="video-card__stats--item">
                                                         <i class="iconfont icon-bofangshu"></i>
                                                         <span class="video-card__stats--text">
-                                                            {{ handleNum(randomVideos[index - 1].stats.play) }}
+                                                            {{ handleNum(randomVideos.list[index - 1].stats.play) }}
                                                         </span>
                                                     </span>
                                                     <span class="video-card__stats--item">
                                                         <i class="iconfont icon-danmushu"></i>
                                                         <span class="video-card__stats--text">
-                                                            {{ handleNum(randomVideos[index - 1].stats.danmu) }}
+                                                            {{ handleNum(randomVideos.list[index - 1].stats.danmu) }}
                                                         </span>
                                                     </span>
                                                 </div>
                                                 <div class="video-card__stats__duration">
-                                                    {{ handleDuration(randomVideos[index - 1].video.duration) }}
+                                                    {{ handleDuration(randomVideos.list[index - 1].video.duration) }}
                                                 </div>
                                             </div>
                                         </div>
@@ -252,19 +252,19 @@ const resetForm = (formEl: FormInstance | undefined) => {
                                 <div class="video-card__info">
                                     <div class="video-card__info--right">
                                         <h3 class="video-card__info--tit">
-                                            <a :href="`/video/${randomVideos[index - 1].video.vid}`" target="_blank">
-                                                {{ randomVideos[index - 1].video.title }}
+                                            <a :href="`/video/${randomVideos.list[index - 1].vid}`" target="_blank">
+                                                {{ randomVideos.list[index - 1].video.title }}
                                             </a>
                                         </h3>
                                         <div class="video-card__info--bottom">
                                             <div class="video-card__info--icon-text" :style="'display: none;'">已关注</div>
                                             <a class="video-card__info--owner"
-                                                :href="`/space/${randomVideos[index - 1].user.uid}`" target="_blank">
+                                                :href="`/space/${randomVideos.list[index - 1].user.uid}`" target="_blank">
                                                 <i class="iconfont icon-uper" :style="''"></i>
-                                                <span class="video-card__info--author">{{ randomVideos[index -
+                                                <span class="video-card__info--author">{{ randomVideos.list[index -
                                                     1].user.nickname }}</span>
                                                 <span class="video-card__info--date">
-                                                    · {{ handleDate(randomVideos[index - 1].video.uploadDate) }}
+                                                    · {{ handleDate(randomVideos.list[index - 1].video.uploadDate) }}
                                                 </span>
                                             </a>
                                         </div>
@@ -389,8 +389,8 @@ const { isLoading } = storeToRefs(appStore)
 const isFixHeaderBar = ref(false)
 const isFixChannel = ref(false)
 const isChannelDown = ref(false)
-const randomVideos = ref([])
-const cumulativeVideos = ref([])
+const randomVideos:any = ref([])
+const cumulativeVideos:any = ref([])
 const vids = ref([])
 const loadingRandom = ref(true)
 const hasMore = ref(true)
@@ -412,7 +412,6 @@ let handleMouseOut = null
 const getRandomVideos = async () => {
     loadingRandom.value = true
     appStore.setLoading(true)
-    
     try {
         const res = await get("/video/random/visitor")
         if (res.data.data) {      
@@ -442,6 +441,26 @@ const getCumulativeVideos = async () => {
     }
     // console.log(cumulativeVideos.value)
     loadingMore.value = false
+}
+
+
+// 获取游客累加推荐
+const getVideos = async () => {
+    loadingRandom.value = true
+    try {
+        const res = await get("/video/randomvideo")
+        if (res.data.data) {    
+            
+            loadingRandom.value = false  
+            randomVideos.value = res.data.data
+            console.log(randomVideos.value.list[0]);
+        }
+    } catch (error) {
+        console.error('获取视频失败:', error)
+        loadingRandom.value = false
+    } finally {
+        
+    }
 }
 
 // 初始化头图效果
@@ -537,12 +556,13 @@ onMounted(async () => {
     window.addEventListener('scroll', handleScroll)
     
     // 初始化数据
-    await getRandomVideos()
+    //await getRandomVideos()
+    await getVideos()
     await handleScroll()
     
     // 防止大屏情况下，视频数量不足以撑出滚动条
     while (bottomDistance < 800 && hasMore.value) {
-        await getCumulativeVideos()
+        //await getCumulativeVideos()
         await handleScroll()
     }
 })

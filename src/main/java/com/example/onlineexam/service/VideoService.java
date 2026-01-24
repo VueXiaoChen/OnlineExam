@@ -23,6 +23,7 @@ import jakarta.annotation.Resource;
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -93,7 +94,6 @@ public class VideoService {
         //分页(获取从页面传来的数据)
         PageHelper.startPage(videoReq.getPage(), videoReq.getSize());
         //类接收返回的数据
-
         List<Video> sortsList = videoMapper.selectByExample(example);
         //将返回的数据进行封装,某些信息是不需要返回的
         List<VideoResp> data = CopyUtil.copyList(sortsList, VideoResp.class);
@@ -256,6 +256,44 @@ public class VideoService {
             return null;
         }
     }
+
+    public PageResp<Map<String, Object>> getRandomVideos(VideoReq videoReq) {
+        VideoExample example = new VideoExample();
+        VideoExample.Criteria criteria = example.createCriteria();
+        criteria.andStatusNotEqualTo(3);
+        example.setOrderByClause("RAND()");
+
+        PageHelper.startPage(videoReq.getPage(), videoReq.getSize());
+        List<Video> videoList = videoMapper.selectByExample(example);
+        PageInfo<Video> pageInfo = new PageInfo<>(videoList);
+
+        if (videoList.isEmpty()) {
+            PageResp<Map<String, Object>> pageResp = new PageResp<>();
+            pageResp.setTotal(0);
+            pageResp.setList(Collections.emptyList());
+            return pageResp;
+        }
+
+        List<Map<String, Object>> mapList = videoList.stream()
+                .map(video -> {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("video", video);
+                    map.put("user", userService.getUserById(video.getUid()));
+                    map.put("stats", videoStatsService.getVideoStatsById(video.getVid()));
+                    map.put("category", categoryService.getCategoryById(video.getMcId(), video.getScId()));
+                    return map;
+                })
+                .collect(Collectors.toList());
+
+        PageResp<Map<String, Object>> pageResp = new PageResp<>();
+        pageResp.setTotal(pageInfo.getTotal());
+        pageResp.setList(mapList);
+        return pageResp;
+    }
+
+
+
+
 
     /**
      * 获取视频下一个还没上传的分片序号

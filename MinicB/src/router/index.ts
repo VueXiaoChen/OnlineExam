@@ -31,10 +31,7 @@ router.beforeEach(async (to, from, next) => {
   const headerStore = useHeaderStore();
   const userStore = useUserStore();
     // 如果访问需要认证的路由
-    if (to.meta.requestAuth) {
-      console.log(headerStore.isLogin);
-      
-      
+    if (to.meta.requestAuth) {      
       if (headerStore.isLogin) {
         // 已登录，放行
         next();

@@ -2,7 +2,11 @@
 GET http://localhost:8080/video/getone/3
 
 ###
-GET http://localhost:8080/video/list?page=1&size=20&uid=2
+GET http://localhost:8080/video/randomvideo
+
+
+###
+GET http://localhost:8080/video/list
 
 ###
 POST http://localhost:8080/video/save

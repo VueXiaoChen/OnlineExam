@@ -350,4 +350,18 @@ public class VideoController {
         commonResp.setData(map);
         return commonResp;
     }
+
+    @GetMapping("/randomvideo")
+    //@Valid  开启参数检验
+    public CommonResp randomvideo(@Validated VideoReq videoReq) {
+        //返回信息里面定义返回的类型
+        CommonResp<PageResp<Map<String, Object>>> resp = new CommonResp<>();
+        //接收数据库返回的数据
+        PageResp<Map<String, Object>> data = videoService.getRandomVideos(videoReq);
+        //将信息添加到返回信息里
+        resp.setMessage("获取成功");
+        //将信息添加到返回信息里
+        resp.setData(data);
+        return resp;
+    }
 }
