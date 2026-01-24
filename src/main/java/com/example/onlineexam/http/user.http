@@ -6,8 +6,8 @@ POST http://localhost:8080/user/loading
 Content-Type: application/json
 
 {
-  "username": "Jacqueline Griffin",
-  "password": "4WSZ1ivAHP"
+  "username": "123",
+  "password": "123"
 }
 
 ###

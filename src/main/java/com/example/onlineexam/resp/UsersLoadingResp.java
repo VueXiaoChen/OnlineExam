@@ -1,5 +1,8 @@
 package com.example.onlineexam.resp;
 
+import com.example.onlineexam.domain.User;
+import com.example.onlineexam.domain.UserDTO;
+
 import java.io.Serializable;
 
 //序列化，使用redis之后需要序列化
@@ -10,6 +13,8 @@ public class UsersLoadingResp implements Serializable {
 
     private Integer code = 0;
     private String token;
+
+    private UserDTO userDTO;
 
     public Long getUid() {
         return uid;
@@ -43,6 +48,14 @@ public class UsersLoadingResp implements Serializable {
         this.token = token;
     }
 
+    public UserDTO getUserDTO() {
+        return userDTO;
+    }
+
+    public void setUserDTO(UserDTO userDTO) {
+        this.userDTO = userDTO;
+    }
+
     @Override
     public String toString() {
         return "UsersLoadingResp{" +
@@ -50,6 +63,7 @@ public class UsersLoadingResp implements Serializable {
                 ", username='" + username + '\'' +
                 ", code=" + code +
                 ", token='" + token + '\'' +
+                ", userDTO=" + userDTO +
                 '}';
     }
 }

@@ -86,9 +86,14 @@ public class VideoService {
         VideoExample example = new VideoExample();
         //固定写法
         VideoExample.Criteria criteria = example.createCriteria();
+        //根据用户ID
+        if (!ObjectUtils.isEmpty(videoReq.getUid())) {
+            criteria.andUidEqualTo(videoReq.getUid());
+        }
         //分页(获取从页面传来的数据)
         PageHelper.startPage(videoReq.getPage(), videoReq.getSize());
         //类接收返回的数据
+
         List<Video> sortsList = videoMapper.selectByExample(example);
         //将返回的数据进行封装,某些信息是不需要返回的
         List<VideoResp> data = CopyUtil.copyList(sortsList, VideoResp.class);

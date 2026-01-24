@@ -11,9 +11,11 @@ import com.example.onlineexam.exception.BusinessExceptionCode;
 import com.example.onlineexam.mapper.UserMapper;
 import com.example.onlineexam.req.UserReq;
 import com.example.onlineexam.req.UsersLoadingReq;
+import com.example.onlineexam.req.VideoReq;
 import com.example.onlineexam.resp.UserResp;
 import com.example.onlineexam.resp.PageResp;
 import com.example.onlineexam.resp.UsersLoadingResp;
+import com.example.onlineexam.resp.VideoResp;
 import com.example.onlineexam.util.*;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -31,6 +33,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Service
@@ -46,6 +49,9 @@ public class UserService {
 
     @Autowired
     private VideoStatsService videoStatsService;
+
+    @Autowired
+    private VideoService videoService;
     @Autowired
     @Qualifier("taskExecutor")
     private Executor taskExecutor;
@@ -140,7 +146,63 @@ public class UserService {
                 //TODO 此处的redis存取userid还需要改进 先用着
                 LOG.info("登录成功");
                 //CurrentUser currentUser = new CurrentUser();
+                //usersLoadingResp.setUserDTO(getUserById(user.getUid()));
+                redisUtils.setExObjectValue("user:" + user.getUid(), user);  // 默认存活1小时
+                try {
+                    // 把完整的用户信息存入redis，时间跟token一样，注意单位
+                    // 这里缓存的user信息建议只供读取uid用，其中的状态等非静态数据可能不准，所以 redis另外存值
+                    redisUtils.setExObjectValue("security:user:" + user.getUid(), user, 60L * 60 * 24 * 2, TimeUnit.SECONDS);
+                    // 将该用户放到redis中在线集合
+//            redisUtil.addMember("login_member", user.getUid());
+                } catch (Exception e) {
+                    LOG.error("存储redis数据失败");
+                    throw e;
+                }
+                UserDTO userDTO = new UserDTO();
+                userDTO.setUid(user.getUid());
+                userDTO.setNickname(user.getNickname());
+                userDTO.setAvatar_url(user.getAvatar());
+                userDTO.setBg_url(user.getBackground());
+                userDTO.setGender(user.getGender());
+                userDTO.setDescription(user.getDescription());
+                userDTO.setExp(user.getExp());
+                userDTO.setCoin(Double.valueOf(user.getCoin()));
+                userDTO.setVip(user.getVip());
+                userDTO.setState(user.getState());
+                userDTO.setAuth(user.getAuth());
+                userDTO.setAuthMsg(user.getAuthMsg());
+                userDTO.setFollowsCount(110);
+                userDTO.setFansCount(110);
+                usersLoadingResp.setToken(token);
+                VideoReq videoReq = new VideoReq();
+                videoReq.setUid(user.getUid());
+                PageResp<VideoResp> videoRespPageResp = videoService.list(videoReq);
+                Set<Object> set =new HashSet<>();
+                for (int i = 0; i < videoRespPageResp.getTotal(); i++) {
+                    set.add(videoRespPageResp.getList().get(i).getVid());
+                }
+                if (set == null || set.size() == 0) {
+                    userDTO.setVideoCount(0);
+                    userDTO.setLoveCount(0);
+                    userDTO.setPlayCount(0);
+                }
+                LOG.info("数据:{}",set);
+                // 并发执行每个视频数据统计的查询任务
+                List<VideoStats> list = set.stream().parallel()
+                        .map(vid -> videoStatsService.getVideoStatsById((Integer) vid))
+                        .collect(Collectors.toList());
+
+                int video = list.size(), love = 0, play = 0;
+                for (VideoStats VideoStats : list) {
+                    love = love + VideoStats.getGood();
+                    play = play + VideoStats.getPlay();
+                }
+                userDTO.setVideoCount(video);
+                userDTO.setLoveCount(love);
+                userDTO.setPlayCount(play);
+                usersLoadingResp.setUserDTO(userDTO);
                 redisUtils.setValue("usersid",user.getUid());
+
                 return usersLoadingResp;
             }else{
                 //账号或者密码错误
@@ -201,14 +263,14 @@ public class UserService {
         userDTO.setAuthMsg(user.getAuthMsg());
         userDTO.setFollowsCount(0);
         userDTO.setFansCount(0);
-        Set<Object> set = redisUtils.zReverange("user_video_upload:" + user.getUid(), 0L, -1L);
+        Set<Object> set= redisUtils.zReverange("user_video_upload:" + user.getUid(), 0L, -1L);
+
         if (set == null || set.size() == 0) {
             userDTO.setVideoCount(0);
             userDTO.setLoveCount(0);
             userDTO.setPlayCount(0);
             return userDTO;
         }
-
         // 并发执行每个视频数据统计的查询任务
         List<VideoStats> list = set.stream().parallel()
                 .map(vid -> videoStatsService.getVideoStatsById((Integer) vid))

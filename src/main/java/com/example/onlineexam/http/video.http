@@ -2,6 +2,9 @@
 GET http://localhost:8080/video/getone/3
 
 ###
+GET http://localhost:8080/video/list?page=1&size=20&uid=2
+
+###
 POST http://localhost:8080/video/save
 Content-Type: application/json
 
@@ -15,7 +18,7 @@ Content-Type: application/json
 
 ###
 ###
-GET http://localhost:8080/video/info/2
+GET http://localhost:8080/video/getone/2
 
 ###
 

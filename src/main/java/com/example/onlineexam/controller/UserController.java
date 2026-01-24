@@ -78,6 +78,7 @@ public class UserController {
         CommonResp<UsersLoadingResp> resp = new CommonResp<>();
         resp.setData(userService.loading(usersLoadingReq));
         //将信息添加到返回信息里
+        resp.setCode(200);
         resp.setMessage("登录成功");
         return resp;
     }

@@ -7,11 +7,11 @@ import jakarta.validation.constraints.Size;
 
 public class PageReq {
     @NotNull(message = "【页码】不能为空")
-    private int page;
+    private int page=1;
 
     @NotNull(message = "【每页条数】不能为空")
     @Max(value = 50, message = "【每页条数】不能超过50")
-    private int size;
+    private int size=20;
 
     public int getPage() {
         return page;
@@ -28,6 +28,8 @@ public class PageReq {
     public void setSize(int size) {
         this.size = size;
     }
+
+
 
     @Override
     public String toString() {
