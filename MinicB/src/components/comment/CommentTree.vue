@@ -458,10 +458,7 @@ import axios from 'axios'
   // 获取UP主觉得很赞的评论
   const getUpLike = async () => {
     try {
-      const res = await get('/comment/get-up-like', {
-        params: {
-          uid: props.upUid
-        }
+      const res = await axios.get('/api/comment/get-up-like/'+props.upUid, {
       })
       
       if (res?.data) {

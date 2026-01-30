@@ -8,6 +8,7 @@ import com.example.onlineexam.resp.CommonResp;
 import com.example.onlineexam.resp.CommentResp;
 import com.example.onlineexam.resp.PageResp;
 import com.example.onlineexam.service.CommentService;
+import com.example.onlineexam.util.CurrentUser;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
@@ -30,6 +31,9 @@ public class CommentController {
     private CommentMapper commentMapper;
     @Autowired
     private RedisUtils redisUtils;
+
+    @Autowired
+    private CurrentUser currentUser;
     @GetMapping("/list")
     //@Valid  开启参数检验
     public CommonResp list(@Validated CommentReq commentReq) {
@@ -141,6 +145,48 @@ public class CommentController {
         CommonResp<CommentTree> commonResp = new CommonResp<>();
         commonResp.setMessage("获取成功");
         commonResp.setData(commentService.getMoreCommentsById(id));
+        return commonResp;
+    }
+
+    /**
+     * 获取用户点赞点踩评论集合
+     */
+    @GetMapping("/comment/get-like-and-dislike")
+    public CommonResp getLikeAndDislike() {
+        Integer uid = (Integer) currentUser.getUserId();
+
+        CommonResp commonResp = new CommonResp();
+        commonResp.setCode(200);
+        commonResp.setData(commentService.getUserLikeAndDislike(uid));
+
+        return commonResp;
+    }
+
+    /**
+     * 点赞或点踩某条评论
+     * @param id    评论id
+     * @param isLike true 赞 false 踩
+     * @param isSet  true 点 false 取消
+     */
+    @PostMapping("/comment/love-or-not")
+    public CommonResp loveOrNot(@RequestParam("id") Integer id,
+                                    @RequestParam("isLike") boolean isLike,
+                                    @RequestParam("isSet") boolean isSet) {
+        Integer uid = (Integer) currentUser.getUserId();
+        commentService.userSetLikeOrUnlike(uid, id, isLike, isSet);
+        return new CommonResp();
+    }
+
+    /**
+     * 获取UP主觉得很淦的评论
+     * @param uid   UP主uid
+     * @return  点赞的评论id列表
+     */
+    @GetMapping("/comment/get-up-like")
+    public CommonResp getUpLike(@RequestParam("uid") Integer uid) {
+        CommonResp commonResp = new CommonResp();
+        Map<String, Object> map = commentService.getUserLikeAndDislike(uid);
+        commonResp.setData(map.get("userLike"));
         return commonResp;
     }
 
