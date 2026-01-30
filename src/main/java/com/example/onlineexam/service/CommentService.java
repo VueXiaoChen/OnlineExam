@@ -1,5 +1,6 @@
 package com.example.onlineexam.service;
 
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.example.onlineexam.domain.Comment;
 import com.example.onlineexam.domain.CommentExample;
 import com.example.onlineexam.domain.CommentTree;
@@ -340,4 +341,34 @@ public class CommentService {
 
         return customResponse;
     }
+
+    /**
+     * 同时相对更新点赞和点踩
+     * @param id    评论id
+     * @param addLike   true 点赞 false 点踩
+     */
+    public void updateLikeAndDisLike(Integer id, boolean addLike) {
+        CommentExample example = new CommentExample();
+        CommentExample.Criteria criteria = example.createCriteria();
+        criteria.andIdEqualTo(id);  // 设置查询条件
+        // 创建更新对象
+        Comment comment = new Comment();
+        if (addLike) {
+            comment.setLove(comment.getLove() + 1);
+            if (comment.getBad() > 0) {
+                comment.setBad(comment.getBad() - 1);
+            }
+        } else {
+            comment.setBad(comment.getBad() + 1);
+            if (comment.getLove() > 0) {
+                comment.setLove(comment.getLove() - 1);
+            }
+        }
+        // 执行更新
+        commentMapper.updateByExampleSelective(comment, example);
+    }
+
+
+
+
 }

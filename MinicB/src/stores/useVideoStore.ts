@@ -1,6 +1,6 @@
 // stores/video.js
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref,computed  } from 'vue'
 
 export const useVideoStore = defineStore('video', () => {
   // 状态
@@ -43,6 +43,13 @@ export const useVideoStore = defineStore('video', () => {
   const updateUserFavList = (newUserFavList) => {
     userFavList.value = newUserFavList
   }
+
+  const addDanmu = (danmu) => {
+    danmuList.value.push(danmu)
+  }
+
+  const getDanmuList = computed(() => danmuList.value)
+  const getAttitudeToVideo = computed(() => attitudeToVideo.value)
   
   return {
     // 状态
@@ -61,5 +68,8 @@ export const useVideoStore = defineStore('video', () => {
     updateDislikeComment,
     updateFavorites,
     updateUserFavList,
+    addDanmu,
+    getDanmuList,
+    getAttitudeToVideo
   }
 })

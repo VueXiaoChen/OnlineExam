@@ -73,7 +73,13 @@ import { Female, Male } from '@element-plus/icons-vue';
 
 
 // 定义 Props
-const props:any = defineProps();
+const props:any = defineProps({
+    user: {
+      type: Object,
+      default: () => ({})
+    },
+})
+console.log(props.user);
 
 // 使用 Pinia store
 const userStore = useUserStore();

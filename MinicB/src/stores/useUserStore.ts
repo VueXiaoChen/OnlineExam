@@ -1,6 +1,6 @@
 // stores/user.js
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref,computed  } from 'vue'
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
 import { useChannelStore } from '@/stores/useChannelStore'

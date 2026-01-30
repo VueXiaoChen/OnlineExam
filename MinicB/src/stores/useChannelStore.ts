@@ -1,6 +1,6 @@
 // stores/channel.js
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref,computed  } from 'vue'
 
 // 定义子分类接口
 interface SubCategory {

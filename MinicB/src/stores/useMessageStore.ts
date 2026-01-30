@@ -1,6 +1,6 @@
 // stores/message.js
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref,computed  } from 'vue'
 import { ElMessage } from 'element-plus'
 import { get } from '@/network/request'
 import { useUserStore } from '@/stores/useUserStore'

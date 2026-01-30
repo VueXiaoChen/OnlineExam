@@ -218,7 +218,7 @@ const resetForm = (formEl: FormInstance | undefined) => {
                             </div>
                             <!-- 实体内容 -->
                             <div class="video-card__wrap" v-if="!loadingRandom">
-                                <a :href="`/video/${randomVideos.list[index - 1].vid}`" target="_blank">
+                                <a :href="`/video/${randomVideos.list[index - 1].stats.vid}`" target="_blank">
                                     <div class="video-card__image">
                                         <div class="video-card__image--wrap">
                                             <picture class="video-card__cover">
@@ -374,7 +374,7 @@ import { get } from '@/network/request'
 import HeaderBar from '@/components/headerBar/HeaderBar.vue'
 import HeaderChannel from '@/components/headerChannel/HeaderChannel.vue'
 import CarouselIndex from '@/components/carousel/CarouselIndex.vue'
-
+import axios from 'axios'
 import { handleTime, handleNum as utilsHandleNum, handleDate as utilsHandleDate } from '@/utils/utils.js'
 
 // 使用 Pinia stores
@@ -413,7 +413,7 @@ const getRandomVideos = async () => {
     loadingRandom.value = true
     appStore.setLoading(true)
     try {
-        const res = await get("/video/random/visitor")
+        const res = get("api/video/random/visitor")
         if (res.data.data) {      
             randomVideos.value = res.data.data
             loadingRandom.value = false
@@ -453,7 +453,6 @@ const getVideos = async () => {
             
             loadingRandom.value = false  
             randomVideos.value = res.data.data
-            console.log(randomVideos.value.list[0]);
         }
     } catch (error) {
         console.error('获取视频失败:', error)

@@ -1,11 +1,12 @@
-import { createRouter,createWebHashHistory } from "vue-router";
+import { createRouter,createWebHashHistory,createWebHistory  } from "vue-router";
 const Index = () => import('@/views/IndexVue.vue')
 const Platform = () => import('@/views/platform/PlatformView.vue')
 import { useHeaderStore } from '@/stores/headerStore'
 import { useUserStore } from '@/stores/useUserStore'
-
-
-
+const VideoDetail = () => import('@/views/detail/VideoDetail.vue')
+const Search = () => import('@/views/search/SearchView.vue')
+const SearchUser = () => import('@/views/search/children/SearchUser.vue')
+const SearchVideo = () => import('@/views/search/children/SearchVideo.vue')
 
 const routes = [
     { path: '/', redirect: '' },
@@ -18,11 +19,40 @@ const routes = [
             
         ]
     },
+    {
+      path: '/video/:vid',
+      name: 'VideoDetail',
+      component: VideoDetail,
+      meta: { requestAuth: false }
+    },
+    {
+      path: '/search',
+      name: 'Search',
+      component: Search,
+      meta: { requestAuth: false },
+      props: route => ({ keyword: route.query.keyword }),
+      children: [
+        {
+          path: 'video', // 注意：这里是相对路径，不是绝对路径
+          name: 'SearchVideo',
+          component: SearchVideo,
+          meta: { requestAuth: false },
+          props: route => ({ keyword: route.query.keyword })
+        },
+        {
+          path: 'user', // 注意：这里是相对路径，不是绝对路径
+          name: 'SearchUser',
+          component: SearchUser,
+          meta: { requestAuth: false },
+          props: route => ({ keyword: route.query.keyword })
+        }
+      ]
+    }
 ]
  
 const router = createRouter({
     //history:createWebHashHistory(), // 跳转方式
-    history:createWebHashHistory(),
+    history:createWebHistory(),
     routes :routes // 路由配置
 })
 
