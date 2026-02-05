@@ -1,5 +1,10 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+import { useMessageStore } from '@/stores/useMessageStore'  
+
+
+const MessageStore = useMessageStore()
+
+
 </script>
 
 <template>

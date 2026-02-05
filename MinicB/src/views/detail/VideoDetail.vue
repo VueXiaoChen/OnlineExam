@@ -311,14 +311,10 @@
         router.push('/notfound')
         return false
       }
-      if (res.data.data) {
-        console.log(res);
-        
+      if (res.data.data) {  
         const data = res.data.data
         video.value = data.video
         user.value = data.user
-        console.log(user.value);
-        
         category.value = data.category
         tags.value = data.video.tags?.split('\r\n').filter(tag => tag.trim() !== '') || []
         view.value = data.stats.play
@@ -690,7 +686,7 @@
   })
   
   onUnmounted(() => {
-    closeWebSocket()
+    //closeWebSocket()
     window.removeEventListener('scroll', handleScroll)
     window.removeEventListener('beforeunload', closeWebSocket)
   })

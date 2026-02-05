@@ -6,9 +6,9 @@
         <div class="reply-box-avatar">
           <div class="teriteri-avatar">
             <VAvatar 
-              :img="userStore.user.uid?.avatar_url || ''" 
+              :img="userStore.user?.avatar_url || ''" 
               :size="isWideWindow ? 48 : 40" 
-              :auth="userStore.user.uid?.auth || 0" 
+              :auth="userStore.user?.auth || 0" 
             />
           </div>
         </div>
@@ -138,6 +138,8 @@
   
   // Pinia store
   const userStore = useUserStore()
+  console.log(userStore.user.avatar_url);
+  
   
   // 响应式数据
   const emojiBoxShow = ref(false)
