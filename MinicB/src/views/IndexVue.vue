@@ -412,11 +412,16 @@ let handleMouseOut = null
 const getRandomVideos = async () => {
     loadingRandom.value = true
     appStore.setLoading(true)
+    
     try {
         const res = get("api/video/random/visitor")
+        console.log(res);
+        
         if (res.data.data) {      
             randomVideos.value = res.data.data
             loadingRandom.value = false
+            
+            
         }
     } catch (error) {
         console.error('获取随机推荐失败:', error)
@@ -449,6 +454,7 @@ const getVideos = async () => {
     loadingRandom.value = true
     try {
         const res = await get("/video/randomvideo")
+        console.log(res);
         if (res.data.data) {    
             
             loadingRandom.value = false  

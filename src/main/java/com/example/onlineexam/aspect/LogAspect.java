@@ -24,35 +24,43 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 
+import javax.swing.text.html.parser.Entity;
 import java.lang.reflect.Method;
 import java.util.Date;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Aspect
 @Component
 public class LogAspect {
 
     private final static Logger LOG = LoggerFactory.getLogger(LogAspect.class);
-
+    private static final ThreadLocal<OperateLog> OPERATE_LOG_THREAD_LOCAL = new ThreadLocal<>();
     /** 定义一个切点 */
     @Pointcut("execution(public * com.example.*.controller..*Controller.*(..))")
     public void controllerPointcut() {}
-    OperateLog operateLog = new OperateLog();
+
     @Resource
     private SnowFlake snowFlake;
 
+
+    private OperateLog operateLog  =new OperateLog() ;
 
     @Autowired
     private OperateLogMapper operateLogMapper;
     @Before("controllerPointcut()")
     public void doBefore(JoinPoint joinPoint) throws Throwable {
+
+        long logId = snowFlake.nextId();
         // 增加日志流水号
-        MDC.put("LOG_ID", String.valueOf(snowFlake.nextId()));
+        MDC.put("LOG_ID", String.valueOf(logId));
+        operateLog.setLogId(logId);
         // 开始打印请求日志
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = (HttpServletRequest) attributes.getRequest();
@@ -95,7 +103,7 @@ public class LogAspect {
         PropertyPreFilters.MySimplePropertyPreFilter excludefilter = filters.addFilter();
         excludefilter.addExcludes(excludeProperties);
         LOG.info("请求参数: {}", JSONObject.toJSONString(arguments, excludefilter));
-        operateLog.setLogId(snowFlake.nextId());
+
         operateLog.setLogIp(request.getRemoteAddr());
         operateLog.setLogParams(JSONObject.toJSONString(arguments, excludefilter));
         operateLog.setLogMethod(request.getMethod());
@@ -121,7 +129,20 @@ public class LogAspect {
         //耗时
         operateLog.setLogResponsetime(String.valueOf(System.currentTimeMillis() - startTime));
         operateLog.setLogOperationtime(new Date());
-        operateLogMapper.insertSelective(operateLog);
+//        try {
+//            // 检查是否已经存在（防止重复插入）
+//            if (operateLog.getLogId() != null &&
+//                    operateLogMapper.selectByPrimaryKey(operateLog.getLogId()) == null) {
+//                operateLogMapper.insertSelective(operateLog);
+//                LOG.debug("操作日志保存成功，ID: {}", operateLog.getLogId());
+//            } else {
+//                LOG.warn("操作日志已存在或ID为空，跳过保存。ID: {}", operateLog.getLogId());
+//            }
+//        } catch (DuplicateKeyException e) {
+//            LOG.warn("主键冲突，跳过保存。ID: {}", operateLog.getLogId());
+//        } catch (Exception e) {
+//            LOG.error("保存操作日志失败", e);
+//        }
         return result;
     }
 

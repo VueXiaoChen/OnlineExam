@@ -42,8 +42,6 @@ public class UserService {
 
     @Resource
     public UserMapper userMapper;
-    @Resource
-    private SnowFlake snowFlake;
     @Autowired
     private RedisUtils redisUtils;
 
@@ -278,6 +276,10 @@ public class UserService {
 
         int video = list.size(), love = 0, play = 0;
         for (VideoStats VideoStats : list) {
+            if(VideoStats == null){
+                love=0;
+                play=0;
+            }
             love = love + VideoStats.getGood();
             play = play + VideoStats.getPlay();
         }

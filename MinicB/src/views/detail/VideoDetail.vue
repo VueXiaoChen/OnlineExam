@@ -24,7 +24,7 @@
                   &nbsp;{{ handleNum(danmuList.length) }}&nbsp;
                 </span>
                 <span class="date item">
-                  {{ video.uploadDate }}
+                  {{  formatDate(video.uploadDate) }}
                 </span>
                 <span class="copyright item" v-if="video.type === 1 && video.auth === 1">
                   <i class="iconfont icon-jinzhi"></i>
@@ -240,7 +240,7 @@
   import { ref, reactive, computed, onMounted, onUnmounted, nextTick, watch } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
   import { ElMessage } from 'element-plus'
-  import { handleTime, handleNum, handleDate, linkify } from '../../utils/utils.js'
+  import { handleTime, handleNum, handleDate, linkify,formatDate } from '../../utils/utils.js'
   
   // Pinia stores
   import { useVideoStore } from '../../stores/useVideoStore'
@@ -312,6 +312,8 @@
         return false
       }
       if (res.data.data) {
+        console.log(res);
+        
         const data = res.data.data
         video.value = data.video
         user.value = data.user

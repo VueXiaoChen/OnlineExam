@@ -123,6 +123,8 @@ public class OperateLog {
         this.logResult = logResult;
     }
 
+
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

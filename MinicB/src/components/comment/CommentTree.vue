@@ -379,32 +379,30 @@ import axios from 'axios'
       const res = await axios.get('/api/comment/getcomment/'+route.params.vid+"/"+commentList.value.length+"/"+props.type, {
         
       })
-      console.log(route.params.vid,commentList.value.length,props.type);
-      console.log(res,"21312313");
       
       // 确保 res 存在且 res.data 存在，且 comments 是数组
-    if (res && res.data) {
-      const comments = Array.isArray(res.data.comments) ? res.data.comments : []
-      const more = res.data.more || false
-      
-      hasMore.value = more
-      commentList.value.push(...comments)
-      
-      // 如果是热门排序，设置热评
-      if (props.type === 1 && commentList.value.length > 0) {
-        hotCommentIdx.value = commentList.value[0].id
+      if (res && res.data) {
+        const comments = Array.isArray(res.data.comments) ? res.data.comments : []
+        const more = res.data.more || false
+        
+        hasMore.value = more
+        commentList.value.push(...comments)
+        
+        // 如果是热门排序，设置热评
+        if (props.type === 1 && commentList.value.length > 0) {
+          hotCommentIdx.value = commentList.value[0].id
+        }
+      } else {
+        // 如果 res 或 res.data 不存在，将 hasMore 设为 false，避免继续请求
+        hasMore.value = false
       }
-    } else {
-      // 如果 res 或 res.data 不存在，将 hasMore 设为 false，避免继续请求
-      hasMore.value = false
-    }
-    } catch (error) {
-      console.error('获取评论失败:', error)
-      ElMessage.error('获取评论失败')
-    // 出错时也停止加载
-      hasMore.value = false
-    } finally {
-      loading.value = false
+      } catch (error) {
+        console.error('获取评论失败:', error)
+        ElMessage.error('获取评论失败')
+      // 出错时也停止加载
+        hasMore.value = false
+      } finally {
+        loading.value = false
     }
   }
   
@@ -502,8 +500,8 @@ import axios from 'axios'
       formData.append('isLike', isLike)
       formData.append('isSet', isSet)
       
-      const res = await post('/comment/love-or-not', formData, {
-        headers: { Authorization: 'Bearer ' + localStorage.getItem('teri_token') }
+      const res = await axios.post('/api/comment/love-or-not', formData, {
+        headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
       })
       
       if (res) {
