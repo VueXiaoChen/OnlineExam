@@ -107,13 +107,13 @@ public class VideoController {
         Map<String, Object> map = videoService.getVideoWithDataById(vid);
         if (map == null) {
             commonResp.setCode(404);
-            commonResp.setMessage("没找到个视频QAQ");
+            commonResp.setMessage("没找到个视频QAQ1");
             return commonResp;
         }
         Video video = (Video) map.get("video");
         if (video.getStatus() != 1) {
             commonResp.setCode(404);
-            commonResp.setMessage("没找到个视频QAQ");
+            commonResp.setMessage("没找到个视频QAQ2");
             return commonResp;
         }
         commonResp.setData(map);

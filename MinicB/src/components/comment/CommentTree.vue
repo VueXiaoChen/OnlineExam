@@ -324,7 +324,7 @@ import axios from 'axios'
     // 评论排序方式 1最热 2最新
     type: {
       type: Number,
-      default: 1
+      default: 0
     },
     // 视频UP主uid
     upUid: {
@@ -382,11 +382,14 @@ import axios from 'axios'
       
       // 确保 res 存在且 res.data 存在，且 comments 是数组
       if (res && res.data) {
-        const comments = Array.isArray(res.data.comments) ? res.data.comments : []
+        
+        const comments = Array.isArray(res.data.data.comments) ? res.data.data.comments : []
         const more = res.data.more || false
+        
         
         hasMore.value = more
         commentList.value.push(...comments)
+
         
         // 如果是热门排序，设置热评
         if (props.type === 1 && commentList.value.length > 0) {

@@ -261,7 +261,8 @@ public class VideoService {
         VideoExample example = new VideoExample();
         VideoExample.Criteria criteria = example.createCriteria();
         criteria.andStatusNotEqualTo(3);
-        example.setOrderByClause("RAND()");
+        //TOO
+        //example.setOrderByClause("RAND()");
 
         PageHelper.startPage(videoReq.getPage(), videoReq.getSize());
         List<Video> videoList = videoMapper.selectByExample(example);

@@ -1,9 +1,9 @@
 ###
-GET http://localhost:8080/comment/list?page=1&size=20&vid=3
+GET http://localhost:8080/comment/list?page=1&size=20&vid=1
 
 ###
 ###
-GET http://localhost:8080/comment/getcomment/3/0/1
+GET http://localhost:8080/comment/getcomment/1/0/0
 
 ###
 

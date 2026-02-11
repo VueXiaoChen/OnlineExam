@@ -195,6 +195,39 @@ public class CommentService {
      * @return List<Comment>
      */
 
+    /**
+     * 直接查询数据库（不依赖Redis）
+     */
+    private List<Comment> queryFromDatabaseDirectly(Integer vid, Long offset, Integer type) {
+        CommentExample example = new CommentExample();
+        CommentExample.Criteria criteria = example.createCriteria();
+
+        // 查询条件
+        criteria.andVidEqualTo(vid)
+                .andIsDeletedNotEqualTo(1);// 根评论
+
+        // 设置排序
+        if (type == 1) {
+            // 热度排序
+            example.setOrderByClause("(love - bad) DESC");
+        } else {
+            // 时间排序
+            example.setOrderByClause("create_time DESC");
+        }
+
+        // 设置分页
+        int pageNum = (offset.intValue() / 10) + 1;  // 计算页码
+        int pageSize = 10;
+        PageHelper.startPage(pageNum, pageSize);
+
+        // 执行查询
+        List<Comment> result = commentMapper.selectByExample(example);
+        LOG.info("直接数据库查询，vid={}, offset={}, 结果数量={}",
+                vid, offset, result.size());
+
+        return result;
+    }
+
     public List<Comment> getRootCommentsByVid(Integer vid, Long offset, Integer type) {
         Set<Object> rootIdsSet;
         if (type == 1) {
@@ -204,8 +237,11 @@ public class CommentService {
             // 按时间排序查询分页数据
             rootIdsSet = redisUtils.zReverange("comment_video:" + vid, offset, offset + 9L);
         }
+        LOG.info("rootIdsSet的数据，rootIdsSet={}", rootIdsSet);
         if (rootIdsSet == null || rootIdsSet.isEmpty()) {
-            return Collections.emptyList();
+            LOG.info("Redis中没有数据，直接查询数据库，vid={}", vid);
+            return queryFromDatabaseDirectly(vid, offset, type);
+            //return Collections.emptyList();
         }
 
         // 转换为List<Integer>便于后续查询
@@ -261,8 +297,11 @@ public class CommentService {
             // 时间排序：create_time降序
             example.setOrderByClause("create_time DESC");
         }
+        // ========== 关键：执行数据库查询 ==========
+        List<Comment> result = commentMapper.selectByExample(example);
+        LOG.info("数据库查询结果数量: {}", result.size());
 
-        return commentMapper.selectByExample(example);
+        return result;
     }
     /**
      * 获取更多回复评论

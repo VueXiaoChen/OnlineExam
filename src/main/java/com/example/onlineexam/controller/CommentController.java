@@ -1,6 +1,8 @@
 package com.example.onlineexam.controller;
 
 
+import com.example.onlineexam.RedisMessageReceive.RedisReceiver;
+import com.example.onlineexam.domain.Comment;
 import com.example.onlineexam.domain.CommentTree;
 import com.example.onlineexam.mapper.CommentMapper;
 import com.example.onlineexam.req.CommentReq;
@@ -10,6 +12,8 @@ import com.example.onlineexam.resp.PageResp;
 import com.example.onlineexam.service.CommentService;
 import com.example.onlineexam.util.CurrentUser;
 import jakarta.annotation.Resource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
 import org.springframework.validation.annotation.Validated;
@@ -20,11 +24,13 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @RestController
 @RequestMapping("/comment")
 public class CommentController {
+    private static final Logger LOG = (Logger) LoggerFactory.getLogger(CommentController.class);
     @Resource
     private CommentService commentService;
     @Autowired
@@ -104,6 +110,23 @@ public class CommentController {
         //返回信息里面定义返回的类型
         CommonResp resp = new CommonResp<>();
         long count = redisUtils.zCard("comment_video:" + vid);
+        LOG.info("count数据，count={}",redisUtils.zCard("comment_video:" + vid));
+        if (count == 0) {
+            // 调用 Service 层方法获取数据库中该视频的根评论总数（需自行实现）
+            List<CommentTree> comments = commentService.getCommentTreeByVid(vid, offset, type);
+            count = comments.size();
+            // 可选：将数量缓存到 Redis（使用 String 结构，避免下次再次穿透）
+            // 2.2 批量存入 Redis ZSet，以创建时间戳作为 score
+            if (!comments.isEmpty()) {
+                List<RedisUtils.ZObjTime> zObjTimes = comments.stream()
+                        .map(c -> new RedisUtils.ZObjTime(c.getId(), c.getCreateTime()))
+                        .collect(Collectors.toList());
+                redisUtils.zsetOfCollectionByTime("comment_video:" + vid, zObjTimes);
+
+                // 2.3 设置 ZSet 过期时间（例如 1 小时，避免冷数据常驻）
+                redisUtils.setExpire("comment_video:" + vid, 3600);
+            }
+        }
         Map<String, Object> map = new HashMap<>();
         if (offset >= count) {
             // 表示前端已经获取到全部根评论了，没必要继续
@@ -121,7 +144,7 @@ public class CommentController {
         resp.setData(map);
         //将信息添加到返回信息里
         resp.setMessage("获取评论成功");
-
+        resp.setCode(200);
         return resp;
     }
     /**
