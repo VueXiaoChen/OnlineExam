@@ -238,7 +238,7 @@
         
         <!-- 子评论组件 -->
         <SubComment 
-          :replies="rootComment.replies" 
+          :replies="rootComment.replies?? []" 
           :count="rootComment.count" 
           :is-wide-window="isWideWindow" 
           :up-uid="upUid"
@@ -458,12 +458,13 @@ import axios from 'axios'
   
   // 获取UP主觉得很赞的评论
   const getUpLike = async () => {
+    console.log("测试数据",props.upUid);
+    
     try {
       const res = await axios.get('/api/comment/get-up-like/'+props.upUid, {
       })
-      
-      if (res?.data) {
-        upLike.value = res.data
+      if (res?.data.data) {
+        upLike.value = res.data.data
       }
     } catch (error) {
       console.error('获取UP主点赞失败:', error)

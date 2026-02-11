@@ -66,7 +66,7 @@
   
   // 表情数据
   const emojis = ref(EmojiJson)
-  console.log(emojis);
+
   
   // 计算表情项样式
   const emojiItemStyle = (item) => ({

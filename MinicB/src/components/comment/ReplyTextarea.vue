@@ -138,7 +138,7 @@
   
   // Pinia store
   const userStore = useUserStore()
-  console.log(userStore.user.avatar_url);
+
   
   
   // 响应式数据

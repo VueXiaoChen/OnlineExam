@@ -1,6 +1,5 @@
 package com.example.onlineexam.service;
 
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.example.onlineexam.domain.Comment;
 import com.example.onlineexam.domain.CommentExample;
 import com.example.onlineexam.domain.CommentTree;
@@ -27,6 +26,7 @@ import org.springframework.util.ObjectUtils;
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executor;
 import java.util.stream.Collectors;
 
@@ -462,36 +462,30 @@ public class CommentService {
 
     /**
      * 获取用户点赞和点踩的评论集合
-     * @param uid   当前用户
-     * @return  点赞和点踩的评论集合
+     *
+     * @param uid 当前用户
+     * @return 点赞和点踩的评论集合
      */
 
-    public Map<String, Object> getUserLikeAndDislike(Integer uid) {
-        Map<String, Object> map = new HashMap<>();
-        // 获取用户点赞列表，并放入map中
-        CompletableFuture<Void> userLikeFuture = CompletableFuture.runAsync(() -> {
-            Object userLike = redisUtils.getMembers("user_like_comment:" + uid);
-            if (userLike == null) {
-                map.put("userLike", Collections.emptySet());
-            } else{
-                map.put("userLike", userLike);
-            }
-        }, taskExecutor);
-        // 获取也用户点踩列表，并放入map中
-        CompletableFuture<Void> userDislikeFuture = CompletableFuture.runAsync(() -> {
-            Object userDislike = redisUtils.getMembers("user_dislike_comment:" + uid);
-            map.put("userDislike", userDislike);
-            if (userDislike == null) {
-                map.put("userDislike", Collections.emptySet());
-            } else {
-                map.put("userDislike", userDislike);
-            }
+    public Map<String, Set<Object>> getUserLikeAndDislike(Integer uid) {
+        // 使用 ConcurrentHashMap 保证线程安全
+        Map<String, Set<Object>> result = new ConcurrentHashMap<>();
+
+        CompletableFuture<Void> likeFuture = CompletableFuture.runAsync(() -> {
+            Set<Object> likeSet = redisUtils.getMembers("user_like_comment:" + uid);
+            // getMembers 永远不会返回 null，但为保险仍使用 null-safe 方式
+            result.put("userLike", likeSet != null ? likeSet : Collections.emptySet());
         }, taskExecutor);
 
-        userDislikeFuture.join();
-        userLikeFuture.join();
+        CompletableFuture<Void> dislikeFuture = CompletableFuture.runAsync(() -> {
+            Set<Object> dislikeSet = redisUtils.getMembers("user_dislike_comment:" + uid);
+            result.put("userDislike", dislikeSet != null ? dislikeSet : Collections.emptySet());
+        }, taskExecutor);
 
-        return map;
+        // 等待两个任务全部完成
+        CompletableFuture.allOf(likeFuture, dislikeFuture).join();
+
+        return result;
     }
 
     /**

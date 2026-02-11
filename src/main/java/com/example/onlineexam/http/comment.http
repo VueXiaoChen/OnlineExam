@@ -17,6 +17,11 @@ GET http://localhost:8080/comment/deletes/1294098454
 
 ###
 
+###
+GET http://localhost:8080/comment/get-up-like/1
+
+###
+
 
 ###
 POST http://localhost:8080/comment/add

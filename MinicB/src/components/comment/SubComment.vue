@@ -299,7 +299,7 @@
       default: () => []
     },
     count: {
-      type: Number,
+      type: String,
       default: 0
     },
     rootId: {
@@ -315,6 +315,7 @@
       default: false
     }
   })
+  console.log(props.rootId);
   
   // 定义 emits
   const emit = defineEmits(['sub-reply', 'get-more-comment', 'del-sub-comment'])
@@ -480,8 +481,9 @@
   
   // 监听 replies 变化，更新总页数
   watch(() => props.replies, (newReplies) => {
-    totalPage.value = Math.ceil(newReplies.length / 10)
-  }, { immediate: true })
+  const len = newReplies?.length ?? 0
+  totalPage.value = Math.ceil(len / 10)
+}, { immediate: true })
   </script>
 
 <style scoped>

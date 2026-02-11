@@ -73,7 +73,7 @@ router.beforeEach(async (to, from, next) => {
           next();
         } else {
           // 跳转到登录页
-          console.log("123123123123");
+
           
           next('/');
         }

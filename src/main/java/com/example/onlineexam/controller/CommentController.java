@@ -20,10 +20,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import com.example.onlineexam.util.RedisUtils;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -174,7 +171,7 @@ public class CommentController {
     /**
      * 获取用户点赞点踩评论集合
      */
-    @GetMapping("/comment/get-like-and-dislike")
+    @GetMapping("/get-like-and-dislike")
     public CommonResp getLikeAndDislike() {
         Integer uid = (Integer) currentUser.getUserId();
 
@@ -191,7 +188,7 @@ public class CommentController {
      * @param isLike true 赞 false 踩
      * @param isSet  true 点 false 取消
      */
-    @PostMapping("/comment/love-or-not")
+    @PostMapping("/love-or-not")
     public CommonResp loveOrNot(@RequestParam("id") Integer id,
                                     @RequestParam("isLike") boolean isLike,
                                     @RequestParam("isSet") boolean isSet) {
@@ -205,10 +202,10 @@ public class CommentController {
      * @param uid   UP主uid
      * @return  点赞的评论id列表
      */
-    @GetMapping("/comment/get-up-like")
-    public CommonResp getUpLike(@RequestParam("uid") Integer uid) {
+    @GetMapping("/get-up-like/{uid}")
+    public CommonResp getUpLike(@PathVariable("uid") Integer uid) {
         CommonResp commonResp = new CommonResp();
-        Map<String, Object> map = commentService.getUserLikeAndDislike(uid);
+        Map<String, Set<Object>> map = commentService.getUserLikeAndDislike(uid);
         commonResp.setData(map.get("userLike"));
         return commonResp;
     }
