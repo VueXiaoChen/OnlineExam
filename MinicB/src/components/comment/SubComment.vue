@@ -180,6 +180,7 @@
                   ></path>
                 </svg>
               </i>
+              <span>{{ subComment.bad }}</span>
             </span>
             
             <!-- 回复按钮 -->
@@ -291,6 +292,7 @@
   
   // 自定义请求方法
   import { get, post } from '../../network/request'
+import axios from 'axios'
   
   // 定义 props
   const props:any = defineProps({
@@ -349,14 +351,14 @@
   // 加载更多评论
   const moreComment = async () => {
     try {
-      const res = await get('/comment/reply/get-more', {
-        params: {
-          id: props.replies[0]?.rootId
-        }
+      const res = await axios.get('/api/comment/reply/getmore/'+props.replies[0]?.rootId, {
+        
       })
+      console.log(res);
       
-      if (res?.data) {
-        emit('get-more-comment', res.data)
+      
+      if (res?.data.data) {
+        emit('get-more-comment', res.data.data)
         showMoreComment.value = true
       }
     } catch (error) {
@@ -390,7 +392,7 @@
       formData.append('id', comment.id)
       
       const res = await post('/comment/delete', formData, {
-        headers: { Authorization: 'Bearer ' + localStorage.getItem('teri_token') }
+        headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
       })
       
       if (res) {

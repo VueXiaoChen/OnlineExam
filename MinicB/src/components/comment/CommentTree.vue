@@ -179,6 +179,7 @@
                       ></path>
                     </svg>
                   </i>
+                  <span>{{ rootComment.bad }}</span>
                 </span>
                 
                 <!-- 回复按钮 -->
@@ -379,7 +380,7 @@ import axios from 'axios'
       const res = await axios.get('/api/comment/getcomment/'+route.params.vid+"/"+commentList.value.length+"/"+props.type, {
         
       })
-      
+      console.log(res.data);
       // 确保 res 存在且 res.data 存在，且 comments 是数组
       if (res && res.data) {
         

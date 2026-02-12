@@ -106,7 +106,7 @@
   const userStore = useUserStore()
   
   // 响应式数据
-  const type = ref(1) // 评论排序方式 1最热 2最新
+  const type = ref(0) // 评论排序方式 1最热 2最新
   const isWideWindow = ref(false) // 是否是宽屏
   const left = ref(0) // 固钉评论框左偏移量
   const width = ref(0) // 固钉评论框宽度

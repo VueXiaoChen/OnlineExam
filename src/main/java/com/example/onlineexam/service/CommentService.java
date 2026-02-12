@@ -169,9 +169,44 @@ public class CommentService {
      */
     public List<Comment> getChildCommentsByRootId(Integer rootId, Integer vid, Long start, Long stop) {
         Set<Object> replyIds = redisUtils.zRange("comment_reply:" + rootId, start, stop);
+        // 2. 缓存未命中 → 从数据库加载全部 ID，并初始化 ZSet
+        if (replyIds == null || replyIds.isEmpty()) {
+            // 2.1 加锁，防止并发下多次查询数据库（单机版简单同步）
+            synchronized (this) {
+                // 双重检查：再次尝试从缓存获取
+                replyIds = redisUtils.zRange("comment_reply:" + rootId, start, stop);
+                if (replyIds == null || replyIds.isEmpty()) {
+                    // 2.2 从数据库查询当前根评论下的所有子评论（按创建时间升序，假设越早越靠前）
+                    List<Comment> allReplies = commentMapper.selectByExample(
+                            new CommentExample() {{
+                                createCriteria().andRootIdEqualTo(rootId)
+                                        .andIsDeletedNotEqualTo(1);
+                                setOrderByClause("create_time ASC");
+                            }}
+                    );
+
+                    // 2.3 构建 ZSet 批量添加的数据：member = 评论ID, score = 创建时间戳
+                    List<RedisUtils.ZObjTime> zObjTimes = allReplies.stream()
+                            .map(c -> new RedisUtils.ZObjTime(c.getId(), c.getCreateTime()))
+                            .collect(Collectors.toList());
+
+                    // 2.4 批量写入 Redis ZSet
+                    if (!zObjTimes.isEmpty()) {
+                        redisUtils.zsetOfCollectionByTime("comment_reply:" + rootId, zObjTimes);
+                        // 设置过期时间（例如1小时），避免冷数据常驻
+                        redisUtils.setExpire("comment_reply:" + rootId, 3600);
+                    }
+
+                    // 2.5 重新获取当前页的 ID 列表
+                    replyIds = redisUtils.zRange("comment_reply:" + rootId, start, stop);
+                }
+            }
+        }
+        // 3. 如果仍然为空，说明数据库中也确实没有数据
         if (replyIds == null || replyIds.isEmpty()) {
             return Collections.emptyList();
         }
+
         // 转换为List<Integer>以便在Criteria中使用
         List<Integer> replyIdList = replyIds.stream()
                 .map(obj -> Integer.valueOf(obj.toString()))
@@ -184,6 +219,7 @@ public class CommentService {
         criteria.andIdIn(replyIdList)
                 .andIsDeletedNotEqualTo(1);
         // 执行查询
+        LOG.info("replyIdList数据:[{}]", replyIdList);
         return commentMapper.selectByExample(example);
     }
 
@@ -204,7 +240,8 @@ public class CommentService {
 
         // 查询条件
         criteria.andVidEqualTo(vid)
-                .andIsDeletedNotEqualTo(1);// 根评论
+                .andIsDeletedNotEqualTo(1)
+                .andRootIdEqualTo(0);// 根评论
 
         // 设置排序
         if (type == 1) {
