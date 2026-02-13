@@ -110,6 +110,8 @@
   
   // 自定义请求方法
   import { post } from '../../network/request'
+import axios from 'axios'
+import { reactive } from 'vue'
   
   // 定义 props
   const props = defineProps({
@@ -148,6 +150,14 @@
   const cursorStart = ref(0)
   const cursorEnd = ref(0)
   const textareaRef = ref(null)
+  const commonResp = reactive({
+    vid:"",
+    uid:"",
+    rootId:"",
+    parentId:"",
+    toUserId:"",
+    content:"",
+  })
   
   // 计算属性
   const textareaStyle = computed(() => ({
@@ -232,16 +242,23 @@
     }
     
     try {
-      const formData = new FormData()
-      formData.append('vid', props.commentInfo.vid)
-      formData.append('root_id', props.commentInfo.root_id)
-      formData.append('parent_id', props.commentInfo.parent_id)
-      formData.append('to_user_id', props.commentInfo.to_user_id)
-      formData.append('content', content.value.trim())
+      // const formData = new FormData()
+      // formData.append('vid', props.commentInfo.vid)
+      // formData.append('root_id', props.commentInfo.root_id)
+      // formData.append('parent_id', props.commentInfo.parent_id)
+      // formData.append('to_user_id', props.commentInfo.to_user_id)
+      // formData.append('content', content.value.trim())
+      commonResp.content = content.value.trim()
+      commonResp.parentId=props.commentInfo.parent_id
+      commonResp.rootId=props.commentInfo.root_id
+      commonResp.uid = userStore.user.uid
+      commonResp.toUserId=props.commentInfo.to_user_id
+      commonResp.vid=props.commentInfo.vid
       
-      const res = await post('/comment/add', formData, {
+      
+      const res = await axios.post('/api/comment/add', commonResp, {
         headers: {
-          Authorization: 'Bearer ' + localStorage.getItem('teri_token')
+          Authorization: 'Bearer ' + localStorage.getItem('token')
         }
       })
       

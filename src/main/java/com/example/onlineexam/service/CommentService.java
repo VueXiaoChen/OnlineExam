@@ -353,6 +353,7 @@ public class CommentService {
     public CommentTree sendComment(CommentReq commentReq) {
         if (commentReq.getContent() == null || commentReq.getContent().length() == 0 || commentReq.getContent().length() > 2000) return null;
         Comment comment = CopyUtil.copy(commentReq, Comment.class);
+        comment.setCreateTime(new Date());
         commentMapper.insertSelective(comment);
         CommentTree commentTree = buildCommentTree(comment, 0L, -1L);
         try {

@@ -260,7 +260,7 @@
               :placeholder="replyPlaceHolder" 
               :comment-info="commentInfo" 
               :is-wide-window="isWideWindow" 
-              @add-comment="addComment" 
+              @comment-added="addComment" 
             />
           </div>
         </div>
@@ -340,8 +340,8 @@ import axios from 'axios'
   })
   
   // 定义 emits
-  const emit = defineEmits(['update:commentCount'])
-  
+  //const emit = defineEmits(['update:commentCount'])
+
   // 路由和 store
   const route = useRoute()
   const commentStore = useCommentStore()
@@ -380,7 +380,6 @@ import axios from 'axios'
       const res = await axios.get('/api/comment/getcomment/'+route.params.vid+"/"+commentList.value.length+"/"+props.type, {
         
       })
-      console.log(res.data);
       // 确保 res 存在且 res.data 存在，且 comments 是数组
       if (res && res.data) {
         
@@ -637,7 +636,10 @@ import axios from 'axios'
   const handleLevelFn = (exp) => handleLevel(exp)
   const handleDateTime3Fn = (time) => handleDateTime3(time)
   const emojiTextFn = (text) => emojiText(text)
-  
+  //子组件方法暴露给父组件
+  defineExpose({
+    deleteComment,updateComment,likeOrDislike,addComment,clearCommentList,getCommentTree
+  })
   // 生命周期
   onMounted(() => {
     getCommentTree()

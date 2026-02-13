@@ -115,7 +115,7 @@
   
   // refs
   const rootReplyRef = ref(null)
-  const commentTreeRef = ref(null)
+  const commentTreeRef = ref()
   const fixReplyBoxRef = ref(null)
   
   // 评论信息
@@ -138,9 +138,9 @@
   // 添加评论
   const addComment = (comment) => {
     if (commentTreeRef.value) {
-      commentTreeRef.value.addComment(comment)
+      commentTreeRef.value.addComment(comment.data.data)
     }
-    emit('comment-added', comment)
+    //emit('comment-added', comment)
   }
   
   // 改变评论排序方式

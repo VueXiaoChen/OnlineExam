@@ -79,7 +79,6 @@ const props:any = defineProps({
       default: () => ({})
     },
 })
-console.log(props.user);
 
 // 使用 Pinia store
 const userStore = useUserStore();

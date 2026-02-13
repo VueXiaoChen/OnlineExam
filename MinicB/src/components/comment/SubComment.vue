@@ -317,7 +317,6 @@ import axios from 'axios'
       default: false
     }
   })
-  console.log(props.rootId);
   
   // 定义 emits
   const emit = defineEmits(['sub-reply', 'get-more-comment', 'del-sub-comment'])
@@ -354,9 +353,7 @@ import axios from 'axios'
       const res = await axios.get('/api/comment/reply/getmore/'+props.replies[0]?.rootId, {
         
       })
-      console.log(res);
-      
-      
+
       if (res?.data.data) {
         emit('get-more-comment', res.data.data)
         showMoreComment.value = true
