@@ -54,7 +54,7 @@ const login = async (username: string, password: string) => {
       headerStore.user.gender = user.value.gender
       headerStore.isLogin=true
       headerStore.user=userData
-      
+      //await messageStore.connectWebSocket()
       // 存储 token 到 localStorage
       // localStorage.setItem('token', userToken);
       // localStorage.setItem('user', JSON.stringify(userData));

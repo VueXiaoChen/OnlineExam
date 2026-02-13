@@ -34,7 +34,6 @@ export const useMessageStore = defineStore('message', () => {
   
   const handleWsClose = () => {
     console.log("实时通信websocket关闭,请登录并刷新页面重试")
-    userStore.initData()
   }
   
   const handleWsMessage = (e) => {
@@ -231,7 +230,7 @@ export const useMessageStore = defineStore('message', () => {
   // 获取全部未读消息数
   const getMsgUnread = async () => {
     const res = await get("/msg-unread/all", {
-      headers: { Authorization: "Bearer " + localStorage.getItem('teri_token') }
+      headers: { Authorization: "Bearer " + localStorage.getItem('token') }
     })
     const data = res.data.data
     msgUnread.value[0] = data.reply
@@ -250,8 +249,11 @@ export const useMessageStore = defineStore('message', () => {
         ws.value = null
       }
       
-      const wsBaseUrl = import.meta.env.VITE_APP_WS_IM_URL || process.env.VUE_APP_WS_IM_URL
-      const websocket = new WebSocket(`${wsBaseUrl}/im`)
+    
+      //const wsBaseUrl = import.meta.env.VITE_APP_WS_IM_URL || process.env.VUE_APP_WS_IM_URL
+      //const websocket = new WebSocket(`${wsBaseUrl}/ws/`+ localStorage.getItem('token'))
+      const websocket = new WebSocket(`ws://127.0.0.1:8080/ws/`+ JSON.parse(localStorage.getItem('user_stores')).token)
+      
       ws.value = websocket
       
       websocket.addEventListener('open', () => {
@@ -290,5 +292,6 @@ export const useMessageStore = defineStore('message', () => {
     getMsgUnread,
     connectWebSocket,
     closeWebSocket,
+    
   }
 })
