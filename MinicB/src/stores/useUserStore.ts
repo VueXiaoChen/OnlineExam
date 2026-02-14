@@ -31,12 +31,11 @@ const ws = ref<WebSocket | null>(null);
 const favorites = ref<FavoriteItem[]>([]);
 const likeComment = ref<number[]>([]);
 const dislikeComment = ref<number[]>([]);
-const isLoading = ref<boolean>(false);
+const isLoading:any = ref<boolean>(false);
 
 // 登录
 const login = async (username: string, password: string) => {
   try {
-    isLoading.value = true;
     const response = await axios.post('/api/user/loading', {
       username,
       password,
@@ -54,11 +53,15 @@ const login = async (username: string, password: string) => {
       headerStore.user.gender = user.value.gender
       headerStore.isLogin=true
       headerStore.user=userData
+      isLogin.value = true
+      isLoading.value = true
       //await messageStore.connectWebSocket()
       // 存储 token 到 localStorage
       // localStorage.setItem('token', userToken);
       // localStorage.setItem('user', JSON.stringify(userData));
       // localStorage.setItem('isLogin', headerStore.isLogin);
+      console.log(isLoading.value);
+      
       
       return { success: true, message: response.data.message };
     } else {
@@ -68,7 +71,7 @@ const login = async (username: string, password: string) => {
     console.error('Login error:', error);
     return { success: false, message: '登录失败' };
   } finally {
-    isLoading.value = false;
+    //isLoading.value = false;
   }
 };
 
@@ -179,20 +182,24 @@ const getMsgUnread = async () => {
 // 登出
 const logout = () => {
   isLogin.value = false;
+  isLoading.value =false;
   user.value = null;
   token.value = '';
   favorites.value = [];
   likeComment.value = [];
   dislikeComment.value = [];
-  
+  // 清除 localStorage
+  localStorage.removeItem('user_stores');
+  localStorage.removeItem('head_stores');
+  console.log(isLoading.value);
   // 关闭 WebSocket
   if (ws.value) {
     ws.value.close();
     ws.value = null;
   }
   
-  // 清除 localStorage
-  localStorage.removeItem('teri_token');
+  
+  
 };
 
 return {
@@ -219,6 +226,6 @@ return {
   persist:{
     key: 'user_stores',
     storage: localStorage,
-    paths: ['user','token'] // 只持久化这些状态
+    paths: ['isLoading','user','token','isLogin',] // 只持久化这些状态
   }
 });

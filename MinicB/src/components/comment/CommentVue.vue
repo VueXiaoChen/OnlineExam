@@ -97,6 +97,7 @@
       default: 0
     }
   })
+
   
   // 定义 emits
   const emit = defineEmits(['comment-added'])
@@ -104,7 +105,6 @@
   // 路由和 store
   const route = useRoute()
   const userStore = useUserStore()
-  
   // 响应式数据
   const type = ref(0) // 评论排序方式 1最热 2最新
   const isWideWindow = ref(false) // 是否是宽屏

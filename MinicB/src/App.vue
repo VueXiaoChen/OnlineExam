@@ -10,7 +10,7 @@ const MessageStore = useMessageStore()
 
   // 生命周期
   onMounted(() => {
-    MessageStore.connectWebSocket()
+    //MessageStore.connectWebSocket()
   })
 </script>
 

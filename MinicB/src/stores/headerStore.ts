@@ -88,9 +88,11 @@ export const useHeaderStore = defineStore('header', () => {
   };
 
   const logout = () => {
+    localStorage.removeItem('user_stores');
+    localStorage.removeItem('head_stores');
     clearUser();
     // 这里可以添加清除token等操作
-    localStorage.removeItem('token');
+    
   };
 
   return {
@@ -116,7 +118,7 @@ export const useHeaderStore = defineStore('header', () => {
   persist:{
     key: 'head_stores',
     storage: localStorage,
-    paths: ['isLogin','user'] // 只持久化这些状态
+    paths: ['isLogin'] // 只持久化这些状态
   }
 });
 

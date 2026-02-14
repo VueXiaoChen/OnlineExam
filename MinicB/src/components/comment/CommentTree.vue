@@ -260,7 +260,7 @@
               :placeholder="replyPlaceHolder" 
               :comment-info="commentInfo" 
               :is-wide-window="isWideWindow" 
-              @comment-added="addComment" 
+              @add-comment="addComment" 
             />
           </div>
         </div>
@@ -458,7 +458,7 @@ import axios from 'axios'
   
   // 获取UP主觉得很赞的评论
   const getUpLike = async () => {
-    console.log("测试数据",props.upUid);
+    
     
     try {
       const res = await axios.get('/api/comment/get-up-like/'+props.upUid, {
@@ -484,9 +484,9 @@ import axios from 'axios'
       commentList.value.unshift(comment)
     } else {
       // 回复评论，找到对应的根评论并添加
-      const root = commentList.value.find(item => item.id === comment.rootId)
+      const root = commentList.value.find(item => item.id === comment.data.data.rootId)
       if (root) {
-        root.replies.push(comment)
+        root.replies.push(comment.data.data)
       }
     }
   }
@@ -597,7 +597,6 @@ import axios from 'axios'
     commentInfo.value.parent_id = comment.id
     commentInfo.value.to_user_id = comment.user.uid
     commentInfo.value.vid = comment.vid
-    
     // 聚焦到回复框
     nextTick(() => {
       if (replyTextareaRefs.value) {

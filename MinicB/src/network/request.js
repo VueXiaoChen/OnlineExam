@@ -31,7 +31,7 @@ function handleNotLoginError() {
   }
   
   // 清除本地token缓存
-  localStorage.removeItem("teri_token");
+  localStorage.removeItem("token");
   ElMessage.error("请登录后查看");
   
   if (appStore) {
