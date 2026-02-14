@@ -4,7 +4,8 @@ import { ref,computed  } from 'vue'
 import { ElMessage } from 'element-plus'
 import { get } from '@/network/request'
 import { useUserStore } from '@/stores/useUserStore'
-
+import { useHeaderStore } from '@/stores/headerStore'
+import axios from 'axios'
 export const useMessageStore = defineStore('message', () => {
   // 状态
   const msgUnread = ref([0, 0, 0, 0, 0, 0])
@@ -13,7 +14,7 @@ export const useMessageStore = defineStore('message', () => {
   
   // 其他 store
   const userStore = useUserStore()
-  
+  const headerStore = useHeaderStore()
   // actions
   const initMessageData = () => {
     msgUnread.value = [0, 0, 0, 0, 0, 0]
@@ -38,12 +39,13 @@ export const useMessageStore = defineStore('message', () => {
   
   const handleWsMessage = (e) => {
     const data = JSON.parse(e.data)
+    console.log("通信数据",data);
     
     switch (data.type) {
       case "error": {
         if (data.data === "登录已过期") {
           userStore.initData()
-          localStorage.removeItem("teri_token")
+          localStorage.removeItem("user_stores")
         }
         ElMessage.error(data.data)
         break
@@ -229,16 +231,25 @@ export const useMessageStore = defineStore('message', () => {
   
   // 获取全部未读消息数
   const getMsgUnread = async () => {
-    const res = await get("/msg-unread/all", {
-      headers: { Authorization: "Bearer " + localStorage.getItem('token') }
+    const res = await axios.get("/api/msgUnread/msg-unread/all/"+userStore.user.uid, {
+      
     })
-    const data = res.data.data
+    const data:any = res.data.data
+    headerStore.msgUnread[0] = data.reply
+    headerStore.msgUnread[1] = data.at
+    headerStore.msgUnread[2] = data.love
+    headerStore.msgUnread[3] = data.system
+    headerStore.msgUnread[4] = data.whisper
+    headerStore.msgUnread[5] = data.dynamic
+
     msgUnread.value[0] = data.reply
     msgUnread.value[1] = data.at
     msgUnread.value[2] = data.love
     msgUnread.value[3] = data.system
     msgUnread.value[4] = data.whisper
     msgUnread.value[5] = data.dynamic
+ 
+    
   }
   
   // 初始化websocket实例

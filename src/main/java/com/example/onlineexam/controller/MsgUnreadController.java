@@ -1,6 +1,7 @@
 package com.example.onlineexam.controller;
 
 
+import com.example.onlineexam.domain.MsgUnread;
 import com.example.onlineexam.mapper.MsgUnreadMapper;
 import com.example.onlineexam.req.MsgUnreadReq;
 import com.example.onlineexam.resp.CommonResp;
@@ -65,6 +66,21 @@ public class MsgUnreadController {
         //将信息添加到返回信息里
         resp.setMessage("删除成功");
         resp.setData("");
+        return resp;
+    }
+
+    //用户的信息查询
+    @GetMapping("/msg-unread/all/{id}")
+    //@PathVariable与{blogId}是绑定的
+    public CommonResp findusermsg(@PathVariable Integer id) {
+        //返回信息里面定义返回的类型
+        CommonResp resp = new CommonResp<>();
+        //删除数据
+        MsgUnread msgUnread =  msgUnreadService.findusermsg(id);
+        //将信息添加到返回信息里
+        resp.setMessage("查询成功");
+        resp.setCode(200);
+        resp.setData(msgUnread);
         return resp;
     }
 }

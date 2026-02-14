@@ -69,4 +69,11 @@ public class MsgUnreadService {
         msgUnreadMapper.deleteByPrimaryKey(id);
     }
 
+
+    public MsgUnread findusermsg(Integer id) {
+        //查询数据
+        MsgUnread msgUnread =   msgUnreadMapper.selectByPrimaryKey(id);
+        return msgUnread;
+    }
+
 }

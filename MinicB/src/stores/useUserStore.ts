@@ -60,9 +60,8 @@ const login = async (username: string, password: string) => {
       // localStorage.setItem('token', userToken);
       // localStorage.setItem('user', JSON.stringify(userData));
       // localStorage.setItem('isLogin', headerStore.isLogin);
-      console.log(isLoading.value);
       
-      
+      messageStore.connectWebSocket()
       return { success: true, message: response.data.message };
     } else {
       return { success: false, message: response.data.message };

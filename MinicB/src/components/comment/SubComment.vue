@@ -344,10 +344,7 @@ import axios from 'axios'
   
   // 处理子评论的回复
   const handleReply = (subComment) => {
-    console.log("subComment数据",subComment);
     emit('sub-reply', subComment)
-    
-    
   }
   
   // 加载更多评论
