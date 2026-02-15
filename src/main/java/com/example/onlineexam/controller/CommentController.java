@@ -1,6 +1,7 @@
 package com.example.onlineexam.controller;
 
 
+import com.alibaba.fastjson.JSON;
 import com.example.onlineexam.RedisMessageReceive.RedisReceiver;
 import com.example.onlineexam.domain.Comment;
 import com.example.onlineexam.domain.CommentTree;
@@ -10,6 +11,7 @@ import com.example.onlineexam.resp.CommonResp;
 import com.example.onlineexam.resp.CommentResp;
 import com.example.onlineexam.resp.PageResp;
 import com.example.onlineexam.service.CommentService;
+import com.example.onlineexam.service.WebSocsService;
 import com.example.onlineexam.util.CurrentUser;
 import jakarta.annotation.Resource;
 import org.slf4j.Logger;
@@ -20,6 +22,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import com.example.onlineexam.util.RedisUtils;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -28,6 +31,9 @@ import java.util.stream.Collectors;
 @RequestMapping("/comment")
 public class CommentController {
     private static final Logger LOG = (Logger) LoggerFactory.getLogger(CommentController.class);
+
+    @Resource
+    public WebSocsService webSocsService;
     @Resource
     private CommentService commentService;
     @Autowired
@@ -79,9 +85,10 @@ public class CommentController {
      * @return  响应对象
      */
     @PostMapping("/add")
-    public CommonResp addComment(@RequestBody CommentReq commentReq) {
+    public CommonResp addComment(@RequestHeader("token") String token,@RequestBody CommentReq commentReq) throws IOException {
         CommonResp commonResp = new CommonResp();
         CommentTree commentTree = commentService.sendComment(commentReq);
+        webSocsService.sendtoUsers("333333333",token);
         if (commentTree == null) {
             commonResp.setMessage("发送失败");
         }

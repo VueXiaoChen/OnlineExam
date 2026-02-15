@@ -257,6 +257,9 @@ import { reactive } from 'vue'
       
       
       const res = await axios.post('/api/comment/add', commonResp, {
+        headers: {  
+          'token': `${localStorage.getItem("token")}`
+        }  
       })
       
       if (res) {

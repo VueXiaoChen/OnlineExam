@@ -27,5 +27,8 @@ public class WebSocsService {
         MDC.put("LOG_ID",logId);
         webSocketServer.sendtoUser(message,token);
     }
-
+    @Async
+    public void sendtoUsers(String message,String token) throws IOException {
+        webSocketServer.sendtoUser(message,token);
+    }
 }
