@@ -55,13 +55,14 @@ const login = async (username: string, password: string) => {
       headerStore.user=userData
       isLogin.value = true
       isLoading.value = true
+
       //await messageStore.connectWebSocket()
       // 存储 token 到 localStorage
       // localStorage.setItem('token', userToken);
       // localStorage.setItem('user', JSON.stringify(userData));
-      // localStorage.setItem('isLogin', headerStore.isLogin);
-      
+      localStorage.setItem('token', token.value);
       messageStore.connectWebSocket()
+      messageStore.getMsgUnread()
       return { success: true, message: response.data.message };
     } else {
       return { success: false, message: response.data.message };

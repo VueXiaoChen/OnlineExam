@@ -165,10 +165,10 @@ const submitLogin = async () => {
   if (result.success) {
     // 登录成功后执行其他操作
     await Promise.all([
-      userStore.getMsgUnread(),
-      userStore.connectWebSocket(),
-      userStore.getFavorites(),
-      userStore.getLikeAndDisLikeComment(),
+      //userStore.getMsgUnread(),
+      //userStore.connectWebSocket(),
+      //userStore.getFavorites(),
+      //userStore.getLikeAndDisLikeComment(),
     ]);
     
     ElMessage.success(result.message);

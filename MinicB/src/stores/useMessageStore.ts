@@ -231,10 +231,13 @@ export const useMessageStore = defineStore('message', () => {
   
   // 获取全部未读消息数
   const getMsgUnread = async () => {
+    
+    
     const res = await axios.get("/api/msgUnread/msg-unread/all/"+userStore.user.uid, {
       
     })
     const data:any = res.data.data
+    console.log(data);
     headerStore.msgUnread[0] = data.reply
     headerStore.msgUnread[1] = data.at
     headerStore.msgUnread[2] = data.love
@@ -263,7 +266,8 @@ export const useMessageStore = defineStore('message', () => {
     
       //const wsBaseUrl = import.meta.env.VITE_APP_WS_IM_URL || process.env.VUE_APP_WS_IM_URL
       //const websocket = new WebSocket(`${wsBaseUrl}/ws/`+ localStorage.getItem('token'))
-      const websocket = new WebSocket(`ws://127.0.0.1:8080/ws/`+ JSON.parse(localStorage.getItem('user_stores')).token)
+      //console.log(JSON.parse(localStorage.getItem('user_stores')));
+      const websocket = new WebSocket(`ws://127.0.0.1:8080/ws/`+ localStorage.getItem('token'))
       
       ws.value = websocket
       

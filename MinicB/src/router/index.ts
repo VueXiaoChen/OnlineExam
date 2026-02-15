@@ -24,7 +24,7 @@ const routes = [
       path: '/video/:vid',
       name: 'VideoDetail',
       component: VideoDetail,
-      meta: { requestAuth: false }
+      meta: { requestAuth: true }
     },
     {
       path: '/search',
@@ -62,12 +62,13 @@ router.beforeEach(async (to, from, next) => {
   const headerStore = useHeaderStore();
   const userStore = useUserStore();
   const messageStore = useMessageStore()
+  
     // 如果访问需要认证的路由
-    if (to.meta.requestAuth) {      
+    if (to.meta.requestAuth) {   
       if (userStore.isLoading) {
         // 已登录，放行
-        messageStore.connectWebSocket()
-        messageStore.getMsgUnread()
+       // messageStore.connectWebSocket()
+        //messageStore.getMsgUnread()
         next();
       } else {
         // 尝试自动登录

@@ -193,6 +193,7 @@
             >
               <div class="reply-operation">
                 <i 
+                  ref="operationIconRef"
                   class="svg-icon operation-icon" 
                   style="width: 16px;height: 16px;" 
                   @click="toggleCommentOptions(subComment.id)"
@@ -213,12 +214,15 @@
                     ></path>
                   </svg>
                 </i>
+                <!-- v-if="showOption && activeCommentId === subComment.id" -->
                 <ul 
+                  ref="operationMenuRef"
                   class="operation-list" 
-                  v-if="showOption && activeCommentId === subComment.id"
+                  v-show="showOption && activeCommentId === subComment.id"
+                  @mouseleave="showOptionfalse"
                 >
                   <li 
-                    v-if="userStore.user.uid === subComment.user.uid || userStore.user.uid === upUid"
+                  v-if="userStore.user.uid === subComment.user.uid || userStore.user.uid === upUid"
                     class="operation-option"
                     @click="beforeDelete(subComment)"
                   >
@@ -385,13 +389,9 @@ import axios from 'axios'
   // 删除评论
   const deleteComment = async (comment) => {
     try {
-      const formData = new FormData()
-      formData.append('id', comment.id)
-      
-      const res = await post('/comment/delete', formData, {
-        headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
-      })
-      
+      const res = await axios.get('/api/comment/delete/'+comment.id, {
+         }
+      )
       if (res) {
         emit('del-sub-comment', comment)
         ElMessage.success('评论删除成功')
@@ -457,6 +457,7 @@ import axios from 'axios'
   
   // 切换评论操作菜单
   const toggleCommentOptions = (commentId) => {
+
     if (activeCommentId.value === commentId && showOption.value) {
       showOption.value = false
     } else {
@@ -464,7 +465,9 @@ import axios from 'axios'
       showOption.value = true
     }
   }
-  
+  const showOptionfalse =() =>{
+     showOption.value = false
+  }
   // 换页
   const changePage = (page) => {
     if (page >= 1 && page <= totalPage.value) {
