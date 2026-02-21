@@ -5,13 +5,17 @@ import com.alibaba.fastjson.JSON;
 import com.example.onlineexam.RedisMessageReceive.RedisReceiver;
 import com.example.onlineexam.domain.Comment;
 import com.example.onlineexam.domain.CommentTree;
+import com.example.onlineexam.domain.MsgUnread;
 import com.example.onlineexam.mapper.CommentMapper;
 import com.example.onlineexam.req.CommentReq;
+import com.example.onlineexam.req.MsgUnreadReq;
 import com.example.onlineexam.resp.CommonResp;
 import com.example.onlineexam.resp.CommentResp;
 import com.example.onlineexam.resp.PageResp;
 import com.example.onlineexam.service.CommentService;
+import com.example.onlineexam.service.MsgUnreadService;
 import com.example.onlineexam.service.WebSocsService;
+import com.example.onlineexam.util.CopyUtil;
 import com.example.onlineexam.util.CurrentUser;
 import jakarta.annotation.Resource;
 import org.slf4j.Logger;
@@ -22,6 +26,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import com.example.onlineexam.util.RedisUtils;
 
+import javax.swing.text.html.parser.Entity;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -36,6 +41,8 @@ public class CommentController {
     public WebSocsService webSocsService;
     @Resource
     private CommentService commentService;
+    @Resource
+    private MsgUnreadService msgUnreadService;
     @Autowired
     private CommentMapper commentMapper;
     @Autowired
@@ -88,7 +95,12 @@ public class CommentController {
     public CommonResp addComment(@RequestHeader("token") String token,@RequestBody CommentReq commentReq) throws IOException {
         CommonResp commonResp = new CommonResp();
         CommentTree commentTree = commentService.sendComment(commentReq);
-        webSocsService.sendtoUsers("333333333",token);
+        if(!ObjectUtils.isEmpty(commentReq.getToUserId())){
+           MsgUnread msgUnread =  msgUnreadService.findusermsg(commentReq.getToUserId());
+           msgUnread.setWhisper(msgUnread.getWhisper()+1);
+           msgUnreadService.msgUnreadMapper.updateByPrimaryKeySelective(msgUnread);
+        }
+        webSocsService.sendtoUsers(JSON.toJSONString(commentReq),token);
         if (commentTree == null) {
             commonResp.setMessage("发送失败");
         }

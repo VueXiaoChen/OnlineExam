@@ -237,7 +237,6 @@ export const useMessageStore = defineStore('message', () => {
       
     })
     const data:any = res.data.data
-    console.log(data);
     headerStore.msgUnread[0] = data.reply
     headerStore.msgUnread[1] = data.at
     headerStore.msgUnread[2] = data.love

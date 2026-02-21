@@ -107,6 +107,7 @@
   
   // Pinia store
   import { useUserStore } from '../../stores/useUserStore'
+  import { useHeaderStore } from '../../stores/headerStore'
   
   // 自定义请求方法
   import { post } from '../../network/request'
@@ -140,6 +141,7 @@ import { reactive } from 'vue'
   
   // Pinia store
   const userStore = useUserStore()
+  const headerStore = useHeaderStore()
 
   
   
@@ -267,11 +269,13 @@ import { reactive } from 'vue'
         isFocus.value = false
         content.value = ''
         emojiBoxShow.value = false
-        
+        if(props.commentInfo.to_user_id===commonResp.uid){
+          headerStore.msgUnread[4] = headerStore.msgUnread[4]+1
+        }
         // 触发事件
         emit('add-comment', res)
-        
         ElMessage.success('评论发布成功')
+        
       }
     } catch (error) {
       console.error('发送评论失败:', error)
