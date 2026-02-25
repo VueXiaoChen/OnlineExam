@@ -39,7 +39,7 @@ export const useMessageStore = defineStore('message', () => {
   
   const handleWsMessage = (e) => {
     const data = JSON.parse(e.data)
-    console.log("通信数据",data);
+    console.log("通信数据",data.type);
     
     switch (data.type) {
       case "error": {

@@ -382,14 +382,15 @@ import axios from 'axios'
       })
       // 确保 res 存在且 res.data 存在，且 comments 是数组
       if (res && res.data) {
-        
+        console.log(res);
         const comments = Array.isArray(res.data.data.comments) ? res.data.data.comments : []
-        const more = res.data.more || false
+        const more = res.data.data.more || false
         
         
         hasMore.value = more
         commentList.value.push(...comments)
-
+        
+        
         
         // 如果是热门排序，设置热评
         if (props.type === 1 && commentList.value.length > 0) {

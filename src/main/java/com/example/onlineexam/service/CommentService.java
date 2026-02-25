@@ -252,15 +252,15 @@ public class CommentService {
             example.setOrderByClause("create_time DESC");
         }
 
-        // 设置分页
-        int pageNum = (offset.intValue() / 10) + 1;  // 计算页码
-        int pageSize = 10;
-        PageHelper.startPage(pageNum, pageSize);
-
         // 执行查询
         List<Comment> result = commentMapper.selectByExample(example);
         LOG.info("直接数据库查询，vid={}, offset={}, 结果数量={}",
                 vid, offset, result.size());
+
+        // 设置分页
+        int pageNum = (offset.intValue() / 10) + 1;  // 计算页码
+        int pageSize = 10;
+        PageHelper.startPage(pageNum, pageSize);
 
         return result;
     }

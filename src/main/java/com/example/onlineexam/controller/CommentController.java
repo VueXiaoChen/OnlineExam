@@ -98,6 +98,7 @@ public class CommentController {
         if(!ObjectUtils.isEmpty(commentReq.getToUserId())){
            MsgUnread msgUnread =  msgUnreadService.findusermsg(commentReq.getToUserId());
            msgUnread.setWhisper(msgUnread.getWhisper()+1);
+            commentReq.setType("55555");
            msgUnreadService.msgUnreadMapper.updateByPrimaryKeySelective(msgUnread);
         }
         webSocsService.sendtoUsers(JSON.toJSONString(commentReq),token);

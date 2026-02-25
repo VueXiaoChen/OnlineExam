@@ -78,6 +78,33 @@ public class CommentReq extends PageReq{
      */
 
     private Integer isDeleted;
+    /**
+     * 评论的类型
+     */
+
+    private String type;
+
+    /**
+     * 评论的另外一种类型
+     */
+
+    private String data;
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public Integer getId() {
         return id;
@@ -193,6 +220,8 @@ public class CommentReq extends PageReq{
         sb.append(", createTime=").append(createTime);
         sb.append(", isTop=").append(isTop);
         sb.append(", isDeleted=").append(isDeleted);
+        sb.append(", type=").append(type);
+        sb.append(", data=").append(data);
         sb.append("]");
         return sb.toString();
     }
