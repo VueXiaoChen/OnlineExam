@@ -143,7 +143,7 @@
     show,
     hide
   });
-  </script>
+</script>
   
 
 <style scoped>

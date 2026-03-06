@@ -10,6 +10,7 @@ import com.example.onlineexam.mapper.VideoStatsMapper;
 import com.example.onlineexam.req.VideoReq;
 import com.example.onlineexam.req.VideoUploadInfoReq;
 import com.example.onlineexam.resp.CommonResp;
+import com.example.onlineexam.resp.VideoDetail;
 import com.example.onlineexam.resp.VideoResp;
 import com.example.onlineexam.resp.PageResp;
 import com.example.onlineexam.service.VideoService;
@@ -118,6 +119,25 @@ public class VideoController {
         }
         commonResp.setData(map);
         return commonResp;
+    }
+
+    @GetMapping("/favoritevideos")
+    public CommonResp<List<VideoDetail>> getVideosByIds(@RequestParam List<Integer> vid) {
+        // 调用 service 获取视频详情映射（包含用户信息）
+        Map<Integer, VideoDetail> map = videoService.getVideosByIds(vid);
+
+        // 按传入的 vid 顺序转换为列表，过滤掉不存在的视频（map.get(vid) 可能为 null）
+        List<VideoDetail> list = vid.stream()
+                .map(map::get)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+
+        // 封装响应
+        CommonResp<List<VideoDetail>> resp = new CommonResp<>();
+        resp.setData(list);
+        resp.setCode(200);          // 可根据需要设置业务状态码
+        resp.setMessage("查询成功");
+        return resp;
     }
 
 

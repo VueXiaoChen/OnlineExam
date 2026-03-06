@@ -7,11 +7,14 @@ import com.example.onlineexam.resp.CommonResp;
 import com.example.onlineexam.resp.FavoriteResp;
 import com.example.onlineexam.resp.PageResp;
 import com.example.onlineexam.service.FavoriteService;
+import com.example.onlineexam.util.CurrentUser;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Objects;
 
 
 @RestController
@@ -66,5 +69,37 @@ public class FavoriteController {
         resp.setMessage("删除成功");
         resp.setData("");
         return resp;
+    }
+
+    @Autowired
+    private CurrentUser currentUser;
+
+    /**
+     * 站内用户请求某个用户的收藏夹列表（需要jwt鉴权）
+     * @param uid   被查看的用户ID
+     * @return  包含收藏夹列表的响应对象
+     */
+    @GetMapping("/get-all/user")
+    public CommonResp getAllFavoritiesForUser(@RequestParam("uid") Integer uid) {
+        Integer loginUid = (Integer) currentUser.getUserId();
+        CommonResp commonResp = new CommonResp();
+        if (Objects.equals(loginUid, uid)) {
+            commonResp.setData(favoriteService.getFavorites(uid, true));
+        } else {
+            commonResp.setData(favoriteService.getFavorites(uid, false));
+        }
+        return commonResp;
+    }
+
+    /**
+     * 游客请求某个用户的收藏夹列表（不需要jwt鉴权）
+     * @param uid   被查看的用户ID
+     * @return  包含收藏夹列表的响应对象
+     */
+    @GetMapping("/get-all/visitor")
+    public CommonResp getAllFavoritiesForVisitor(@RequestParam("uid") Integer uid) {
+        CommonResp customResponse = new CommonResp();
+        customResponse.setData(favoriteService.getFavorites(uid, false));
+        return customResponse;
     }
 }

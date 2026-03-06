@@ -2,6 +2,9 @@
 GET http://localhost:8080/video/getone/3
 
 ###
+GET http://localhost:8080/video/favoritevideos?vid=337,410,71,88,95,225,352,429,84,70,92,101
+
+###
 GET http://localhost:8080/video/randomvideo
 
 

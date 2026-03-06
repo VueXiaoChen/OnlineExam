@@ -19,6 +19,7 @@ public class Favorite {
 
     private Integer isDelete;
 
+
     public Integer getFid() {
         return fid;
     }

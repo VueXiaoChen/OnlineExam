@@ -329,7 +329,7 @@
           </template>
           <template #content>
             <div style="height: 556.6px; width: 521.6px;" v-if="headerStore.isLogin">
-              2322
+              <CollectionModel></CollectionModel>
             </div>
             <div class="not-login" v-else>
               <p class="not-login-tips">登录即可查看我的收藏</p>
@@ -396,7 +396,9 @@ import { useHeaderStore} from '@/stores/headerStore'
 import { handleNum, handleLevel, highlightKeyword } from '@/utils/utils.js';
 import VPopover from '@/components/popover/VPopover.vue';
 import LoginRegister from '@/components/loginRegister/LoginRegister.vue'
+import CollectionModel from '@/components/othermodel/CollectionModel.vue'
 import VLevel from '@/components/UserCard/VLevel.vue';
+
 import { ElMessage } from 'element-plus';
 import {
   CircleCloseFilled,
@@ -1515,4 +1517,18 @@ onUnmounted(() => {
 .header-upload-entry span{
   color: inherit;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 </style>
+

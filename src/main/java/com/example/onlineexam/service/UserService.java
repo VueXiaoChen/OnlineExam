@@ -2,6 +2,7 @@ package com.example.onlineexam.service;
 
 
 import cn.hutool.core.bean.BeanUtil;
+import com.alibaba.fastjson.JSON;
 import com.example.onlineexam.domain.User;
 import com.example.onlineexam.domain.UserDTO;
 import com.example.onlineexam.domain.UserExample;
@@ -19,6 +20,7 @@ import com.example.onlineexam.resp.VideoResp;
 import com.example.onlineexam.util.*;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import io.micrometer.common.util.StringUtils;
 import jakarta.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,6 +52,8 @@ public class UserService {
 
     @Autowired
     private VideoService videoService;
+
+    private static final String USER_HASH_KEY = "user:info";
     @Autowired
     @Qualifier("taskExecutor")
     private Executor taskExecutor;
@@ -288,6 +292,57 @@ public class UserService {
         userDTO.setPlayCount(play);
 
         return userDTO;
+    }
+
+    /**
+     * 根据用户ID列表查询用户信息（优先缓存）
+     */
+    public Map<Integer, User> getUsersByIds(List<Integer> uidList) {
+        if (CollectionUtils.isEmpty(uidList)) {
+            return Collections.emptyMap();
+        }
+
+        List<String> userHashKeys = uidList.stream().map(String::valueOf).collect(Collectors.toList());
+        List<Object> cachedUsers = redisUtils.hmMultiGet(USER_HASH_KEY, userHashKeys);
+
+        Map<Integer, User> userMap = new HashMap<>();
+        List<Integer> missedUserIds = new ArrayList<>();
+
+        for (int i = 0; i < uidList.size(); i++) {
+            Integer uid = uidList.get(i);
+            Object cached = cachedUsers.get(i);
+            if (cached != null) {
+                String json = (String) cached;
+                if (StringUtils.isNotBlank(json)) {
+                    User user = JSON.parseObject(json, User.class);
+                    userMap.put(uid, user);
+                }
+            } else {
+                missedUserIds.add(uid);
+            }
+        }
+
+        if (!missedUserIds.isEmpty()) {
+            List<Integer> distinctMissed = missedUserIds.stream().distinct().collect(Collectors.toList());
+
+            UserExample example = new UserExample();
+            example.createCriteria().andUidIn(distinctMissed); // 假设用户表主键为 id
+            List<User> dbUsers = userMapper.selectByExample(example);
+
+            for (User user : dbUsers) {
+                Integer uid = user.getUid();
+                userMap.put(uid, user);
+                redisUtils.hmPut(USER_HASH_KEY, String.valueOf(uid), JSON.toJSONString(user));
+            }
+
+            Set<Integer> missedSet = new HashSet<>(distinctMissed);
+            missedSet.removeAll(userMap.keySet());
+            for (Integer notExistUid : missedSet) {
+                redisUtils.hmPut(USER_HASH_KEY, String.valueOf(notExistUid), "");
+            }
+        }
+
+        return userMap;
     }
 
 //    /**

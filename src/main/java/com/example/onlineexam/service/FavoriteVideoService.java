@@ -18,6 +18,8 @@ import org.springframework.util.ObjectUtils;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class FavoriteVideoService {
@@ -26,11 +28,17 @@ public class FavoriteVideoService {
     @Resource
     public FavoriteVideoMapper favoriteVideoMapper;
 
+
+
     public PageResp<FavoriteVideoResp> list(FavoriteVideoReq favoriteVideoReq) {
         //固定写法
         FavoriteVideoExample example = new FavoriteVideoExample();
         //固定写法
         FavoriteVideoExample.Criteria criteria = example.createCriteria();
+        if (!ObjectUtils.isEmpty(favoriteVideoReq.getFid())) {
+            criteria.andFidEqualTo(favoriteVideoReq.getFid());
+        }
+        criteria.andIsRemoveNotEqualTo(1);
         //分页(获取从页面传来的数据)
         PageHelper.startPage(favoriteVideoReq.getPage(), favoriteVideoReq.getSize());
         //类接收返回的数据
@@ -69,4 +77,30 @@ public class FavoriteVideoService {
         favoriteVideoMapper.deleteByPrimaryKey(id);
     }
 
+    public PageResp<FavoriteVideoResp> findVideoByFid(FavoriteVideoReq favoriteVideoReq) {
+        //固定写法
+        FavoriteVideoExample example = new FavoriteVideoExample();
+        //固定写法
+        FavoriteVideoExample.Criteria criteria = example.createCriteria();
+        if (!ObjectUtils.isEmpty(favoriteVideoReq.getFid())) {
+            criteria.andFidEqualTo(favoriteVideoReq.getFid());
+        }
+        criteria.andIsRemoveNotEqualTo(1);
+        example.setOrderByClause("time DESC");
+        //分页(获取从页面传来的数据)
+        PageHelper.startPage(favoriteVideoReq.getPage(), favoriteVideoReq.getSize());
+        //类接收返回的数据
+        List<FavoriteVideo> sortsList = favoriteVideoMapper.selectByExample(example);
+        //将返回的数据进行封装,某些信息是不需要返回的
+        List<FavoriteVideoResp> data = CopyUtil.copyList(sortsList, FavoriteVideoResp.class);
+        //定义分页获取总数
+        PageInfo<FavoriteVideo> pageInfo = new PageInfo<>(sortsList);
+        //定义分页
+        PageResp<FavoriteVideoResp> pageResp = new PageResp<>();
+        //将分页的数据进行总和
+        pageResp.setTotal(pageInfo.getTotal());
+        //将分页的数据加入类
+        pageResp.setList(data);
+        return pageResp;
+    }
 }

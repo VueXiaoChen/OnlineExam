@@ -608,7 +608,15 @@ public class RedisUtils {
         return redisTemplate.opsForHash().delete(key, hashKeys);
     }
 
-
+    /**
+     * 批量获取 hash 中多个 field 的值
+     * @param key      hash 的键
+     * @param hashKeys field 集合
+     * @return 对应 field 的值列表，顺序与 hashKeys 保持一致
+     */
+    public List<Object> hmMultiGet(String key, Collection<String> hashKeys) {
+        return redisTemplate.opsForHash().multiGet(key, hashKeys);
+    }
     // Hash 相关操作 end ------------------------------------------------------------------------------------------------
 
 

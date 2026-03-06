@@ -1,0 +1,13 @@
+###
+GET http://localhost:8080/favoriteVideo/find?fid=45
+
+###
+POST http://localhost:8080/user/loading
+Content-Type: application/json
+
+{
+  "username": "123",
+  "password": "123"
+}
+
+###

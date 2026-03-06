@@ -21,7 +21,9 @@ public enum BusinessExceptionCode {
 
 
     USER_INFO_ERROR("没有此用户信息"),
-    USER_USERNAME_ERROR("已有该用户名");
+    USER_USERNAME_ERROR("已有该用户名"),
+
+    USER_DEL_FAVORITE("无权删除该收藏夹");
 
     private String desc;
 

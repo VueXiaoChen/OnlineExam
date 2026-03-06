@@ -1,6 +1,7 @@
 package com.example.onlineexam.controller;
 
 
+import com.example.onlineexam.domain.FavoriteVideo;
 import com.example.onlineexam.mapper.FavoriteVideoMapper;
 import com.example.onlineexam.req.FavoriteVideoReq;
 import com.example.onlineexam.resp.CommonResp;
@@ -65,6 +66,21 @@ public class FavoriteVideoController {
         //将信息添加到返回信息里
         resp.setMessage("删除成功");
         resp.setData("");
+        return resp;
+    }
+
+    @GetMapping("/find")
+    //@Valid  开启参数检验
+    public CommonResp findVideoByFid(@Validated FavoriteVideoReq favoriteVideoReq) {
+        //返回信息里面定义返回的类型
+        CommonResp<PageResp<FavoriteVideoResp>> resp = new CommonResp<>();
+        //接收数据库返回的数据
+        PageResp<FavoriteVideoResp> data = favoriteVideoService.findVideoByFid(favoriteVideoReq);
+        //将信息添加到返回信息里
+        resp.setMessage("获取成功");
+        resp.setCode(200);
+        //将信息添加到返回信息里
+        resp.setData(data);
         return resp;
     }
 }

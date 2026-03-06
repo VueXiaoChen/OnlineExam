@@ -1,16 +1,15 @@
 package com.example.onlineexam.service;
 
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.example.onlineexam.domain.Video;
-import com.example.onlineexam.domain.VideoExample;
-import com.example.onlineexam.domain.VideoStats;
-import com.example.onlineexam.domain.VideoUploadInfoDTO;
+import com.example.onlineexam.domain.*;
 import com.example.onlineexam.mapper.VideoMapper;
 import com.example.onlineexam.mapper.VideoStatsMapper;
 import com.example.onlineexam.req.VideoReq;
 import com.example.onlineexam.resp.CommonResp;
+import com.example.onlineexam.resp.VideoDetail;
 import com.example.onlineexam.resp.VideoResp;
 import com.example.onlineexam.resp.PageResp;
 import com.example.onlineexam.util.CopyUtil;
@@ -19,6 +18,7 @@ import com.example.onlineexam.util.OssUtil;
 import com.example.onlineexam.util.RedisUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import io.micrometer.common.util.StringUtils;
 import jakarta.annotation.Resource;
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
@@ -29,6 +29,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -77,6 +78,9 @@ public class VideoService {
 
     @Resource
     public VideoStatsMapper videoStatsMapper;
+
+    // Redis Hash 的键名，可根据业务调整
+    private static final String VIDEO_HASH_KEY = "video:info";
 
     @Autowired
     @Qualifier("taskExecutor")
@@ -127,6 +131,89 @@ public class VideoService {
     public void delete(Integer id) {
         //删除数据
         videoMapper.deleteByPrimaryKey(id);
+    }
+
+
+    /**
+     * 根据 vid 集合查询视频信息（优先从缓存获取）
+     * @param vidList 视频ID列表（建议调用方传入已去重且保持顺序的列表）
+     * @return Map<vid, Video> 视频信息映射
+     */
+    public Map<Integer, VideoDetail> getVideosByIds(List<Integer> vidList) {
+        if (CollectionUtils.isEmpty(vidList)) {
+            return Collections.emptyMap();
+        }
+
+        // 1. 从 Redis Hash 批量获取视频信息
+        List<String> hashKeys = vidList.stream().map(String::valueOf).collect(Collectors.toList());
+        List<Object> cachedValues = redisUtils.hmMultiGet(VIDEO_HASH_KEY, hashKeys);
+
+        // 2. 构建视频结果映射，记录未命中的 vid
+        Map<Integer, Video> videoMap = new HashMap<>();
+        List<Integer> missedVids = new ArrayList<>();
+
+        for (int i = 0; i < vidList.size(); i++) {
+            Integer vid = vidList.get(i);
+            Object cached = cachedValues.get(i);
+            if (cached != null) {
+                String json = (String) cached;
+                if (StringUtils.isNotBlank(json)) {
+                    // 缓存命中，反序列化为 Video 对象
+                    Video video = JSON.parseObject(json, Video.class);
+                    videoMap.put(vid, video);
+                }
+                // 若 cached 为空字符串，表示数据库中不存在，跳过
+            } else {
+                missedVids.add(vid);
+            }
+        }
+
+        // 3. 若有未命中的 vid，查询数据库
+        if (!missedVids.isEmpty()) {
+            List<Integer> distinctMissed = missedVids.stream().distinct().collect(Collectors.toList());
+
+            VideoExample example = new VideoExample();
+            example.createCriteria().andVidIn(distinctMissed);
+            List<Video> dbVideos = videoMapper.selectByExample(example);
+
+            // 将数据库结果存入缓存，并加入 videoMap
+            for (Video video : dbVideos) {
+                Integer vid = video.getVid();
+                videoMap.put(vid, video);
+                redisUtils.hmPut(VIDEO_HASH_KEY, String.valueOf(vid), JSON.toJSONString(video));
+            }
+
+            // 处理缓存穿透：对数据库中不存在的 vid，缓存空字符串
+            Set<Integer> missedSet = new HashSet<>(distinctMissed);
+            Set<Integer> existSet = dbVideos.stream().map(Video::getVid).collect(Collectors.toSet());
+            missedSet.removeAll(existSet);
+            for (Integer notExistVid : missedSet) {
+                redisUtils.hmPut(VIDEO_HASH_KEY, String.valueOf(notExistVid), "");
+            }
+        }
+
+        // 4. 提取所有视频中的 uid（去重）
+        Set<Integer> uidSet = videoMap.values().stream()
+                .map(Video::getUid)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
+
+        // 5. 批量查询用户信息（优先缓存）
+        Map<Integer, User> userMap = userService.getUsersByIds(new ArrayList<>(uidSet));
+
+        // 6. 组装 VideoDetail
+        Map<Integer, VideoDetail> result = new HashMap<>();
+        for (Map.Entry<Integer, Video> entry : videoMap.entrySet()) {
+            Integer vid = entry.getKey();
+            Video video = entry.getValue();
+            User user = userMap.get(video.getUid()); // 若用户不存在，user 为 null
+            LOG.info("数据，vid={}, video={}, user={}",
+                    vid, video, user);
+            result.put(vid, new VideoDetail(video, user));
+        }
+        LOG.info("数据，result={}",result);
+
+        return result;
     }
 
     /**

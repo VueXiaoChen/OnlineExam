@@ -167,7 +167,7 @@ const submitLogin = async () => {
     await Promise.all([
       //userStore.getMsgUnread(),
       //userStore.connectWebSocket(),
-      //userStore.getFavorites(),
+      userStore.getFavorites(),
       //userStore.getLikeAndDisLikeComment(),
     ]);
     

@@ -28,7 +28,7 @@ const isLogin = ref<boolean>(false);
 const user = ref<User | null>(null);
 const token = ref<string>('');
 const ws = ref<WebSocket | null>(null);
-const favorites = ref<FavoriteItem[]>([]);
+const favorites = ref([]);
 const likeComment = ref<number[]>([]);
 const dislikeComment = ref<number[]>([]);
 const isLoading:any = ref<boolean>(false);
@@ -132,7 +132,6 @@ const getFavorites = async () => {
       params: { uid: user.value.uid },
       headers: { Authorization: `Bearer ${token.value}` },
     });
-    
     if (response.data.data) {
       const defaultFav = response.data.data.find((item: FavoriteItem) => item.type === 1);
       const list = response.data.data.filter((item: FavoriteItem) => item.type !== 1);
